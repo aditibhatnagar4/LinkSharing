@@ -1,0 +1,23 @@
+.width-100{ width:100% }
+.margin-top{ margin-top:20px; }
+.margin-top-7{ margin-top:7px; }
+.margin-top-5{ margin-top:5px; }
+.margin-top-10{ margin-top:10px }
+
+.margin-bottom-45{ margin-bottom:45px; }
+
+.margin-left-5{ margin-left:5px; }
+.margin-left-20{ margin-left:20px; }
+
+.margin-right-5{ margin-right:5px; }
+
+.font-size-15{ font-size:15px; }
+.font-size-25{ font-size:25px; }
+.font-size-20{ font-size:20px; }
+
+.text-color{ color:blue !important }
+
+.spec_table td {
+    border-top: none !important;
+}
+

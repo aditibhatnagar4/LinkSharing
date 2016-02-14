@@ -1,11 +1,11 @@
 package com.ttnd.bootcamp
 
-class ResourceRating {
+import groovy.transform.EqualsAndHashCode
 
-    User user
+@EqualsAndHashCode(includeFields=true)
+class ResourceRating extends BaseDomain {
+
     Integer score
-    Date dateCreated
-    Date lastUpdated
 
     static constraints = {
         score size: 1..5
@@ -13,5 +13,10 @@ class ResourceRating {
 
     }
 
-    static belongsTo = [resource: Resource]
+    static belongsTo = [
+            resource: Resource,
+            user: User
+    ]
+
+
 }

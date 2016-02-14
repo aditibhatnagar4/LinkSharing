@@ -1,20 +1,15 @@
 package com.ttnd.bootcamp
 
-class User {
+class User extends BaseDomain{
 
     String email
     String userName
     String password
     String firstName
     String lastName
-    byte photo
+    Byte[] photo
     Boolean admin
     Boolean active
-    Date dateCreated
-    Date lastUpdated
-
-    static hasMany = [topics: Topic, subscriptions: Subscription, readingItems: ReadingItem, resources: Resource]
-
 
     static constraints = {
         email email: true, unique: true, blank: false
@@ -24,8 +19,18 @@ class User {
         photo nullable: true
         admin nullable: true
         active nullable: true
+        userName unique: true
 
     }
+
+
+    static hasMany = [
+            topics         : Topic,
+            subscriptions  : Subscription,
+            readingItems   : ReadingItem,
+            resources      : Resource,
+            resourceRatings: ResourceRating
+    ]
 
 
     String getName() {
@@ -35,5 +40,6 @@ class User {
     static transients = ['name']
 
     static mapping = { photo(sqlType: 'longblob') }
+
 
 }

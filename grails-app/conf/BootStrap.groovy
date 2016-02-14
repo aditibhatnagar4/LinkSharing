@@ -1,9 +1,12 @@
+import groovy.util.logging.Slf4j
+
+@Slf4j
 class BootStrap {
 
     def grailsApplication
 
     def init = { servletContext ->
-        println (grailsApplication.config.grails.variable)
+        log.info (grailsApplication.config.grails.variable)
     }
     def destroy = {
     }

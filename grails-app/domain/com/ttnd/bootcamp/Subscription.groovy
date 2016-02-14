@@ -1,10 +1,11 @@
 package com.ttnd.bootcamp
 
-class Subscription {
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode(includeFields=true)
+class Subscription extends BaseDomain {
 
     Seriousness seriousness
-    Date dateCreated
-    Date lastUpdated
 
     static constraints = {
 
@@ -12,5 +13,8 @@ class Subscription {
 
     }
 
-    static belongsTo=[user: User, topic:Topic]
+    static belongsTo=[
+            user: User,
+            topic:Topic
+    ]
 }

@@ -5,8 +5,8 @@ package com.ttnd.bootcamp
  */
 enum Seriousness {
 
-    Serious,
-    VerySerious,
-    Casual
+    SERIOUS,
+    VERY_SERIOUS,
+    CASUAL
 
 }

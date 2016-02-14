@@ -5,7 +5,7 @@ package com.ttnd.bootcamp
  */
 enum Visibility {
 
-    Private,
-    Public
+    PRIVATE,
+    PUBLIC
 
 }

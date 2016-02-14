@@ -1,10 +1,11 @@
 package com.ttnd.bootcamp
 
-abstract class Resource {
+import groovy.transform.EqualsAndHashCode
+
+@EqualsAndHashCode(includeFields=true)
+abstract class Resource extends BaseDomain {
 
     String description
-    Date dateCreated
-    Date lastUpdated
 
     static mapping={
         description(type:'text')
@@ -13,6 +14,12 @@ abstract class Resource {
     static constraints = {
     }
 
-    static belongsTo = [createdBy: User, topic: Topic]
-    static hasMany = [ratings: ResourceRating, readingItems: ReadingItem]
+    static belongsTo = [
+            createdBy: User,
+            topic: Topic
+    ]
+    static hasMany = [
+            ratings: ResourceRating,
+            readingItems: ReadingItem
+    ]
 }
