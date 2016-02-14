@@ -38,14 +38,14 @@ class ResourceRatingSpec extends Specification {
         ResourceRating resourceRating = new ResourceRating(score: 3, user: user, resource: resource)
 
         when:
-        resourceRating.save()
+        resourceRating.save(flush: true)
 
         then:
         resourceRating.count() == 1
 
         when:
         ResourceRating newResourceRating = new ResourceRating(score: 4, user: user, resource: resource)
-        newResourceRating.save()
+        newResourceRating.save(flush: true)
 
         then:
         resourceRating.count() == 1
@@ -57,22 +57,7 @@ class ResourceRatingSpec extends Specification {
     @Unroll("ResourceRating Validation:Executing #sno")
     void "Test ResourceRating validations"() {
         setup:
-        User user = new User(firstName: "Aditi",
-                lastName: "Bhatnagar",
-                email: "a@b.com",
-                password: "password",
-                userName: "aditi",
-                admin: false,
-                active: true)
-        Topic topic = new Topic(name: "topic1",
-                visibility: Visibility.PUBLIC,
-                createdBy: user)
-        Resource resource = new LinkResource(description: "description",
-                createdBy: user,
-                topic: topic,
-                url: "abc.com")
-
-        ResourceRating resourceRating = new ResourceRating(score: score, resource: resource1, user: user1)
+        ResourceRating resourceRating = new ResourceRating(score: score, resource: resource, user: user)
 
         when:
         Boolean result = resourceRating.validate()
@@ -81,15 +66,15 @@ class ResourceRatingSpec extends Specification {
         result == valid
 
         where:
-        sno | score | resource1 | user1 | valid
-        1   | 3     | resource  | user  | true
-        2   | 0     | resource  | user  | false
-        3   | 1     | resource  | user  | true
-        4   | 5     | resource  | user  | true
-        5   | 6     | resource  | user  | false
-        6   | null  | resource  | user  | false
-        7   | 3     | null      | user  | false
-        8   | 3     | resource  | null  | false
+        sno | score | resource           | user       | valid
+        1   | 3     | new LinkResource() | new User() | true
+        2   | 0     | new LinkResource() | new User() | false
+        3   | 1     | new LinkResource() | new User() | true
+        4   | 5     | new LinkResource() | new User() | true
+        5   | 6     | new LinkResource() | new User() | false
+        6   | null  | new LinkResource() | new User() | false
+        7   | 3     | null               | new User() | false
+        8   | 3     | new LinkResource() | null       | false
 
     }
 

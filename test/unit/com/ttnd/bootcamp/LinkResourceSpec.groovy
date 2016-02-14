@@ -22,19 +22,9 @@ class LinkResourceSpec extends Specification {
     @Unroll("LinkResource Validation:Executing #sno")
     void "Test LinkResource validations"() {
         setup:
-        User user = new User(firstName: "Aditi",
-                lastName: "Bhatnagar",
-                email: "a@b.com",
-                password: "password",
-                userName: "aditi",
-                admin: false,
-                active: true)
-        Topic topic = new Topic(name: "topic1",
-                visibility: Visibility.PUBLIC,
-                createdBy: user)
         LinkResource linkResource = new LinkResource(description: description,
                 createdBy: createdBy,
-                topic: topic1,
+                topic: topic,
                 url: url)
 
         when:
@@ -44,14 +34,14 @@ class LinkResourceSpec extends Specification {
         result == valid
 
         where:
-        sno | createdBy | description | topic1 | url     | valid
-        1   | user      | "desc1"     | topic  | "a.com" | true
-        2   | user      | 1           | topic  | "a.com" | false
-        3   | null      | "desc1"     | topic  | "a.com" | false
-        4   | user      | null        | topic  | "a.com" | false
-        5   | user      | "desc1"     | null   | "a.com" | false
-        6   | user      | ""          | topic  | "a.com" | false
-        7   | user      | "desc1"     | topic  | "acom"  | false
+        sno | createdBy  | description | topic       | url     | valid
+        1   | new User() | "desc1"     | new Topic() | "a.com" | true
+        2   | new User() | 1           | new Topic() | "a.com" | false
+        3   | null       | "desc1"     | new Topic() | "a.com" | false
+        4   | new User() | null        | new Topic() | "a.com" | false
+        5   | new User() | "desc1"     | null        | "a.com" | false
+        6   | new User() | ""          | new Topic() | "a.com" | false
+        7   | new User() | "desc1"     | new Topic() | "acom"  | false
 
     }
 

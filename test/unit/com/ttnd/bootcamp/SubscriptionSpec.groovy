@@ -32,34 +32,27 @@ class SubscriptionSpec extends Specification {
         Subscription subscription = new Subscription(seriousness: Seriousness.CASUAL, user: user, topic: topic)
 
         when:
-        subscription.save()
+        subscription.save(flush: true)
 
         then:
         subscription.count() == 1
 
         when:
         Subscription newSubscription = new Subscription(seriousness: Seriousness.CASUAL, user: user, topic: topic)
-        newSubscription.save()
+        newSubscription.save(flush: true)
 
         then:
         Subscription.count() == 1
         newSubscription.errors.allErrors.size() == 1
         newSubscription.errors.getFieldErrorCount('user') == 1
+
     }
 
 
     @Unroll("Subscription Validation:Executing #sno")
     void "Test Subscription validations"() {
         setup:
-        User user = new User(firstName: "Aditi",
-                lastName: "Bhatnagar",
-                email: "a@b.com",
-                password: "password",
-                userName: "aditi",
-                admin: false,
-                active: true)
-        Topic topic = new Topic(name: "topic1", visibility: Visibility.PUBLIC, createdBy: user)
-        Subscription subscription = new Subscription(seriousness: seriousness, user: user1, topic: topic1)
+        Subscription subscription = new Subscription(seriousness: seriousness, user: user, topic: topic)
 
         when:
         Boolean result = subscription.validate()
@@ -68,11 +61,11 @@ class SubscriptionSpec extends Specification {
         result == valid
 
         where:
-        sno | seriousness        | user1 | topic1 | valid
-        1   | Seriousness.CASUAL | user  | topic  | true
-        2   | null               | user  | topic  | false
-        3   | Seriousness.CASUAL | null  | topic  | false
-        4   | Seriousness.CASUAL | user  | null   | false
+        sno | seriousness        | user       | topic       | valid
+        1   | Seriousness.CASUAL | new User() | new Topic() | true
+        2   | null               | new User() | new Topic() | false
+        3   | Seriousness.CASUAL | null       | new Topic() | false
+        4   | Seriousness.CASUAL | new User() | null        | false
 
     }
 

@@ -32,14 +32,14 @@ class TopicSpec extends Specification {
         Topic topic = new Topic(name: name, visibility: Visibility.PUBLIC, createdBy: user)
 
         when:
-        topic.save()
+        topic.save(flush: true)
 
         then:
         topic.count() == 1
 
         when:
         Topic newTopic = new Topic(name: name, visibility: Visibility.PRIVATE, createdBy: user)
-        newTopic.save()
+        newTopic.save(flush: true)
 
         then:
         Topic.count() == 1
@@ -51,26 +51,21 @@ class TopicSpec extends Specification {
     @Unroll("Topic Validation:Executing #sno")
     void "Test Topic validations"() {
         setup:
-        User user = new User(firstName: "Aditi",
-                lastName: "Bhatnagar",
-                email: "a@b.com",
-                password: "password",
-                userName: "aditi",
-                admin: false,
-                active: true)
-        Topic topic = new Topic(name: name, visibility: visibility)
+        Topic topic = new Topic(name: name, visibility: visibility, createdBy: createdBy)
+
         when:
         Boolean result = topic.validate()
 
         then:
         result == valid
+
         where:
-        sno | name     | visibility        | valid
-        1   | "topic1" | Visibility.PUBLIC | true
-        2   | ""       | Visibility.PUBLIC | false
-        3   | null     | Visibility.PUBLIC | false
-        4   | "topic1" | null              | false
-        5   | "topic1" | Visibility.PUBLIC | false
+        sno | name     | visibility        | createdBy  | valid
+        1   | "topic1" | Visibility.PUBLIC | new User() | true
+        2   | ""       | Visibility.PUBLIC | new User() | false
+        3   | null     | Visibility.PUBLIC | new User() | false
+        4   | "topic1" | null              | new User() | false
+        5   | "topic1" | Visibility.PUBLIC | null       | false
 
     }
 

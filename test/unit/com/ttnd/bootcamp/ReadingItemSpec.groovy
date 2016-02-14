@@ -35,18 +35,18 @@ class ReadingItemSpec extends Specification {
                 createdBy: user,
                 topic: topic,
                 url: "abc.com")
-        ReadingItem readingItem= new ReadingItem(isRead: false,user: user,resource: resource)
+        ReadingItem readingItem = new ReadingItem(isRead: false, user: user, resource: resource)
 
 
         when:
-        readingItem.save()
+        readingItem.save(flush: true)
 
         then:
         readingItem.count() == 1
 
         when:
-        ReadingItem newReadingItem = new ReadingItem(isRead: true,user: user,resource: resource)
-        newReadingItem.save()
+        ReadingItem newReadingItem = new ReadingItem(isRead: true, user: user, resource: resource)
+        newReadingItem.save(flush: true)
 
         then:
         ReadingItem.count() == 1
@@ -57,7 +57,7 @@ class ReadingItemSpec extends Specification {
     @Unroll("ReadingItem Validation:Executing #sno")
     void "Test ReadingItem validations"() {
         setup:
-        ReadingItem readingItem = new ReadingItem(isRead: isRead,user: user,resource: resource)
+        ReadingItem readingItem = new ReadingItem(isRead: isRead, user: user, resource: resource)
 
         when:
         Boolean result = readingItem.validate()
@@ -66,12 +66,12 @@ class ReadingItemSpec extends Specification {
         result == valid
 
         where:
-        sno | user | isRead | resource | valid
-        1   | user | false  | resource | true
-        2   | null | false  | resource | false
-        3   | user | null   | resource | false
-        4   | user | false  | null     | false
-        5   | user | true   | resource | true
+        sno | user       | isRead | resource           | valid
+        1   | new User() | false  | new LinkResource() | true
+        2   | null       | false  | new LinkResource() | false
+        3   | new User() | null   | new LinkResource() | false
+        4   | new User() | false  | null               | false
+        5   | new User() | true   | new LinkResource() | true
 
 
     }

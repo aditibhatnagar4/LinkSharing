@@ -1,7 +1,6 @@
 package com.ttnd.bootcamp
 
 import grails.test.mixin.TestFor
-import groovy.util.logging.Slf4j
 import spock.lang.Specification
 import spock.lang.Unroll
 
@@ -33,7 +32,7 @@ class UserSpec extends Specification {
                 active: true)
 
         when:
-        user.save()
+        user.save(flush: true)
 
         then:
         user.count() == 1
@@ -46,7 +45,7 @@ class UserSpec extends Specification {
                 userName: "aditi",
                 admin: false,
                 active: true)
-        newUser.save()
+        newUser.save(flush: true)
 
         then:
         User.count() == 1
@@ -65,7 +64,7 @@ class UserSpec extends Specification {
                 admin: false,
                 active: true)
         when:
-        user.save()
+        user.save(flush: true)
 
         then:
         user.count() == 1
@@ -78,7 +77,7 @@ class UserSpec extends Specification {
                 userName: userName,
                 admin: false,
                 active: true)
-        newUser.save()
+        newUser.save(flush: true)
 
         then:
         User.count() == 1
@@ -90,12 +89,12 @@ class UserSpec extends Specification {
     void "Test User validations"() {
         setup:
         User user = new User(firstName: firstName,
-                             lastName: lastName,
-                             email: email,
-                             password: password,
-                             userName: userName,
-                             admin: admin,
-                             active: active)
+                lastName: lastName,
+                email: email,
+                password: password,
+                userName: userName,
+                admin: admin,
+                active: active)
         when:
         Boolean result = user.validate()
 
@@ -117,6 +116,27 @@ class UserSpec extends Specification {
         12  | "Aditi"   | null        | "a@b.com" | "test123" | "aditi"  | false | true   | false
         13  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | null  | true   | true
         14  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | null   | true
+
+    }
+
+    @Unroll("Checking full name:Executing #sno")
+    def "Check Full Name"() {
+        setup:
+        User user = new User(firstName: firstName, lastName: lastName)
+
+        expect:
+        result == user.getName()
+
+        where:
+        sno | firstName | lastName    | result
+        1   | ""        | ""          | ""
+        2   | "Aditi"   | ""          | "Aditi"
+        3   | ""        | "Bhatnagar" | "Bhatnagar"
+        4   | "Aditi"   | "Bhatnagar" | "Aditi Bhatnagar"
+        5   | null      | null        | null
+        6   | "Aditi"   | null        | "Aditi"
+        7   | null      | "Bhatnagar" | "Bhatnagar"
+
 
     }
 

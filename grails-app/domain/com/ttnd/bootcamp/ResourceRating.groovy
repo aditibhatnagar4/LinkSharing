@@ -8,7 +8,7 @@ class ResourceRating extends BaseDomain {
     Integer score
 
     static constraints = {
-        score size: 1..5
+        score min: 1, max: 5
         user(unique: 'resource')
 
     }
