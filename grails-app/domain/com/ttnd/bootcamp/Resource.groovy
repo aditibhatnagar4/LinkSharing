@@ -1,8 +1,5 @@
 package com.ttnd.bootcamp
 
-import groovy.transform.EqualsAndHashCode
-
-@EqualsAndHashCode(includeFields=true)
 abstract class Resource extends BaseDomain {
 
     String description

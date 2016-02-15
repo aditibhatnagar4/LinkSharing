@@ -1,8 +1,5 @@
 package com.ttnd.bootcamp
 
-import groovy.transform.EqualsAndHashCode
-
-@EqualsAndHashCode(includeFields=true)
 class ReadingItem extends BaseDomain {
 
     Boolean isRead
