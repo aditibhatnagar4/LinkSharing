@@ -1,12 +1,16 @@
 package com.ttnd.bootcamp
 
 import grails.test.mixin.TestFor
+import groovy.util.logging.Slf4j
 import spock.lang.Specification
+import spock.lang.Stepwise
 import spock.lang.Unroll
 
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
+@Slf4j
+@Stepwise
 @TestFor(User)
 class UserSpec extends Specification {
 
@@ -42,7 +46,7 @@ class UserSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: email,
                 password: "password",
-                userName: "aditi",
+                userName: "aditi2",
                 admin: false,
                 active: true)
         newUser.save(flush: true)
@@ -58,7 +62,7 @@ class UserSpec extends Specification {
         String userName = "aditi"
         User user = new User(firstName: "Aditi",
                 lastName: "Bhatnagar",
-                email: "a@b.com",
+                email: "a2@b.com",
                 password: "password",
                 userName: userName,
                 admin: false,
@@ -130,12 +134,12 @@ class UserSpec extends Specification {
         where:
         sno | firstName | lastName    | result
         1   | ""        | ""          | ""
-        2   | "Aditi"   | ""          | "Aditi"
-        3   | ""        | "Bhatnagar" | "Bhatnagar"
+        2   | "Aditi"   | ""          | ""
+        3   | ""        | "Bhatnagar" | ""
         4   | "Aditi"   | "Bhatnagar" | "Aditi Bhatnagar"
-        5   | null      | null        | null
-        6   | "Aditi"   | null        | "Aditi"
-        7   | null      | "Bhatnagar" | "Bhatnagar"
+        5   | null      | null        | ""
+        6   | "Aditi"   | null        | ""
+        7   | null      | "Bhatnagar" | ""
 
 
     }

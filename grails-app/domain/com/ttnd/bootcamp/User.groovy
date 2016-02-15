@@ -34,7 +34,11 @@ class User extends BaseDomain{
 
 
     String getName() {
-        return "${firstName} ${lastName}"
+
+        if (firstName && lastName) {
+            return "$firstName $lastName"
+        }
+        else return ""
 
     }
     static transients = ['name']
