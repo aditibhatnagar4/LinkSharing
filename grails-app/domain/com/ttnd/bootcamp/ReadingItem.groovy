@@ -1,6 +1,9 @@
 package com.ttnd.bootcamp
 
-class ReadingItem extends BaseDomain {
+class ReadingItem {
+
+    Date dateCreated
+    Date lastUpdated
 
     Boolean isRead
 

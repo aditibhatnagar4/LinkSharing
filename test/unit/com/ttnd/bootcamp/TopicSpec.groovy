@@ -69,4 +69,21 @@ class TopicSpec extends Specification {
 
     }
 
+    @Unroll("Checking ToString :Executing #sno")
+    def "CheckToString"() {
+        setup:
+        Topic topic = new Topic(name: name)
+
+        when:
+        result == topic.toString()
+
+        then:
+        noExceptionThrown()
+
+        where:
+        sno | name     | result
+        1   | "topic1" | "topic1"
+        2   | null     | null
+    }
+
 }

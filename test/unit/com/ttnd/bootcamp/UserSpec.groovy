@@ -144,4 +144,21 @@ class UserSpec extends Specification {
 
     }
 
+    @Unroll("Checking ToString :Executing #sno")
+    def "CheckToString"() {
+        setup:
+        User user = new User(userName: userName)
+
+        when:
+        result == user.toString()
+
+        then:
+        noExceptionThrown()
+
+        where:
+        sno | userName | result
+        1   | "aditi"  | "aditi"
+        2   | null     | null
+    }
+
 }

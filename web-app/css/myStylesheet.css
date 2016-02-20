@@ -1,16 +1,8 @@
-/*body {*/
-    /*margin-top:20px;*/
-/*}*/
-
-/*.navbar-header {*/
-    /*width: 100%;*/
-/*}*/
-
 .navbar-width{ width:100% }
-.margin-top{ margin-top:20px; }
-.margin-top-7{ margin-top:7px; }
-.margin-top-5{ margin-top:5px; }
-.margin-top-10{ margin-top:10px }
+.box{ margin-top:20px; }
+.navbar-search{ margin-top:7px; }
+.navbar-glyphicon{ margin-top:5px; }
+.navbar-option{ margin-top:10px }
 
 .dropdown{ margin-bottom:45px; }
 

@@ -34,15 +34,33 @@ class DocumentResourceSpec extends Specification {
         result == valid
 
         where:
-        sno | createdBy  | description | topic       | filePath | valid
-        1   | new User() | "desc1"     | new Topic() | "a/com/" | true
-        2   | new User() | 1           | new Topic() | "a/com/" | false
-        3   | null       | "desc1"     | new Topic() | "a/com/" | false
-        4   | new User() | null        | new Topic() | "a/com/" | false
-        5   | new User() | "desc1"     | null        | "a/com/" | false
-        6   | new User() | ""          | new Topic() | "a/com/" | false
-        7   | new User() | "desc1"     | new Topic() | ""       | false
+        sno | createdBy  | description    | topic       | filePath | valid
+        1   | new User() | "desc1"        | new Topic() | "a/com/" | true
+        2   | new User() | new Integer(1) | new Topic() | "a/com/" | false
+        3   | null       | "desc1"        | new Topic() | "a/com/" | false
+        4   | new User() | null           | new Topic() | "a/com/" | false
+        5   | new User() | "desc1"        | null        | "a/com/" | false
+        6   | new User() | ""             | new Topic() | "a/com/" | false
+        7   | new User() | "desc1"        | new Topic() | ""       | false
 
     }
+
+    @Unroll("Checking ToString :Executing #sno")
+    def "CheckToString"() {
+        setup:
+        Resource resource = new DocumentResource(filePath: filePath)
+
+        when:
+        result == resource.toString()
+
+        then:
+        noExceptionThrown()
+
+        where:
+        sno | filePath  | result
+        1   | "a/b/c/d" | "a/b/c/d"
+        2   | null      | null
+    }
+
 
 }

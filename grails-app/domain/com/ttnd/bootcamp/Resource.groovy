@@ -1,6 +1,9 @@
 package com.ttnd.bootcamp
 
-abstract class Resource extends BaseDomain {
+abstract class Resource {
+
+    Date dateCreated
+    Date lastUpdated
 
     String description
 

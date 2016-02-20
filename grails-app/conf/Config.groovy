@@ -100,6 +100,11 @@ environments {
 log4j.main = {
     // Example of changing the log pattern for the default console appender:
     //
+
+    root {
+        info()
+    }
+
     appenders {
         console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     }
@@ -117,3 +122,4 @@ log4j.main = {
             'net.sf.ehcache.hibernate'
             'com.ttnd.bootcamp'
 }
+

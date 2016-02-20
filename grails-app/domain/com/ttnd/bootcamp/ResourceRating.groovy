@@ -1,6 +1,9 @@
 package com.ttnd.bootcamp
 
-class ResourceRating extends BaseDomain {
+class ResourceRating {
+
+    Date dateCreated
+    Date lastUpdated
 
     Integer score
 

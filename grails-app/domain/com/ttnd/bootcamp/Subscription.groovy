@@ -1,6 +1,9 @@
 package com.ttnd.bootcamp
 
-class Subscription extends BaseDomain {
+class Subscription {
+
+    Date dateCreated
+    Date lastUpdated
 
     Seriousness seriousness
 

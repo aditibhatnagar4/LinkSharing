@@ -1,6 +1,9 @@
 package com.ttnd.bootcamp
 
-class User extends BaseDomain{
+class User {
+
+    Date dateCreated
+    Date lastUpdated
 
     String email
     String userName
@@ -44,6 +47,10 @@ class User extends BaseDomain{
     static transients = ['name']
 
     static mapping = { photo(sqlType: 'longblob') }
+
+    String toString() {
+        return userName
+    }
 
 
 }
