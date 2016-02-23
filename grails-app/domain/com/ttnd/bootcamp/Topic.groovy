@@ -27,13 +27,10 @@ class Topic {
                     user: this.createdBy,
                     topic: this,
                     seriousness: Seriousness.VERY_SERIOUS)
-            if(subscription.save(flush:true))
-            {
+            if (subscription.save(flush: true)) {
                 log.info "${subscription}-> ${this.createdBy} subscribed for ${this}"
-            }
-            else
-            {
-                log.info "Not subscribed--- ${subscription.errors.allErrors}"
+            } else {
+                log.error "Not subscribed--- ${subscription.errors.allErrors}"
             }
         }
 
@@ -41,6 +38,11 @@ class Topic {
 
     String toString() {
         return name
+    }
+
+    static mapping = {
+        sort "name"
+
     }
 
 }

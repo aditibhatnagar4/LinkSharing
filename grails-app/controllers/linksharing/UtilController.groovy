@@ -12,7 +12,5 @@ class UtilController {
         log.info "Testing info logging"
         log.debug "Testing debug logging"
         log.trace "Testing trace logging"
-String name="aditi"
-        render view: 'index', model: [userName: name]
            }
 }

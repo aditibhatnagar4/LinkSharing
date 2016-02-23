@@ -34,14 +34,13 @@ class DocumentResourceSpec extends Specification {
         result == valid
 
         where:
-        sno | createdBy  | description    | topic       | filePath | valid
-        1   | new User() | "desc1"        | new Topic() | "a/com/" | true
-        2   | new User() | new Integer(1) | new Topic() | "a/com/" | false
-        3   | null       | "desc1"        | new Topic() | "a/com/" | false
-        4   | new User() | null           | new Topic() | "a/com/" | false
-        5   | new User() | "desc1"        | null        | "a/com/" | false
-        6   | new User() | ""             | new Topic() | "a/com/" | false
-        7   | new User() | "desc1"        | new Topic() | ""       | false
+        sno | createdBy  | description | topic       | filePath | valid
+        1   | new User() | "desc1"     | new Topic() | "a/com/" | true
+        2   | null       | "desc1"     | new Topic() | "a/com/" | false
+        3   | new User() | null        | new Topic() | "a/com/" | false
+        4   | new User() | "desc1"     | null        | "a/com/" | false
+        5   | new User() | ""          | new Topic() | "a/com/" | false
+        6   | new User() | "desc1"     | new Topic() | ""       | false
 
     }
 

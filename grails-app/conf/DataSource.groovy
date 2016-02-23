@@ -14,7 +14,7 @@ hibernate {
 //    cache.region.factory_class = 'org.hibernate.cache.SingletonEhCacheRegionFactory' // Hibernate 3
     cache.region.factory_class = 'org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory' // Hibernate 4
     singleSession = true // configure OSIV singleSession mode
-    flush.mode = 'manual' // OSIV session flush mode outside of transactional context
+    // flush.mode = 'manual' // OSIV session flush mode outside of transactional context
 }
 
 // environment specific settings
@@ -25,7 +25,7 @@ environments {
 //            url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
             username = "root"
             password = "root"
-            dbCreate = "create-drop"
+            dbCreate = "create"
             url = "jdbc:mysql://localhost:3306/Linksharing"
         }
     }

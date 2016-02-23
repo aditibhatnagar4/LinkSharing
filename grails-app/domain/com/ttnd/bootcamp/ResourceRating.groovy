@@ -15,7 +15,7 @@ class ResourceRating {
 
     static belongsTo = [
             resource: Resource,
-            user: User
+            user    : User
     ]
 
 

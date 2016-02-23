@@ -9,8 +9,7 @@ class DocumentResource extends Resource {
         filePath blank: false
     }
 
-    String toString()
-    {
+    String toString() {
         return filePath
     }
 

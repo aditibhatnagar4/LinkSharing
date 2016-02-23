@@ -13,6 +13,8 @@ class User {
     Byte[] photo
     Boolean admin
     Boolean active
+    String confirmPassword
+
 
     static constraints = {
         email email: true, unique: true, blank: false
@@ -23,6 +25,11 @@ class User {
         admin nullable: true
         active nullable: true
         userName unique: true
+        confirmPassword(bindable: true, nullable: true, blank: true, validator: { val, obj ->
+            if (!obj.id && (obj.password != val || !val)) {
+                return false
+            }
+        })
 
     }
 
@@ -40,13 +47,15 @@ class User {
 
         if (firstName && lastName) {
             return "$firstName $lastName"
-        }
-        else return ""
+        } else return ""
 
     }
-    static transients = ['name']
+    static transients = ['name', 'confirmPassword']
 
-    static mapping = { photo(sqlType: 'longblob') }
+    static mapping = {
+        photo(sqlType: 'longblob')
+        sort id: "desc"
+    }
 
     String toString() {
         return userName

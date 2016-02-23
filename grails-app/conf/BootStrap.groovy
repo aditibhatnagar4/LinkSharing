@@ -46,7 +46,8 @@ class BootStrap {
                     password: Constants.DEFAULT_PASSWORD,
                     userName: prefix,
                     admin: admin,
-                    active: true
+                    active: true,
+                    confirmPassword: Constants.DEFAULT_PASSWORD
             )
             if (user.validate()) {
                 user.save(flush: true)
@@ -146,12 +147,12 @@ class BootStrap {
                     Subscription subscription = new Subscription(user: user,
                             topic: topic,
                             seriousness: Seriousness.VERY_SERIOUS)
-                    if (subscription.save(flush: true, failOnError: true)) {
+                    if (subscription.save(flush: true)) {
                         subscriptions.add(subscription)
                         log.info "${subscription} saved "
 
                     } else {
-                        log.info "subscription not saved ${subscription.errors.allErrors}"
+                        log.error "subscription not saved ${subscription.errors.allErrors}"
                     }
                 } else {
                     log.info "User ${user} already subscribed to Topic ${topic}"
@@ -185,7 +186,7 @@ class BootStrap {
                                 log.info "${readingItem} saved in ${user}'s list"
 
                             } else {
-                                log.info "${readingItem} is not saved in ${user}'s list--- ${readingItem.errors.allErrors}"
+                                log.error "${readingItem} is not saved in ${user}'s list--- ${readingItem.errors.allErrors}"
                             }
                         } else {
                             log.info "resource created by user ${user} or reading item exists in user's list"
@@ -210,7 +211,7 @@ class BootStrap {
                     log.info "${resourceRating} rating for ${readingItem.resource} by ${readingItem.user}"
                     resourceRatings.add(resourceRating)
                 } else {
-                    log.info "${resourceRating} rating not set for ${readingItem.resource} by ${readingItem.user}---" +
+                    log.error "${resourceRating} rating not set for ${readingItem.resource} by ${readingItem.user}---" +
                             " ${resourceRating.errors.allErrors}"
                 }
             } else {
