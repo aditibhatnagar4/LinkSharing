@@ -7,6 +7,8 @@ class LoginController {
         if (session.user) {
             forward(controller: "user", action: "index")
         } else {
+            def result =Resource.getTopPosts()
+            render "${result}"
             render "Failed to login"
         }
     }
@@ -17,14 +19,14 @@ class LoginController {
             if (user.active) {
                 session.user = user
                 redirect(controller: "login", action: "index")
+                return
             } else {
                 flash.error = 'Your account is not active'
-
             }
         } else {
             flash.error = "User not found"
-            render flash.error
         }
+        render flash.error
     }
 
     def logout() {

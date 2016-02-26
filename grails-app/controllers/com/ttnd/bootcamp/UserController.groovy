@@ -1,21 +1,23 @@
 package com.ttnd.bootcamp
 
+import com.ttnd.bootcamp.CO.UserCO
+
 class UserController {
 
     def index() {
-        render "User Dashboard  "
-        render session.user
+        render view: 'myAccount',model: [topics: ["topic1","topic2","topic3"]]
+       // render session.user
     }
 
-    def registerUser() {
-        User user = new User(userName: "user",
-                firstName: "aditi",
-                lastName: "bhatnagar",
-                email: "user@ttnd.com",
-                password: Constants.DEFAULT_PASSWORD,
-                confirmPassword: Constants.DEFAULT_PASSWORD,
-                isActive: true,
-                isAdmin: false)
+    def registerUser(UserCO co) {
+        User user = new User(userName: params.userName,
+                firstName: params.firstName,
+                lastName: params.lastName,
+                email: params.email,
+                password: params.password,
+                confirmPassword: params.confirmPassword,
+                active: params.active,
+                admin: params.admin)
 
         if (user.validate()) {
             user.save(flush: true)
@@ -25,4 +27,16 @@ class UserController {
             render "${user.errors.allErrors.collect { message(error: it) }.join(',')}"
         }
     }
+
+
+    def save(User user){
+        if(user?.hasErrors()){
+            render view: 'login' , model: [user: user, currentTime: new Date()]
+        }
+        else{
+            user.save()
+            render "form saved"
+        }
+    }
+
 }

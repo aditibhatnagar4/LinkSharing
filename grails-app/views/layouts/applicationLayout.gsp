@@ -1,18 +1,17 @@
 <%--
   Created by IntelliJ IDEA.
   User: aditi
-  Date: 19/2/16
-  Time: 11:25 AM
+  Date: 26/2/16
+  Time: 9:50 AM
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
-    <asset:javascript src="/bootstrap-3.3.6-dist/bootstrap.js"/>
     <title></title>
 </head>
 
 <body>
-hello ${username}
+
 </body>
 </html>

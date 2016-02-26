@@ -5,7 +5,7 @@ class Subscription {
     Date dateCreated
     Date lastUpdated
 
-    Seriousness seriousness = Seriousness.VERY_SERIOUS
+    Seriousness seriousness = Seriousness.SERIOUS
 
     static constraints = {
 

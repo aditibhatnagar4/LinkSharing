@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <link rel="stylesheet" href="bootstrap-3.3.6-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="font-awesome-4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="myStylesheet.css">
+    <asset:stylesheet href="bootstrap-3.3.6-dist/css/bootstrap.css"/>
+    <asset:stylesheet href="font-awesome-4.5.0/css/font-awesome.css"/>
+    <asset:stylesheet href="myStylesheet.css"/>
     <meta name="viewport" content="width=device-width,initial-scale=1">
 </head>
 <body>
@@ -183,7 +183,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-2">
-                            <img class="img-thumbnail" src="image1.png" alt="image" width="100" height="150">
+                            <asset:image src="image1.png"/>
                         </div>
                         <div class="col-xs-9">
                             <div class="row">
@@ -257,7 +257,7 @@
             <table class="table">
                 <tbody>
                 <tr class=" spec_table">
-                    <td><img class="img-thumbnail" src="image1.png" alt="image" width="100" height="150"></td>
+                    <td><asset:image src="image1.png"/></td>
                     <td>
                         <div class="row">
                         <div class="col-xs-8">
@@ -287,7 +287,7 @@
 
                 </tr>
                 <tr>
-                    <td><img class="img-thumbnail" src="image1.png" alt="image" width="100" height="150"></td>
+                    <td><asset:image src="image1.png"/></td>
                     <td>
                         <div class="row">
                             <div class="col-xs-8">

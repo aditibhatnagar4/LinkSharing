@@ -7,7 +7,8 @@ class TopicController {
     def index() {}
 
     def showTopic(ResourceSearchCO co) {
-        Topic topic = Topic.read(co)
+        Topic topic = Topic.read(co.topicId)
+        log.info topic
         if (topic == null) {
             flash.error = "Topic does not exist"
             redirect(controller: 'login', action: 'index')
