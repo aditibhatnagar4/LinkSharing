@@ -11,14 +11,16 @@ class SubscriptionController {
         Subscription subscription = Subscription.load(id)
         if (subscription != null) {
             subscription.delete(flush: true)
-            render "Success"
+            //render "Success"
+            flash.message = "Subscription deleted successfully."
         } else {
-            render "subscription not found $subscription.errors.allErrors"
+            // render "subscription not found $subscription.errors.allErrors"
+            flash.error = "Subscription not found"
 
         }
+        redirect(uri: '/')
     }
 
-    //DOUBT: want to use default value for seriousness
     def saveSubscription(Long id) {
         Topic topic = Topic.findById(id)
         User user = session["user"]
@@ -33,11 +35,14 @@ class SubscriptionController {
             log.info "subscription=$subscription, $subscription.seriousness"
             subscription.save(flush: true)
             log.info "subscription=$subscription, $subscription.seriousness"
-            render "Subscription saved successfully."
+            // render "Subscription saved successfully."
+            flash.message = "Subscription saved successfully."
         } else {
-            render "Could not save subscription $subscription.errors.allErrors"
+            //render "Could not save subscription $subscription.errors.allErrors"
+            flash.error="Could not save subscription"
 
         }
+        redirect(uri: '/')
     }
 
     def updateSubscription(Long id, String seriousness) {

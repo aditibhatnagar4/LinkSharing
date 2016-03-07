@@ -47,6 +47,8 @@ class Topic {
 
     }
 
+    static transients = ['subscribedUser']
+
 //    static List<TopicVO> getTrendingTopics() {
 //
 //
@@ -92,5 +94,52 @@ class Topic {
         }
         return topicVOs
     }
+
+
+    static List<User> getSubscribedUser(Long id) {
+        // User user=session.user
+        List<User> subscribedUsers = Subscription.createCriteria().list() {
+            projections {
+                property('user')
+            }
+
+            eq('topic.id', id)
+
+
+        }
+        return subscribedUsers
+
+    }
+
+    static List<Resource> getRecentPosts() {
+        List<Resource> result = Resource.createCriteria().list(max: 5) {
+
+            'topic' {
+                eq('visibility', Visibility.PUBLIC)
+            }
+            order('dateCreated', 'desc')
+        }
+
+
+        return result
+    }
+
+    public Boolean isTopicPublic() {
+        if (this.visibility == Visibility.PUBLIC) {
+            return true
+        }
+        return false
+    }
+
+    public Boolean canViewedBy(User user) {
+
+        if (this.isTopicPublic() || user.admin || Subscription.findByUserAndTopic(user, this)) {
+            return true
+        }
+
+        return false
+
+    }
+
 
 }

@@ -25,7 +25,7 @@ class ApplicationFilters {
 //                if (!session.user) {
 //                    redirect(controller: 'login', action: 'index')
 
- //               }
+  //              }
 
 
             }

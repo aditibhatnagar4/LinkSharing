@@ -7,9 +7,13 @@ class LoginController {
         if (session.user) {
             forward(controller: "user", action: "index")
         } else {
-            def result =Resource.getTopPosts()
-            render "${result}"
-            render "Failed to login"
+            List<Resource> resources = Resource.getTopPosts()
+            List<Resource> recentPosts = Topic.getRecentPosts()
+//            render "${result}"
+//            render "Failed to login"
+//            redirect controller: ''
+            render view: 'homePage', model: [resources  : resources,
+                                             recentPosts: recentPosts]
         }
     }
 

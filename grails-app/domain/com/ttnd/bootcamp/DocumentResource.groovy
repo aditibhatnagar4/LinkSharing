@@ -1,6 +1,6 @@
 package com.ttnd.bootcamp
 
-class DocumentResource extends Resource {
+class  DocumentResource extends Resource {
 
     String filePath
 
