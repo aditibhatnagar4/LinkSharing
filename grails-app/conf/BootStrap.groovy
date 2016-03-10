@@ -192,7 +192,7 @@ class BootStrap {
     List<ResourceRating> createResourceRatings(List<ReadingItem> readingItems) {
         List<ResourceRating> resourceRatings = []
         readingItems.each { ReadingItem readingItem ->
-            if (!readingItem.isRead) {
+            if (readingItem.isRead == false) {
                 ResourceRating resourceRating = new ResourceRating(score: Constants.DEFAULT_SCORE,
                         user: readingItem.user,
                         resource: readingItem.resource)

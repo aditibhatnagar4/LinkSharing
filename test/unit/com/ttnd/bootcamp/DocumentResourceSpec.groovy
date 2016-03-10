@@ -4,20 +4,8 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 import spock.lang.Unroll
 
-/**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
- */
 @TestFor(DocumentResource)
 class DocumentResourceSpec extends Specification {
-
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
-    void "test something"() {
-    }
 
     @Unroll("DocumentResource Validation:Executing #sno")
     void "Test DocumentResource validations"() {

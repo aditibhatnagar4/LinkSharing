@@ -6,19 +6,22 @@ import com.ttnd.bootcamp.VO.PostVO
 class ResourceController {
 
     def deleteResource(Long id) {
-        if (User.canDeleteResource(session.user, id)) {
+        User user=session.user
+        if (User.canDeleteResource(user,id)) {
             Resource resource = Resource.load(id)
             if (resource) {
                 resource.delete(flush: true)
+                resource.deleteFile()
                 flash.message = "Resource Deleted"
-                redirect(uri: '/login/loginHandler')
+                render flash.message
+              //  redirect(uri: '/login/loginHandler')
             } else {
                 flash.error = "Resource not deleted--- ${resource.errors.allErrors.collect { message(error: it) }.join(',')}"
             }
         } else {
             flash.error = "Deletion Not Permissible"
         }
-        redirect(uri: '/')
+      //  redirect(uri: '/')
     }
 
     def searchResource(ResourceSearchCO co) {
@@ -59,21 +62,43 @@ class ResourceController {
         render "$result"
     }
 
-    def saveLinkResource(String url, String description, String topicName) {
-        User user = session.user
-        Topic topic = Topic.findByCreatedByAndName(user, topicName)
-        Resource resource = new LinkResource(url: url,
-                description: description,
-                topic: topic,
-                createdBy: user
-        )
-        if (resource.save(flush: true)) {
-            flash.message = "Resource saved successfully."
-            render flash.message
-        } else {
-            flash.error = "Topic not saved"
-            render "flash.error $topic.errors.allErrors"
-            // redirect controller: 'user', action: 'index'
+//    def saveLinkResource(String url, String description, String topicName) {
+//        User user = session.user
+//        Topic topic = Topic.findByCreatedByAndName(user, topicName)
+//        Resource resource = new LinkResource(url: url,
+//                description: description,
+//                topic: topic,
+//                createdBy: user
+//        )
+//        if (resource.save(flush: true)) {
+//            flash.message = "Resource saved successfully."
+//            render flash.message
+//        } else {
+//            flash.error = "Topic not saved"
+//            render "flash.error $topic.errors.allErrors"
+//            // redirect controller: 'user', action: 'index'
+//        }
+//    }
+
+    private def addToReadingItems(Resource resource) {
+        List<User> subscribedUsers=resource.topic.subscriptions.user
+        def ctx = startAsync()
+        ctx.start {
+            subscribedUsers.each {
+                ReadingItem readingItem
+                if (it == session.user) {
+                    readingItem = new ReadingItem(user: it, resource: resource, isRead: true)
+                } else {
+                    readingItem = new ReadingItem(user: it, resource: resource, isRead: false)
+                }
+                if (readingItem.save()) {
+                    log.info "Reading Item saved"
+                } else {
+                    log.error "Error saving reading Item $readingItem.errors.allErrors"
+                }
+            }
+            ctx.complete()
         }
     }
+
 }

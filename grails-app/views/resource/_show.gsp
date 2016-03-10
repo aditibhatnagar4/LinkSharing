@@ -21,9 +21,8 @@
             <i class="fa fa-google-plus red"></i>
 
             <div class="pull-right">
-                <a href="#"><ins>Download&nbsp;</ins></a>
-                <a href="#"><ins>View Full Site&nbsp;</ins></a>
-                <a href="#"><ins><ls:markAsRead isRead="${it.isRead}"/>&nbsp;</ins></a>
+                <ls:resourceType resourceId="${it.resourceId}" url="${it.url}"/>
+                <a href="#"><ls:markAsRead isRead="${it.isRead}"/>&nbsp;</a>
 
                 <g:link controller="resource" action="showResource"
                         params="[id: it.resourceId]">View Post</g:link></div>

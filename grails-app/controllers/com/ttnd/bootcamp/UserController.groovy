@@ -17,6 +17,7 @@ class UserController {
         User user = session.user
         List<Topic> subscribedTopics = user.getSubscribedTopic()
         List<PostVO> readingItems = User.getReadingItems(session.user)
+       // List<ReadingItem> readingItems=User.getUnReadResources(q: 'aditi.bhatnagar',max: 10, offset: 0)
         render view: 'myAccount', model: [
                 topics          : subscribedTopics.toList(),
                 subscribedTopics: subscribedTopics,
@@ -35,7 +36,7 @@ class UserController {
             redirect(uri: '/login/loginHandler', params: [userName: co.userName, password: co.password])
 
         } else {
-            render view: '/login/homePage', model: [user: user ?: new User()]
+            render view: '/login/homePage', model: [user: user]
         }
     }
 

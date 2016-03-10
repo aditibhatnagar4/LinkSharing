@@ -6,23 +6,10 @@ import spock.lang.Specification
 import spock.lang.Stepwise
 import spock.lang.Unroll
 
-/**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
- */
 @Slf4j
 @Stepwise
 @TestFor(User)
 class UserSpec extends Specification {
-
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
-    void "test something"() {
-    }
-
 
     def "Email address of employee should be unique"() {
         setup:

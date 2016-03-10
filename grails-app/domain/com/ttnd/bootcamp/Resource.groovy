@@ -35,7 +35,6 @@ abstract class Resource {
                     eq('id', co.topicId)
                     eq('visibility', co.visibility)
                 }
-                Resource.findAllById(co.topicId)
             }
         }
 
@@ -114,10 +113,6 @@ abstract class Resource {
         }
         return new PostVO(resourceId: obj[0], description: obj[1], url: obj[2], filePath: obj[3], topicId:
                 obj[4], topicName: obj[5], userId: obj[6], userName: obj[7], userFirstName: obj[8], userLastName: obj[9], userPhoto: obj[10], isRead: "", postDate: obj[11], resourceRating: 0)
-    }
-
-    private void addToReadingItems(Resource resource) {
-
     }
 
     void deleteFile() {

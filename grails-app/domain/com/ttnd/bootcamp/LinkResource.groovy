@@ -11,4 +11,9 @@ class LinkResource extends Resource {
     String toString() {
         return url
     }
+
+    void deleteFile() {
+        log.info "Delete file called in Link Resource"
+
+    }
 }

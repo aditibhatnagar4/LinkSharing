@@ -4,20 +4,8 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 import spock.lang.Unroll
 
-/**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
- */
 @TestFor(LinkResource)
 class LinkResourceSpec extends Specification {
-
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
-    void "test something"() {
-    }
 
     @Unroll("LinkResource Validation:Executing #sno")
     void "Test LinkResource validations"() {
@@ -61,6 +49,4 @@ class LinkResourceSpec extends Specification {
         1   | "a.com" | "a.com"
         2   | null    | null
     }
-
-
 }

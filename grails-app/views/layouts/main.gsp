@@ -83,7 +83,7 @@
                     </div>
 
                     <div class="modal-body">
-                        <g:form class="form-horizontal" name="invitationForm">
+                        <g:uploadForm class="form-horizontal" name="invitationForm">
                             <div class="form-group">
                                 <label for="inputEmail" class=" col-xs-4">Email *</label>
 
@@ -110,7 +110,7 @@
                                 </div>
                             </div>
 
-                        </g:form>
+                        </g:uploadForm>
 
                     </div>
 
@@ -138,32 +138,33 @@
                     </div>
 
                     <div class="modal-body">
-                        <g:uploadForm class="form-horizontal">
+                        <g:uploadForm class="form-horizontal" controller="DocumentResource" action="saveDoc">
                             <div class="form-group">
-                                <label for="inputDocument" class=" col-xs-4">Document *</label>
+                                <label for="myFile" class=" col-xs-4">Document *</label>
 
                                 <div class="col-xs-5">
-                                    <g:field type="file" name="inputDocument"/>
+                                    <g:field type="file" name="myFile"/>
                                 </div>
                                 </div>
 
                             <div class="form-group">
-                                <label for="inputDescription1" class=" col-xs-4">Description *</label>
+                                <label for="description" class=" col-xs-4">Description *</label>
 
                                 <div class="col-xs-8">
-                                    <g:field type="texarea" class="form-control" name="inputDescription1"
+                                    <g:field type="texarea" class="form-control" name="description"
                                              placeholder="Description"/>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="inputTopic" class=" col-xs-4">Topic *</label>
+                                <label for="id" class=" col-xs-4">Topic *</label>
 
                                 <div class="col-xs-8">
                                     <span class="dropdown">
-                                        <g:select name="dropdownTopics2" from="${topics}"
+                                        <g:select name="id" from="${topics}"
                                                   class="btn btn-default dropdown-toggle" type="button"
-                                                  data-toggle="dropdown">Topic
+                                                  data-toggle="dropdown"
+                                                  optionKey="id">Topic
                                             <span class="caret"></span>
                                             <ul class="dropdown-menu">
                                             </ul></g:select>
@@ -171,7 +172,7 @@
                                 </div>
                             </div>
 
-                        </g:uploadForm>
+
 
                     </div>
 
@@ -179,6 +180,7 @@
                         <g:submitButton class="btn btn-primary"
                                         name="Share"/>
                         <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                        </g:uploadForm>
                     </div>
                 </div>
 
@@ -194,6 +196,7 @@
 
 <asset:javascript src="application.js"/>
 <asset:javascript src="bootstrap-3.3.6-dist/js/bootstrap.min.js"/>
+    <asset:javascript src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.js"/>
 
 </body>
 </html>

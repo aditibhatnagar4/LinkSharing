@@ -1,5 +1,6 @@
 package com.ttnd.bootcamp
 
+import com.ttnd.bootcamp.CO.SearchCO
 import com.ttnd.bootcamp.VO.PostVO
 
 class User {
@@ -121,4 +122,18 @@ class User {
             return false
         }
     }
+
+    static List<ReadingItem> getUnReadResources(SearchCO co) {
+        List<ReadingItem> unreadItems
+        if (co.q) {
+            unreadItems = ReadingItem.createCriteria().list(max: co.max, offset: co.offset) {
+                eq('isRead', false)
+                'resource' {
+                    ilike("description", "%q%")
+                }
+            }
+        }
+        return unreadItems
+    }
+
 }

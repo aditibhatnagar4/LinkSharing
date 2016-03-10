@@ -42,7 +42,7 @@ class LinksharingTagLib {
         if (user) {
             Boolean canDelete = User.canDeleteResource(user, resourceId)
             if (canDelete) {
-                out << "<a href='${createLink(controller: 'Resource', action: 'delete', params: [id: resourceId])}' " + "class='pull-right'>Delete</a>"
+                out << "<a href='${createLink(controller: 'Resource', action: 'deleteResource', params: [id: resourceId])}' " + ">Delete</a>"
             }
         }
     }
@@ -53,9 +53,10 @@ class LinksharingTagLib {
         def resourceType = Resource.checkResourceType(resourceId)
         def resourceLink = attrs.url
         if (resourceType == "LinkResource") {
-            out << "<a href='${resourceLink}' class='pull-right' target='_blank'>View Full Site</a>"
+            out << "<a href='${resourceLink}' target='_blank' controller='LinkResource' action='saveLinkResource'>View Full Site</a>"
         } else if (resourceType == "DocumentResource") {
-            out << "<a href='#' class='pull-right'>Download</a>"
+          //  out << "<g:link controller='DocumentResource' action='download'>Download</g:link>"
+            out << "<a href='${createLink(controller: 'DocumentResource',action: 'download',params: [id: resourceId])}'>Download&nbsp;</a>"
         }
     }
 

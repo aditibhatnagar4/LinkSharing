@@ -10,10 +10,15 @@ class DocumentResourceCO {
     String contentType
     String description
     Integer id
-    String name = UUID.randomUUID()
+    String name
     MultipartFile myFile
-
+    String filepath
     String getContentType() {
         return myFile.contentType
     }
+
+    String getName() {
+        return UUID.randomUUID()
+    }
+
 }

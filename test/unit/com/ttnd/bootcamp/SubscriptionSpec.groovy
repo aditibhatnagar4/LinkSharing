@@ -4,20 +4,8 @@ import grails.test.mixin.TestFor
 import spock.lang.Specification
 import spock.lang.Unroll
 
-/**
- * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
- */
 @TestFor(Subscription)
 class SubscriptionSpec extends Specification {
-
-    def setup() {
-    }
-
-    def cleanup() {
-    }
-
-    void "test something"() {
-    }
 
     def "User should not be able to subscribe to topic multiple times"() {
         setup:
@@ -47,7 +35,6 @@ class SubscriptionSpec extends Specification {
         newSubscription.errors.getFieldErrorCount('user') == 1
 
     }
-
 
     @Unroll("Subscription Validation:Executing #sno")
     void "Test Subscription validations"() {

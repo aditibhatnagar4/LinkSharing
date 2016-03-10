@@ -4,9 +4,6 @@ import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
-/**
- * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
- */
 @TestFor(TopicController)
 @Mock([User, Topic, Subscription])
 class TopicControllerSpec extends Specification {
@@ -48,8 +45,7 @@ class TopicControllerSpec extends Specification {
         User user = new User(userName: "user5",
                 active: true,
                 password: Constants.DEFAULT_PASSWORD,
-                confirmPassword:
-                Constants.DEFAULT_PASSWORD,
+                confirmPassword: Constants.DEFAULT_PASSWORD,
                 firstName: "Name",
                 lastName: "Lname",
                 email: "user5@ttnd.com")
@@ -57,8 +53,7 @@ class TopicControllerSpec extends Specification {
         User user1 = new User(userName: "user6",
                 active: true,
                 password: Constants.DEFAULT_PASSWORD,
-                confirmPassword:
-                Constants.DEFAULT_PASSWORD,
+                confirmPassword: Constants.DEFAULT_PASSWORD,
                 firstName: "Name",
                 lastName: "Lname",
                 email: "user6@ttnd.com")
@@ -76,6 +71,5 @@ class TopicControllerSpec extends Specification {
         then:
         response.redirectedUrl == "/login/index"
     }
-
 
 }
