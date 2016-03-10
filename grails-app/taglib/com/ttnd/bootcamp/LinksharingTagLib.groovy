@@ -4,29 +4,12 @@ import com.ttnd.bootcamp.VO.TopicVO
 import groovy.util.logging.Slf4j
 
 @Slf4j
-class DemoTagLib {
-//    static defaultEncodeAs = [taglib: 'html']
-    static encodeAsForTags = [trendingTopics: [taglib: 'raw']]
+class LinksharingTagLib {
+
+//  static defaultEncodeAs = [taglib: 'html']
+//  static encodeAsForTags = [trendingTopics: [taglib: 'raw']]
 
     static namespace = 'ls'
-    static returnObjectForTags = ['trendingTopics']
-
-    def showAdmin = { attrs, body ->
-        Boolean admin = Boolean.valueOf(attrs.admin)
-        if (admin) {
-            out << body()
-        }
-
-    }
-
-    def showUserList = {
-        List<User> userList = [1, 2, 3, 4, 5]
-//        for (int i = 1; i <= 10; i++) {
-//            userList.add(new User(firstName: "User_${i}",
-//                    lastName: "lastName_${i}", id: i))
-//        }
-        out << render(template: 'demoTemplate', model: [userList: userList])
-    }
 
     def markAsRead = { attrs, body ->
         User user = session.user
@@ -45,7 +28,6 @@ class DemoTagLib {
         if (user) {
             trendingTopics = Topic.getTrendingTopics()
         }
-        //return trendingTopics
         out << render(template: "/topic/show", model: [trendingTopics: trendingTopics])
     }
 
@@ -53,14 +35,6 @@ class DemoTagLib {
         List<Resource> topPosts = Resource.getTopPosts()
         out << render(template: "/login/topPost", model: [topPosts: topPosts])
     }
-
-//    def readingItems = {
-////        Topic topic = new Topic(name: "topic 1 aditi.bhatnagar")
-////        List<ReadingItem> readingItems = ReadingItem.findAllByResource(resource)
-//        List<ReadingItem> readingItems = []
-//        out << render(template: "/resource/show", model: [readingItem: readingItems])
-//    }
-
 
     def canDeleteResource = { attrs, body ->
         Long resourceId = attrs.resourceId
@@ -78,7 +52,6 @@ class DemoTagLib {
         def resourceId = attrs.resourceId
         def resourceType = Resource.checkResourceType(resourceId)
         def resourceLink = attrs.url
-        def resourcePath = attrs.filePath
         if (resourceType == "LinkResource") {
             out << "<a href='${resourceLink}' class='pull-right' target='_blank'>View Full Site</a>"
         } else if (resourceType == "DocumentResource") {
@@ -127,7 +100,6 @@ class DemoTagLib {
             Topic topic = Topic.read(attrs.topicId)
             User user = session.user
             subscriptionCount = Subscription.countByUserAndTopic(user, topic)
-
         }
         out << subscriptionCount
 
@@ -141,8 +113,6 @@ class DemoTagLib {
 
         }
         out << resourceCount
-
-
     }
 
     def topicCount = { attrs, body ->
@@ -155,5 +125,37 @@ class DemoTagLib {
         out << topicCount
     }
 
+    def canEdit = { attrs, body ->
+        if (session.user) {
+            out << "<a href='#'>Edit&nbsp;</a>"
+        }
+    }
 
+
+    def userImage = { attrs, body ->
+        User user = User.findById(attrs.id)
+        if (user) {
+            String src = "${createLink(controller: 'user', action: 'image', params: [id: attrs.id])}"
+            out << "<img src=${src} width='64px' height='64px' class='img img-responsive img-thumbnail'>"
+        }
+    }
+
+    def showLink = { attrs, body ->
+        if (session.user) {
+            out << "<a href='#'>${attrs.linkname}&nbsp;</a>"
+        }
+    }
+
+    def seriousnessDropdown = { attrs, body ->
+        if (session.user) {
+            out << " <g:select name=\"dropdownSeriousness2\"\n" + "from=\"${com.ttnd.bootcamp.Seriousness.values()}\"\n" + "class=\"btn btn-primary dropdown-toggle\" type=\"button\"\n" + "                               data-toggle=\"dropdown\">Seriousness\n" + "<span class=\"caret\"></span>\n" + "<ul class=\"dropdown-menu\">\n" +
+                    "\n" + "</ul></g:select>"
+        }
+    }
+
+    def visibilityDropdown = { attrs, body ->
+        if (session.user) {
+            out << "<g:select from=\"${com.ttnd.bootcamp.Visibility.values()}\"\n" + "                                      name=\"dropdownVisibility\"\n" + "class=\"btn btn-primary dropdown-toggle\"\n" + "                                      type=\"button\"\n" + "data-toggle=\"dropdown\">Visibility\n" + "<span class=\"caret\"></span>\n" + "                                <ul class=\"dropdown-menu\">\n" + "\n" + "</ul></g:select>"
+        }
+    }
 }

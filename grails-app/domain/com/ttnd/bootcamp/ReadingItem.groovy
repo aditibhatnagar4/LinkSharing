@@ -4,7 +4,6 @@ class ReadingItem {
 
     Date dateCreated
     Date lastUpdated
-
     Boolean isRead
 
     static constraints = {

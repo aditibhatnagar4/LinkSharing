@@ -1,8 +1,6 @@
 package com.ttnd.bootcamp
 
-/**
- * Created by aditi on 7/3/16.
- */
+//Class Work
 class customBean {
     String name
     int age

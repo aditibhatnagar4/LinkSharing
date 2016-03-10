@@ -1,4 +1,4 @@
-<g:applyLayout name="main" />
+<g:applyLayout name="main"/>
 <div class="container">
     <div class="row">
         <div class="col-md-7">
@@ -6,7 +6,7 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-2">
-                            <asset:image src="image1.png"/>
+                            <ls:userImage id="${post.userId}"/>
                         </div>
 
                         <div class="col-xs-9">
@@ -24,10 +24,11 @@
                                         ${post.postDate}
                                     </div>
 
-                                    <g:select class="dropdown"  name="rating" from="[1,2,3,4,5]">
+                                    <g:select class="dropdown" name="rating" from="[1, 2, 3, 4, 5]">
                                         <button class="btn btn-primary dropdown-toggle" type="button"
                                                 data-toggle="dropdown">Rating
                                             <span class="caret"></span></button>
+
                                         <div class="dropdown-menu">
 
                                         </div>
@@ -42,16 +43,15 @@
                     ${post.description}<br>
 
                     <div class="row">
-                        <i class="fa fa-facebook-official glyphicon"></i>
-                        <i class="fa fa-tumblr"></i>
-                        <i class="fa fa-google-plus"></i>
+                        <i class="fa fa-facebook-official glyphicon blue"></i>
+                        <i class="fa fa-tumblr twitter"></i>
+                        <i class="fa fa-google-plus red"></i>
 
                         <div class="pull-right">
                             <ls:canDeleteResource resourceId="${post.resourceId}"/>
-                            <a href="#">
-                                <ins>Edit&nbsp;</ins>
-                            </a>
-                            <ls:resourceType resourceId="${post.resourceId}" url="${post.url}" filePath="${post.filePath}"/>
+                            <ls:canEdit/>
+                            <ls:resourceType resourceId="${post.resourceId}" url="${post.url}"
+                                             filePath="${post.filePath}"/>
                         </div>
                     </div>
 

@@ -4,13 +4,10 @@ class Subscription {
 
     Date dateCreated
     Date lastUpdated
-
     Seriousness seriousness = Seriousness.SERIOUS
 
     static constraints = {
-
         user(unique: 'topic')
-
     }
 
     static mapping = {

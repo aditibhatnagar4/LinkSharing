@@ -6,7 +6,6 @@ class Topic {
 
     Date dateCreated
     Date lastUpdated
-
     String name
     Visibility visibility
 
@@ -49,29 +48,6 @@ class Topic {
 
     static transients = ['subscribedUser']
 
-//    static List<TopicVO> getTrendingTopics() {
-//
-//
-//        List result = Resource.createCriteria().list() {
-//            projections {
-//                createAlias("topic", "t")
-//                groupProperty("t.id")
-//                property("t.name")
-//                //count(".id", 'resourceCount')
-//                count("topic")
-//            }
-//            eq('t.visibility',Visibility.PUBLIC)
-//            order("resourceCount", "desc")
-//            order("t.name", "asc")
-//
-//            maxResults 5
-//            firstResult 1
-//        }
-//        return result
-//
-//
-//    }
-
     static List<TopicVO> getTrendingTopics() {
         List<TopicVO> topicVOs = Resource.createCriteria().list(max: 5) {
             projections {
@@ -95,32 +71,23 @@ class Topic {
         return topicVOs
     }
 
-
     static List<User> getSubscribedUser(Long id) {
-        // User user=session.user
         List<User> subscribedUsers = Subscription.createCriteria().list() {
             projections {
                 property('user')
             }
-
             eq('topic.id', id)
-
-
         }
         return subscribedUsers
-
     }
 
     static List<Resource> getRecentPosts() {
         List<Resource> result = Resource.createCriteria().list(max: 5) {
-
             'topic' {
                 eq('visibility', Visibility.PUBLIC)
             }
             order('dateCreated', 'desc')
         }
-
-
         return result
     }
 
@@ -132,14 +99,9 @@ class Topic {
     }
 
     public Boolean canViewedBy(User user) {
-
         if (this.isTopicPublic() || user.admin || Subscription.findByUserAndTopic(user, this)) {
             return true
         }
-
         return false
-
     }
-
-
 }

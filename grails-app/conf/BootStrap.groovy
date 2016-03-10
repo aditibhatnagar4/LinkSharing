@@ -66,8 +66,6 @@ class BootStrap {
     List<Topic> createTopic() {
         List<Topic> topics = []
         if (!Topic.count()) {
-
-
             users.each { User user ->
                 String prefix = user.firstName
                 (1..5).each {
@@ -85,18 +83,14 @@ class BootStrap {
 
                 }
             }
-
         }
         topics
-
-
     }
 
 
     List<Resource> createResources() {
         List<Resource> resources = []
         if (!Resource.count()) {
-
             topics.each { Topic topic ->
                 (1..2).each {
                     Resource resource = new LinkResource(
@@ -134,8 +128,6 @@ class BootStrap {
 
         }
         resources
-
-
     }
 
 
@@ -164,16 +156,13 @@ class BootStrap {
         subscriptions
     }
 
-
     List<ReadingItem> createReadingItems(List<User> users, List<Topic> topics) {
         List<ReadingItem> readingItems = []
         users.each { User user ->
             topics.each { Topic topic ->
                 if (Subscription.findByUserAndTopic(user, topic) != null) {
-
                     List<Resource> resources = []
                     resources = Resource.findAllByTopic(topic)
-
                     resources.each { Resource resource ->
                         log.info "$user $topic $resource"
                         if (resource.createdBy != user && !user.readingItems?.contains(resource)) {
@@ -203,8 +192,8 @@ class BootStrap {
     List<ResourceRating> createResourceRatings(List<ReadingItem> readingItems) {
         List<ResourceRating> resourceRatings = []
         readingItems.each { ReadingItem readingItem ->
-            if (readingItem.isRead == false) {
-                ResourceRating resourceRating = new ResourceRating(score: Constants.SCORE,
+            if (!readingItem.isRead) {
+                ResourceRating resourceRating = new ResourceRating(score: Constants.DEFAULT_SCORE,
                         user: readingItem.user,
                         resource: readingItem.resource)
                 if (resourceRating.save()) {

@@ -1,9 +1,4 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: aditi
-  Date: 19/2/16
-  Time: 11:25 AM
---%>
+%{--Class Work--}%
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>

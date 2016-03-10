@@ -1,8 +1,5 @@
 package com.ttnd.bootcamp.VO
 
-/**
- * Created by aditi on 6/3/16.
- */
 class PostVO {
     Long resourceId
     Long topicId

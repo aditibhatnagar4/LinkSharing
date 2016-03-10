@@ -37,7 +37,7 @@ grails.mime.types = [ // the first one is the default format
 
 // Legacy setting for codec used to encode data with ${}
 grails.views.default.codec = "html"
-
+grails.linksharing.documents.folderPath = "/var/www/linksharing"
 // The default scope for controllers. May be prototype, session or singleton.
 // If unspecified, controllers are prototype scoped.
 grails.controllers.defaultScope = 'singleton'
@@ -123,3 +123,15 @@ log4j.main = {
     'com.ttnd.bootcamp'
 }
 
+grails {
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = "aditi.bhatnagar@tothenew.com"
+        password = "!t!\\$r@!n!ng"
+        props = ["mail.smtp.auth":"true",
+                 "mail.smtp.socketFactory.port":"465",
+                 "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                 "mail.smtp.socketFactory.fallback":"false"]
+    }
+}

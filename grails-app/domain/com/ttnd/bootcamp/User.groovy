@@ -6,7 +6,6 @@ class User {
 
     Date dateCreated
     Date lastUpdated
-
     String email
     String userName
     String password
@@ -64,18 +63,13 @@ class User {
     }
 
     List<Topic> getSubscribedTopic() {
-        // User user=session.user
         List<Topic> subscribedTopics = Subscription.createCriteria().list() {
             projections {
                 property('topic')
             }
-
             eq('user.id', this.id)
-
-
         }
         return subscribedTopics
-
     }
 
     public static Boolean canDeleteResource(User user, Long resourceId) {
@@ -85,7 +79,6 @@ class User {
         }
         return false
     }
-
 
     public Integer getScore(Resource resource) {
         println "Inside getScore $resource $this"
@@ -128,6 +121,4 @@ class User {
             return false
         }
     }
-
-
 }

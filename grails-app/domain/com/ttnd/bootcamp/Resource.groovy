@@ -8,7 +8,6 @@ abstract class Resource {
 
     Date dateCreated
     Date lastUpdated
-
     String description
 
     static transients = ['ratingInfo']
@@ -42,7 +41,6 @@ abstract class Resource {
 
     }
 
-
     RatingInfoVO getResourceInfo() {
         List result = ResourceRating.createCriteria().get {
             projections {
@@ -53,29 +51,29 @@ abstract class Resource {
             eq('resource', this)
             order('voteCount', 'desc')
         }
-
         new RatingInfoVO(totalVotes: result[0], totalScore: result[1], averageScore: result[2])
     }
 
     //do it on basis of rating
     static List<Resource> getTopPosts() {
-        List<Resource> resources = []
+        List<Resource> resources
         def result = ResourceRating.createCriteria().list(max: 5) {
             projections {
                 property('resource.id')
             }
-
             groupProperty('resource.id')
             count('id', 'totalVotes')
             order('totalVotes', 'desc')
+            'resource' {
+                'topic' {
+                    eq('visibility', Visibility.PUBLIC)
+                }
+            }
         }
-
         List list = result.collect { it[0] }
         resources = Resource.getAll(list)
-
         return resources
     }
-
 
     public static def checkResourceType(Long id) {
         Resource resource = Resource.read(id)
@@ -91,7 +89,6 @@ abstract class Resource {
         }
         return false
     }
-
 
     public static PostVO getPost(Long resourceId) {
         def obj = Resource.createCriteria().get {
@@ -117,6 +114,14 @@ abstract class Resource {
         }
         return new PostVO(resourceId: obj[0], description: obj[1], url: obj[2], filePath: obj[3], topicId:
                 obj[4], topicName: obj[5], userId: obj[6], userName: obj[7], userFirstName: obj[8], userLastName: obj[9], userPhoto: obj[10], isRead: "", postDate: obj[11], resourceRating: 0)
+    }
+
+    private void addToReadingItems(Resource resource) {
+
+    }
+
+    void deleteFile() {
+        log.info "Delete file will be implemented in Link Resource"
     }
 
 }

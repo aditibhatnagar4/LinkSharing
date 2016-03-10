@@ -4,7 +4,6 @@ class ResourceRating {
 
     Date dateCreated
     Date lastUpdated
-
     Integer score
 
     static constraints = {
@@ -17,6 +16,4 @@ class ResourceRating {
             resource: Resource,
             user    : User
     ]
-
-
 }

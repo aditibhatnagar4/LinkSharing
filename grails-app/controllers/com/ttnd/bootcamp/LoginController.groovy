@@ -9,9 +9,6 @@ class LoginController {
         } else {
             List<Resource> resources = Resource.getTopPosts()
             List<Resource> recentPosts = Topic.getRecentPosts()
-//            render "${result}"
-//            render "Failed to login"
-//            redirect controller: ''
             render view: 'homePage', model: [resources  : resources,
                                              recentPosts: recentPosts]
         }

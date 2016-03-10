@@ -1,5 +1,7 @@
 <%@ page import="com.ttnd.bootcamp.User; com.ttnd.bootcamp.Topic; com.ttnd.bootcamp.VO.TopicVO; com.ttnd.bootcamp.Subscription; com.ttnd.bootcamp.Visibility; com.ttnd.bootcamp.Seriousness" %>
+
 <g:applyLayout name="main"/>
+
 <div class="container">
     <div class="row">
         <div class="col-xs-6">
@@ -12,7 +14,7 @@
                         <tbody>
 
                         <tr class="spec_table">
-                            <td><asset:image src="image1.png" height="100" width="100"/></td>
+                            <td><ls:userImage id="${session.user.id}"/></td>
                             <td>
                                 <a href="#">Grails</a>
 
@@ -31,48 +33,28 @@
 
                             </td>
 
-                            </tr>
+                        </tr>
 
 
 
-                            <tr class="spec_table"><td colspan="2">
-                                <div class="row">
+                        <tr class="spec_table"><td colspan="2">
+                            <div class="row">
 
-                                    <div class="dropdown col-xs-5">
-                                        <g:select name="dropdownSeriousness2"
-                                                  from="${com.ttnd.bootcamp.Seriousness.values()}"
-                                                  class="btn btn-primary dropdown-toggle" type="button"
-                                                  data-toggle="dropdown">Seriousness
-                                            <span class="caret"></span>
-                                            <ul class="dropdown-menu">
+                                <div class="dropdown col-xs-5">
+                                    <g:select name="dropdownSeriousness2"
+                                              from="${com.ttnd.bootcamp.Seriousness.values()}"
+                                              class="btn btn-primary dropdown-toggle" type="button"
+                                              data-toggle="dropdown">Seriousness
+                                        <span class="caret"></span>
+                                        <ul class="dropdown-menu">
 
-                                            </ul></g:select>
-                                    </div>
-                                    %{--<g:if test="${session.user == topic.createdBy || session.user.admin == true}">--}%
-                                        %{--<div class="dropdown col-xs-4">--}%
-                                            %{--<g:select from="${com.ttnd.bootcamp.Visibility.values()}"--}%
-                                                      %{--name="dropdownVisibility"--}%
-                                                      %{--class="btn btn-primary dropdown-toggle"--}%
-                                                      %{--type="button"--}%
-                                                      %{--data-toggle="dropdown">Visibility--}%
-                                                %{--<span class="caret"></span>--}%
-                                                %{--<ul class="dropdown-menu">--}%
-
-                                                %{--</ul></g:select>--}%
-                                        %{--</div>--}%
-                                    %{--</g:if>--}%
-
-                                    <span class="glyphicon glyphicon-envelope col-xs-1 font-size-md"
-                                          data-toggle="modal"
-                                          data-target="#sendInvitation"></span>
-                                    %{--<g:if test="${session.user == topic.createdBy || session.user.admin == true}">--}%
-                                        %{--<i class="fa fa-file-o col-xs-1 font-size-md" data-toggle="modal"--}%
-                                           %{--data-target="#shareDocument"></i>--}%
-
-                                        %{--<span class="glyphicon glyphicon-trash col-xs-1 font-size-md"></span>--}%
-                                    %{--</g:if>--}%
+                                        </ul></g:select>
                                 </div>
-                            </td></tr>
+                                <span class="glyphicon glyphicon-envelope col-xs-1 font-size-md"
+                                      data-toggle="modal"
+                                      data-target="#sendInvitation"></span>
+                            </div>
+                        </td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -85,18 +67,17 @@
 
                     <g:render template="/user/show"/>
 
-
                 </div>
             </div>
 
         </div>
+
         <div class="col-xs-6">
             <div class="panel panel-default">
                 <div class="panel-heading">Posts: "Grails"</div>
 
                 <div class="panel-body">
                     <ls:readingItems/>
-
 
                 </div>
             </div>

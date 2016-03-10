@@ -1,13 +1,13 @@
 <table class="table">
     <tbody>
     <g:each in="${topPosts}">
-        <g:if test="${topPosts.indexOf(it)==0}">
+        <g:if test="${topPosts.indexOf(it) == 0}">
             <tr class="spec_table">
         </g:if>
         <g:else>
             <tr>
         </g:else>
-        <td><asset:image src="image1.png"/></td>
+        <td><ls:userImage id="${it.createdBy.id}"/></td>
         <td>
             <div class="row">
                 <div class="col-xs-8">
@@ -16,15 +16,15 @@
                 </div>
 
                 <div class="col-xs-4">
-                    <a href="" controller="topic" action="showTopic">${it.topic}</a>
+                    <g:link controller="topic" action="showTopic">${it.topic}</g:link>
                 </div>
             </div>${it.description}
             <br>
 
             <div class="row"><div class="col-xs-8">
-                <i class="fa fa-facebook-official"></i>
-                <i class="fa fa-tumblr"></i>
-                <i class="fa fa-google-plus"></i>
+                <i class="fa fa-facebook-official blue"></i>
+                <i class="fa fa-tumblr twitter"></i>
+                <i class="fa fa-google-plus red"></i>
             </div>
 
                 <div class="col-xs-4"><a href="#">View Post</a></div></div>

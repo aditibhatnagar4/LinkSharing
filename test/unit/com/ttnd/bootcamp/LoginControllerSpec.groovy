@@ -8,7 +8,7 @@ import spock.lang.Specification
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(LoginController)
-@Mock([User,ResourceRating])
+@Mock([User,Resource,ResourceRating,Topic])
 
 class LoginControllerSpec extends Specification {
 

@@ -1,13 +1,9 @@
 package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
-import com.ttnd.bootcamp.Resource
-import com.ttnd.bootcamp.VO.RatingInfoVO
 import com.ttnd.bootcamp.VO.PostVO
-class ResourceController {
 
-    def index() {
-    }
+class ResourceController {
 
     def deleteResource(Long id) {
         if (User.canDeleteResource(session.user, id)) {
@@ -19,8 +15,7 @@ class ResourceController {
             } else {
                 flash.error = "Resource not deleted--- ${resource.errors.allErrors.collect { message(error: it) }.join(',')}"
             }
-        }
-        else{
+        } else {
             flash.error = "Deletion Not Permissible"
         }
         redirect(uri: '/')
@@ -29,13 +24,11 @@ class ResourceController {
     def searchResource(ResourceSearchCO co) {
         if (co.q) {
             co.visibility = Visibility.PUBLIC
-        }
-        else{
-            flash.error="Search criteria not given"
+        } else {
+            flash.error = "Search criteria not given"
         }
         render co.visibility
     }
-
 
     def showResource(Long id) {
         Resource resource = Resource.get(id)
@@ -43,8 +36,6 @@ class ResourceController {
         if (resource) {
             if (resource.canViewBy(user)) {
                 PostVO post = Resource.getPost(id)
-
-
                 if (user) {
                     log.info "before calling getScore()"
                     post.resourceRating = user.getScore(resource)
@@ -54,27 +45,15 @@ class ResourceController {
 //                render "$ratingInfoVO"
                 render(view: '/resource/post', model: [post: post])
             } else {
-            render "Resource could not be found "
+                render "Resource could not be found "
+            }
+        } else {
+            flash.error = "Resource does not Exists"
+            redirect(uri: '/')
         }
-            }
-            else {
-                flash.error = "Resource does not Exists"
-                redirect(uri: '/')
-            }
+    }
 
-
-
-}
-
-
-
-
-
-
-
-
-
-        def showTrendingTopics() {
+    def showTrendingTopics() {
         Topic topic = new Topic()
         List<Topic> result = topic.getTrendingTopics()
         render "$result"
@@ -82,24 +61,19 @@ class ResourceController {
 
     def saveLinkResource(String url, String description, String topicName) {
         User user = session.user
-        Topic topic= Topic.findByCreatedByAndName(user,topicName)
+        Topic topic = Topic.findByCreatedByAndName(user, topicName)
         Resource resource = new LinkResource(url: url,
                 description: description,
                 topic: topic,
                 createdBy: user
         )
-
         if (resource.save(flush: true)) {
-            flash.message = "Resouce saved successfully."
+            flash.message = "Resource saved successfully."
             render flash.message
         } else {
             flash.error = "Topic not saved"
-             render "flash.error $topic.errors.allErrors"
-           // redirect controller: 'user', action: 'index'
-
-
+            render "flash.error $topic.errors.allErrors"
+            // redirect controller: 'user', action: 'index'
         }
     }
-
-
 }
