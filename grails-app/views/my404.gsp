@@ -1,19 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><g:if env="development">Grails Runtime Exception 404</g:if><g:else>Error</g:else></title>
-    <meta name="layout" content="main_old">
-    <g:if env="development"><asset:stylesheet src="errors.css"/></g:if>
+    <title>404</title>
+    <meta name="layout" content="main">
+
 </head>
 
-<body>Error 404
-<g:if env="development">
-    <g:renderException exception="${exception}"/>
-</g:if>
-<g:else>
-    <ul class="errors">
-        <li>An error has occurred</li>
-    </ul>
-</g:else>
+<body>Grails Runtime Exception<br>
+Error 404 has occurred.
+<br>
+Internet address cannot be found.
 </body>
 </html>
