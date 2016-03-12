@@ -10,12 +10,12 @@
             </div>
 
         <div class="modal-body">
-            <g:form class="form-horizontal">
+            <g:form class="form-horizontal" controller="user" action="forgotPassword">
                 <div class="form-group">
-                    <label for="email" class=" col-xs-4">Email Id *</label>
+                    <label for="emailID" class=" col-xs-4">Email Id *</label>
 
                     <div class="col-xs-8">
-                        <g:textField class="form-control" name="email"
+                        <g:textField class="form-control" name="emailID"
                                      placeholder="Email"/>
                     </div>
                 </div>

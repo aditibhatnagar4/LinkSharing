@@ -4,9 +4,11 @@ import com.ttnd.bootcamp.CO.ResourceSearchCO
 import com.ttnd.bootcamp.CO.SearchCO
 import com.ttnd.bootcamp.CO.TopicSearchCO
 import com.ttnd.bootcamp.CO.UserCO
+import com.ttnd.bootcamp.DTO.EmailDTO
 import com.ttnd.bootcamp.VO.PostVO
 import com.ttnd.bootcamp.VO.TopicVO
 import groovy.util.logging.Slf4j
+import com.ttnd.bootcamp.Utility.Util
 
 @Slf4j
 class UserController {
@@ -19,6 +21,8 @@ class UserController {
 
     def topicService
     def subscriptionService
+    def emailService
+    def messageSource
 
     def index() {
         User user = session.user
@@ -129,4 +133,42 @@ log.ifo "${topicSearchCO.visibility}"
         }
         response.outputStream.flush()
     }
+
+    def forgotPassword(String emailID) {
+
+        User user = User.findByEmail(emailID)
+
+        if (user) {
+            if (user.active) {
+                String to = emailID
+                String subject = "Forgot password request"
+                String newPassword = Util.randomPassword
+
+                EmailDTO emailDTO = new EmailDTO(to: to,
+                        subject: subject,
+                        model: [newPassword: newPassword])
+
+                user.password = newPassword
+
+                if (user.save(flush: true)) {
+
+                    emailService.sendMail(emailDTO)
+                    flash.message = "Mail sent with new password."
+                    render flash.message
+                } else {
+                    flash.error = "Mail could not be sent."
+                    render flash.error
+                }
+            } else {
+                flash.error = "The user account corresponding to the entered email address is inactive."
+                render flash.error
+            }
+        } else {
+            flash.error = "The email id doesn't belong to a registered user."
+            render flash.error
+        }
+
+       // redirect(controller: "login", action: "index")
+    }
+
 }

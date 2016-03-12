@@ -1,4 +1,4 @@
-<%@ page import="com.ttnd.bootcamp.User; com.ttnd.bootcamp.Topic; com.ttnd.bootcamp.VO.TopicVO; com.ttnd.bootcamp.Subscription; com.ttnd.bootcamp.Visibility; com.ttnd.bootcamp.Seriousness" %>
+<%@ page import="com.ttnd.bootcamp.Resource; com.ttnd.bootcamp.User; com.ttnd.bootcamp.Topic; com.ttnd.bootcamp.VO.TopicVO; com.ttnd.bootcamp.Subscription; com.ttnd.bootcamp.Visibility; com.ttnd.bootcamp.Seriousness" %>
 
 <g:applyLayout name="main"/>
 
@@ -97,7 +97,12 @@
                                 <i class="fa fa-google-plus red"></i>
 
                                 <div class="pull-right">
+                                    <g:if test="${Resource.checkResourceType(it.resource.id)=="LinkResource"}">
                                     <ls:resourceType resourceId="${it.resource.id}" url="${it.resource.url}"/>
+                                        </g:if>
+                                    <g:else>
+                                    <ls:resourceType resourceId="${it.resource.id}"/>
+                                        </g:else>
                                     <ls:markAsRead isRead="${it.isRead}" id="${it.resource.id}"/>
                                     <g:link controller="resource" action="showResource"
                                             params="[id: it.resource.id]">View Post</g:link></div>

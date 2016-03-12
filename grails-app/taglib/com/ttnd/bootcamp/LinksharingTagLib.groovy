@@ -54,8 +54,9 @@ class LinksharingTagLib {
     def resourceType = { attrs, body ->
         def resourceId = attrs.resourceId
         def resourceType = Resource.checkResourceType(resourceId)
-        def resourceLink = attrs.url
+
         if (resourceType == "LinkResource") {
+            def resourceLink = attrs.url
             out << "<a href='${resourceLink}' target='_blank' controller='LinkResource' action='saveLinkResource'>View Full Site</a>"
         } else if (resourceType == "DocumentResource") {
             out << "<a href='${createLink(controller: 'DocumentResource', action: 'download', params: [id: resourceId])}'>Download&nbsp;</a>"
