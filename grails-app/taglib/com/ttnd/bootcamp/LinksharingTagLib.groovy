@@ -9,29 +9,26 @@ class LinksharingTagLib {
 //  static defaultEncodeAs = [taglib: 'html']
 //  static encodeAsForTags = [trendingTopics: [taglib: 'raw']]
 
-    static returnObjectForTags = ['canUpdateTopic']
-
     static namespace = 'ls'
 
     def markAsRead = { attrs, body ->
         User user = session.user
-        Long resourceId = attrs.id
         if (user) {
             if (attrs.isRead == true) {
-                out << "<a href='${createLink(controller: 'readingItem', action: 'changeIsRead', params: [id: resourceId, isRead: false])}' " + ">Mark  as unread</a>"
+                out << "Mark as unread"
             } else {
-                out << "<a href='${createLink(controller: 'readingItem', action: 'changeIsRead', params: [id: resourceId, isRead: true])}' " + ">Mark  as read</a>"
+                out << "Mark as read"
             }
         }
     }
 
     def trendingTopics = {
         User user = session.user
-        List<TopicVO> topics = []
+        List<TopicVO> trendingTopics = []
         if (user) {
-            topics = Topic.getTrendingTopics()
+            trendingTopics = Topic.getTrendingTopics()
         }
-        out << render(template: "/topic/show", model: [topics: topics])
+        out << render(template: "/topic/show", model: [trendingTopics: trendingTopics])
     }
 
     def topPosts = {
@@ -58,38 +55,31 @@ class LinksharingTagLib {
         if (resourceType == "LinkResource") {
             out << "<a href='${resourceLink}' target='_blank' controller='LinkResource' action='saveLinkResource'>View Full Site</a>"
         } else if (resourceType == "DocumentResource") {
-            out << "<a href='${createLink(controller: 'DocumentResource', action: 'download', params: [id: resourceId])}'>Download&nbsp;</a>"
+          //  out << "<g:link controller='DocumentResource' action='download'>Download</g:link>"
+            out << "<a href='${createLink(controller: 'DocumentResource',action: 'download',params: [id: resourceId])}'>Download&nbsp;</a>"
         }
     }
 
     def showSubscribe = { attrs, body ->
         User user = session.user
-        Topic topic = Topic.get(attrs.topicId)
-        if (user.id != topic.createdBy.id) {
-            if (attrs.topicId != null && user != null) {
-                if (user.isSubscribed(attrs.topicId)) {
-                    out << "<div class='unsubscribe' data-topicId='${attrs.topicId}'><a href='#'>Unsubscribe</a></div>"
-                } else {
-                    out << "<div class='subscribe' data-topicId='${attrs.topicId}'><a href='${createLink(controller: 'subscription', action: 'saveSubscription', params: [id: attrs.topicId])}'>Subscribe</a></div>"
-                }
-
+        if (attrs.topicId != null && user != null) {
+            if (user.isSubscribed(attrs.topicId)) {
+                out << "<a href='${createLink(controller: 'subscription', action: 'deleteSubscription', params: [id: attrs.topicId])}'>Unsubscribe</a>"
+            } else {
+                out << "<a href='${createLink(controller: 'subscription', action: 'saveSubscription', params: [id: attrs.topicId])}'>Subscribe</a>"
             }
+
         }
     }
 
-//    def showDelete = { attrs, body ->
-//        User user = session.user
-//        if (attrs.topicId != null && user != null) {
-//            if (user.isSubscribed(attrs.topicId)) {
-//                out << "<span class=\"glyphicon glyphicon-trash col-xs-1 font-size-md\"></span>"
-//            }
-//
-//        }
-//    }
 
     def showDelete = { attrs, body ->
-        if (canUpdateTopic(attrs.topicId)) {
-            out << "<a href=\"${createLink(controller: 'topic', action: 'delete', params: [topicId: attrs.topicId])}\"><span class=\"glyphicon glyphicon-trash col-xs-1 font-size-md \"></span></a>"
+        User user = session.user
+        if (attrs.topicId != null && user != null) {
+            if (user.isSubscribed(attrs.topicId)) {
+                out << "<span class=\"glyphicon glyphicon-trash col-xs-1 font-size-md\"></span>"
+            }
+
         }
     }
 
@@ -137,17 +127,17 @@ class LinksharingTagLib {
     }
 
     def canEdit = { attrs, body ->
-        if (canUpdateTopic(attrs.topicId)) {
+        if (session.user) {
             out << "<a href='#'>Edit&nbsp;</a>"
         }
     }
 
 
     def userImage = { attrs, body ->
-        User user = User.get(attrs.id)
+        User user = User.findById(attrs.id)
         if (user) {
             String src = "${createLink(controller: 'user', action: 'image', params: [id: attrs.id])}"
-            out << "<a href='${createLink(controller: 'subscription', action: 'index', params: [id: attrs.id])}'><img src=${src} width='64px' height='64px' class='img img-responsive img-thumbnail'></a>"
+            out << "<img src=${src} width='64px' height='64px' class='img img-responsive img-thumbnail'>"
         }
     }
 
@@ -157,53 +147,16 @@ class LinksharingTagLib {
         }
     }
 
-//make it into template
     def seriousnessDropdown = { attrs, body ->
-//        Long id = attrs.topicId
-//        if (session.user) {
-//            out << render(template: "/user/seriousnessDropdown")
-//        }
-
-        Long topicId = attrs.topicId
-        User user = session.user
-
-        if (user != null) {
-            Topic topic = Topic.get(topicId)
-            Subscription subscription = Subscription.findByTopicAndUser(topic, session.user)
-
-            if (subscription != null) {
-
-                out << g.select(class: 'seriousness btn btn-primary',
-                        topicId: topicId,
-                        name: 'seriousness',
-                        id: 'seriousness',
-                        from: com.ttnd.bootcamp.Seriousness.values(),
-                        value: subscription.seriousness)
-            }
+        if (session.user) {
+            out << " <g:select name=\"dropdownSeriousness2\"\n" + "from=\"${com.ttnd.bootcamp.Seriousness.values()}\"\n" + "class=\"btn btn-primary dropdown-toggle\" type=\"button\"\n" + "                               data-toggle=\"dropdown\">Seriousness\n" + "<span class=\"caret\"></span>\n" + "<ul class=\"dropdown-menu\">\n" +
+                    "\n" + "</ul></g:select>"
         }
     }
 
     def visibilityDropdown = { attrs, body ->
-        Long topicId = attrs.topicId
-        Topic topic = Topic.get(topicId)
-        if (topic && canUpdateTopic(topicId)) {
-            out << g.select(from: com.ttnd.bootcamp.Visibility.values(),
-                    name: 'visibility',
-                    id: 'visibility',
-                    class: 'visibility btn btn-primary',
-                    topicName: topic.name,
-                    value: topic.visibility)
-
-
+        if (session.user) {
+            out << "<g:select from=\"${com.ttnd.bootcamp.Visibility.values()}\"\n" + "                                      name=\"dropdownVisibility\"\n" + "class=\"btn btn-primary dropdown-toggle\"\n" + "                                      type=\"button\"\n" + "data-toggle=\"dropdown\">Visibility\n" + "<span class=\"caret\"></span>\n" + "                                <ul class=\"dropdown-menu\">\n" + "\n" + "</ul></g:select>"
         }
     }
-
-    Boolean canUpdateTopic(topicId) {
-        Topic topic = Topic.get(topicId)
-        return (session.user != null && (session.user.admin == true || topic.createdBy.id == session.user.id))
-    }
 }
-
-
-
-

@@ -1,6 +1,5 @@
 package com.ttnd.bootcamp
 
-import com.ttnd.bootcamp.VO.PostVO
 import com.ttnd.bootcamp.VO.TopicVO
 
 class Topic {
@@ -105,6 +104,4 @@ class Topic {
         }
         return false
     }
-
-
 }

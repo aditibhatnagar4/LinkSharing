@@ -54,12 +54,11 @@
 
                             <td><ls:userImage id="${it.createdBy.id}"/></td>
                             <td>
-                                <g:link controller="topic" action="showTopic" params="[topicId: it.id]">${it.name}</g:link>
+                                <a href="#" controller="topic" action="index">${it.name}</a>
 
                                 <div class="row">
-                                    <div class="col-xs-5 text-muted">${it.createdBy.userName}<div>
-                                        <ls:showSubscribe topicId="${it.id}"/>
-                                    </div>
+                                    <div class="col-xs-5 text-muted">${it.createdBy.userName}<div><a
+                                            href="#">Unsubscribe</a></div>
                                     </div>
 
                                     <div class="col-xs-5 text-muted">Subscriptions<div
@@ -81,12 +80,27 @@
                                 <div class="row">
 
                                     <div class="dropdown col-xs-5">
-                                       <ls:seriousnessDropdown topicId="${it.id}"/>
+                                        <g:select name="dropdownSeriousness2"
+                                                  from="${com.ttnd.bootcamp.Seriousness.values()}"
+                                                  class="btn btn-primary dropdown-toggle" type="button"
+                                                  data-toggle="dropdown">Seriousness
+                                            <span class="caret"></span>
+                                            <ul class="dropdown-menu">
+
+                                            </ul></g:select>
                                     </div>
 
                                     <g:if test="${session.user.id == it.createdBy.id || session.user.admin == true}">
                                         <div class="dropdown col-xs-4">
-                                            <ls:visibilityDropdown topicId="${it.id}"/>
+                                            <g:select from="${com.ttnd.bootcamp.Visibility.values()}"
+                                                      name="dropdownVisibility"
+                                                      class="btn btn-primary dropdown-toggle"
+                                                      type="button"
+                                                      data-toggle="dropdown">Visibility
+                                                <span class="caret"></span>
+                                                <ul class="dropdown-menu">
+
+                                                </ul></g:select>
                                         </div>
                                     </g:if>
 
@@ -95,7 +109,7 @@
                                           data-target="#sendInvitation"></span>
                                     <g:if test="${session.user.id == it.createdBy.id || session.user.admin == true}">
                                         <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md"></span>
-                                        <ls:showDelete topicId="${it.id}"/>
+                                        <span class="glyphicon glyphicon-trash col-xs-1 font-size-md"></span>
                                     </g:if>
                                 </div>
                             </td></tr>

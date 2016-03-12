@@ -11,16 +11,18 @@ class DocumentResourceController extends ResourceController {
         String filepath = new File("${grailsApplication.config.grails.linksharing.documents.folderPath}/${documentResourceCo.name}.pdf")
 
         Topic topic = Topic.get(documentResourceCo.id)
-        User user = session.user
+        User user=session.user
 
         DocumentResource doc = new DocumentResource(createdBy: user,
                 topic: topic,
                 description: documentResourceCo.description,
                 filePath: filepath,
                 contentType: documentResourceCo.contentType
-        )
+                )
         if (doc.validate()) {
+            println("........${documentResourceCo.myFile}")
             File file = new File(filepath) << documentResourceCo.myFile.bytes
+            println("........${file.size()}")
             if (doc.save(flush: true)) {
                 flash.message = " document saved ------Success "
                 render flash.message
@@ -42,7 +44,7 @@ class DocumentResourceController extends ResourceController {
         Resource resource = DocumentResource.get(id)
         if (resource) {
             Topic topic = resource.topic
-            String filename = resource.getFilename(resource.filePath)
+            String filename=resource.getFilename(resource.filePath)
             if (topic.canViewedBy(session.user)) {
                 File file1 = new File(resource.filePath)
                 response.setHeader("Content-disposition", "attachment; filename=" + filename)

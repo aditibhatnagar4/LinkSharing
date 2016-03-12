@@ -29,7 +29,7 @@
                     <div class="col-xs-8 text-color">50
                     </div>
 
-                    <div class="col-xs-4 text-color"><ls:topicCount userId="${it.id}"/>
+                    <div class="col-xs-4 text-color">30
                     </div></div>
             </div>
         </div>

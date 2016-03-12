@@ -1,4 +1,4 @@
-<g:uploadForm class="form-horizontal registrationForm" name="registrationForm" controller="user" action="registerUser" id="registrationForm">
+<g:uploadForm class="form-horizontal" controller="user" action="registerUser">
 
     <g:hasErrors bean="${user}">
         <div class="alert alert-danger">
