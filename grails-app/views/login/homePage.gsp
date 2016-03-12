@@ -24,7 +24,7 @@
                                     class="text-muted">${it.createdBy}</span></div>
 
                                 <div class="col-xs-4"><g:link controller="topic"
-                                                              action="showTopic">${it.topic}</g:link></div></div>
+                                                              action="showTopic" params="[topicId: it.topic.id]">${it.topic}</g:link></div></div>
                                 ${it.description}<br>
 
                                 <div class="row"><div class="col-xs-8">

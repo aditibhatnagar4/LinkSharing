@@ -14,7 +14,7 @@
         <td><div class="row"><div class="col-xs-8"><strong>${it.userFirstName}</strong><span
                 class="text-muted">${it.userName} 5min</span></div>
 
-            <div class="col-xs-4"><g:link controller="topic" action="index">${it.topicName}</g:link></div></div>
+            <div class="col-xs-4"><g:link controller="topic" action="showTopic" params="[topicId: it.topicId]">${it.topicName}</g:link></div></div>
             ${it.description}<br>
             <i class="fa fa-facebook-official glyphicon blue"></i>
             <i class="fa fa-tumblr twitter"></i>
@@ -22,8 +22,7 @@
 
             <div class="pull-right">
                 <ls:resourceType resourceId="${it.resourceId}" url="${it.url}"/>
-                <a href="#"><ls:markAsRead isRead="${it.isRead}"/>&nbsp;</a>
-
+                <ls:markAsRead isRead="${it.isRead}" id="${it.resourceId}"/>
                 <g:link controller="resource" action="showResource"
                         params="[id: it.resourceId]">View Post</g:link></div>
         </td>

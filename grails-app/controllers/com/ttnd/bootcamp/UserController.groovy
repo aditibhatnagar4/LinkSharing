@@ -1,7 +1,10 @@
 package com.ttnd.bootcamp
 
+import com.ttnd.bootcamp.CO.ResourceSearchCO
+import com.ttnd.bootcamp.CO.TopicSearchCO
 import com.ttnd.bootcamp.CO.UserCO
 import com.ttnd.bootcamp.VO.PostVO
+import com.ttnd.bootcamp.VO.TopicVO
 import groovy.util.logging.Slf4j
 
 @Slf4j
@@ -12,6 +15,63 @@ class UserController {
 //    def customBeanUsingConstructor
 //    @Autowired
 //    customBean customBean1
+
+    def topicService
+    def subscriptionService
+
+    def profile(ResourceSearchCO resourceSearchCO){
+
+        User user = User.get(resourceSearchCO.id)
+
+        if(session.user){
+            if(!(session.user.admin || session.user.equals(user))){
+                resourceSearchCO.visibility = Visibility.PUBLIC
+            }
+        }else
+            resourceSearchCO.visibility = Visibility.PUBLIC
+
+        List<Resource> resources = Resource.search(resourceSearchCO).list()
+        List<PostVO> createdPosts = resources?.collect{ Resource.getPostInfo(it.id) }
+
+        render (view: 'profile', model: [createdPosts: createdPosts, user: user.getInfo()])
+    }
+
+    def topics(Long id){
+log.info "/user/topics called"
+        TopicSearchCO topicSearchCO = new TopicSearchCO(id: id)
+
+        if(session.user)
+        {
+            if(!(session.user.admin || session.user.equals(User.load(id)))){
+                topicSearchCO.visibility = Visibility.PUBLIC
+            }
+        }
+        else
+            topicSearchCO.visibility = Visibility.PUBLIC
+log.ifo "${topicSearchCO.visibility}"
+        List<TopicVO> createdTopics = topicService.search(topicSearchCO)
+
+        render(template:'/topic/list', model: [topics: createdTopics])
+    }
+
+    def subscriptions(Long id){
+
+        TopicSearchCO topicSearchCO = new TopicSearchCO(id: id)
+
+        if(session.user)
+        {
+            if(!(session.user.admin || session.user.equals(User.load(id)))){
+                topicSearchCO.visibility = Visibility.PUBLIC
+            }
+        }
+        else
+            topicSearchCO.visibility = Visibility.PUBLIC
+
+        List<TopicVO> subscribedTopics = subscriptionService.search(topicSearchCO)
+
+        render(template:'/topic/list', model: [topics: subscribedTopics])
+
+    }
 
     def index() {
         User user = session.user
@@ -56,7 +116,7 @@ class UserController {
     def assetResourceLocator
 
     def image(Long id) {
-        User user = User.findById(id)
+        User user = User.get(id)
         if (user?.photo) {
             byte[] img = user.photo
             response.outputStream.write(img)

@@ -3,9 +3,11 @@ package com.ttnd.bootcamp.CO
 import com.ttnd.bootcamp.User
 import com.ttnd.bootcamp.Visibility
 
-class ResourceSearchCO extends SearchCO {
+/**
+ * Created by aditi on 11/3/16.
+ */
+class TopicSearchCO {
     Long id
-    Long topicId
     Visibility visibility
 
     public User getUser(){
@@ -13,5 +15,4 @@ class ResourceSearchCO extends SearchCO {
 
         return user
     }
-
 }

@@ -29,7 +29,7 @@
 
                 <div class="col-xs-4">
                     <div class="input-group navbar-search">
-                        <span class="input-group-addon"><div class="glyphicon glyphicon-search font-size-sm"></div>
+                        <span class="input-group-addon"><a href="/resource/searchResource"><div class="glyphicon glyphicon-search font-size-sm"></div></a>
                         </span>
                         <input type="text" class="form-control" id="SearchBox" placeholder="Search">
                         <span class="input-group-addon"><div
@@ -51,7 +51,7 @@
                         <span class="glyphicon glyphicon-user font-size-md"></span>
 
                     <span class="dropdown" id="navMenuDropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Uday
+                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">My Account
                             <span class="caret"></span>
                         </button>
                     <ul class="dropdown-menu">
@@ -59,7 +59,7 @@
                     <g:if test="${session.user.admin == true}">
                         <li><a href="#">Users</a></li>
                     </g:if>
-                    <li><a href="#">Logout</a></li>
+                    <li><a href="/login/logout">Logout</a></li>
                     </ul>
                 </span>
                 </g:if>
@@ -189,14 +189,14 @@
 
     </nav>
 
-
+<div class = "jsonResponse" style = "display:none"></div>
 
     <g:layoutBody/>
 %{--</div>--}%
 
 <asset:javascript src="application.js"/>
 <asset:javascript src="bootstrap-3.3.6-dist/js/bootstrap.min.js"/>
-    <asset:javascript src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.js"/>
-
+<asset:javascript src="additional-methods.min.js"/>
+    <asset:javascript src="jquery.validate.min.js"/>
 </body>
 </html>

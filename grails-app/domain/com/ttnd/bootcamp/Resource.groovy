@@ -53,7 +53,6 @@ abstract class Resource {
         new RatingInfoVO(totalVotes: result[0], totalScore: result[1], averageScore: result[2])
     }
 
-    //do it on basis of rating
     static List<Resource> getTopPosts() {
         List<Resource> resources
         def result = ResourceRating.createCriteria().list(max: 5) {
@@ -61,8 +60,8 @@ abstract class Resource {
                 property('resource.id')
             }
             groupProperty('resource.id')
-            count('id', 'totalVotes')
-            order('totalVotes', 'desc')
+            avg('id', 'avgVotes')
+            order('avgVotes', 'desc')
             'resource' {
                 'topic' {
                     eq('visibility', Visibility.PUBLIC)
@@ -118,5 +117,8 @@ abstract class Resource {
     void deleteFile() {
         log.info "Delete file will be implemented in Link Resource"
     }
+
+
+
 
 }
