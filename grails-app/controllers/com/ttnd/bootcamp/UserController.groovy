@@ -1,6 +1,7 @@
 package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
+import com.ttnd.bootcamp.CO.SearchCO
 import com.ttnd.bootcamp.CO.TopicSearchCO
 import com.ttnd.bootcamp.CO.UserCO
 import com.ttnd.bootcamp.VO.PostVO
@@ -18,6 +19,20 @@ class UserController {
 
     def topicService
     def subscriptionService
+
+    def index() {
+        User user = session.user
+        List<Topic> subscribedTopics = user.getSubscribedTopic()
+        List<PostVO> readingItems = User.getReadingItems(session.user)
+//        SearchCO co=new SearchCO(q: 'aditi.bhatnagar',max: 10, offset: 0)
+//         List<ReadingItem> readingItems=User.getUnReadResources(co)
+        render view: 'myAccount', model: [
+                topics          : subscribedTopics.toList(),
+                subscribedTopics: subscribedTopics,
+                readingItems    : readingItems
+        ]
+    }
+
 
     def profile(ResourceSearchCO resourceSearchCO){
 
@@ -73,17 +88,6 @@ log.ifo "${topicSearchCO.visibility}"
 
     }
 
-    def index() {
-        User user = session.user
-        List<Topic> subscribedTopics = user.getSubscribedTopic()
-        List<PostVO> readingItems = User.getReadingItems(session.user)
-       // List<ReadingItem> readingItems=User.getUnReadResources(q: 'aditi.bhatnagar',max: 10, offset: 0)
-        render view: 'myAccount', model: [
-                topics          : subscribedTopics.toList(),
-                subscribedTopics: subscribedTopics,
-                readingItems    : readingItems
-        ]
-    }
 
     def registerUser(UserCO co) {
         User user = co.properties

@@ -118,7 +118,28 @@ abstract class Resource {
         log.info "Delete file will be implemented in Link Resource"
     }
 
+    public static PostVO getPostInfo(Long id) {
 
+        PostVO postVO = null
+
+        createCriteria().get {
+            eq('id', id)
+        }.each
+                {
+                    resourceInfo ->
+                        postVO = new PostVO(userId: resourceInfo.createdBy.id,
+                                topicId: resourceInfo.topic.id,
+                                resourceId: resourceInfo.id,
+                                user: resourceInfo.createdBy.name,
+                                userName: resourceInfo.createdBy.userName,
+                                topicName: resourceInfo.topic.name,
+                                description: resourceInfo.description,
+                                url: resourceInfo.class.equals(LinkResource) ? resourceInfo.url : null, filePath: resourceInfo.class.equals(DocumentResource) ? resourceInfo.filePath : null,
+                                createdDate: resourceInfo.dateCreated)
+                }
+
+        return postVO
+    }
 
 
 }

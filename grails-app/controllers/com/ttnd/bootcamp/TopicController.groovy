@@ -1,10 +1,13 @@
 package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
+import com.ttnd.bootcamp.DTO.EmailDTO
 import com.ttnd.bootcamp.VO.PostVO
 import grails.converters.JSON
 
 class TopicController {
+
+    def emailService
 
     def index() {
 
@@ -77,4 +80,46 @@ class TopicController {
         redirect(controller: 'login', action: 'index')
 
     }
+
+    def invite(Long topic, String emailID){
+log.info "=============topic id :${topic}"
+        Topic topicInstance = Topic.get(topic)
+
+        String to = emailID
+        String subject = "Invitation for a new topic."
+        String hostURL = grailsApplication.config.grails.serverURL
+
+        EmailDTO emailDTO = new EmailDTO(to: to, subject: subject, model: [id: topic, hostURL: hostURL])
+
+        if(topicInstance == null) {
+            flash.error = "Topic could not be found."
+            render flash.error
+        }
+        else
+        {
+            emailService.sendMail(emailDTO)
+            flash.message = "Email sent"
+            render flash.message
+        }
+
+      //  redirect(controller: "login", action: "index")
+    }
+
+    def join(Long id){
+
+        if(session.user){
+
+            User user = session.user
+            Topic topic = Topic.get(id)
+            Subscription subscription = new Subscription(user: user, topic: topic)
+
+            if(subscription.save(flush: true))
+                flash.message = "You have subscribed to this topic successfully."
+            else
+                flash.error = "Failure. Could not subscribe to the topic."
+
+            redirect(controller: "login", action: "index")
+        }
+    }
+
 }

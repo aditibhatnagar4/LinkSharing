@@ -14,7 +14,7 @@ class ResourceService {
 
     List<PostVO> search(ResourceSearchCO resourceSearchCO){
 
-        List<PostVO> posts = []
+        List<PostVO> posts
 
         List<Resource> resources = Resource.search(resourceSearchCO).list()
 

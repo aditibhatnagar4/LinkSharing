@@ -6,7 +6,7 @@ import com.ttnd.bootcamp.Visibility
 /**
  * Created by aditi on 11/3/16.
  */
-class TopicSearchCO {
+class TopicSearchCO extends SearchCO{
     Long id
     Visibility visibility
 

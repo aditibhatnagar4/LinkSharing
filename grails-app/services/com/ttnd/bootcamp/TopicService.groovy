@@ -26,7 +26,10 @@ class TopicService {
 
             topicList.each {
                 topic ->
-                    createdTopicsList.add(new TopicVO(id: topic.id, name: topic.name, visibility: topic.visibility, createdBy: topic.createdBy))
+                    createdTopicsList.add(new TopicVO(id: topic.id,
+                            name: topic.name,
+                            visibility: topic.visibility,
+                            createdBy: topic.createdBy))
             }
             return createdTopicsList
 

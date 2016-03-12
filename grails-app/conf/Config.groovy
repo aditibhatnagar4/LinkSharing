@@ -41,7 +41,7 @@ grails.linksharing.documents.folderPath = "/var/www/linksharing"
 // The default scope for controllers. May be prototype, session or singleton.
 // If unspecified, controllers are prototype scoped.
 grails.controllers.defaultScope = 'singleton'
-
+grails.serverURL = "http://localhost:8080"
 // GSP settings
 grails {
     views {
@@ -127,8 +127,8 @@ grails {
     mail {
         host = "smtp.gmail.com"
         port = 465
-        username = "aditi.bhatnagar@tothenew.com"
-        password = "!t!\\$r@!n!ng"
+        username = "staging.mycroft@gmail.com"
+        password = "igdefault"
         props = ["mail.smtp.auth":"true",
                  "mail.smtp.socketFactory.port":"465",
                  "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",

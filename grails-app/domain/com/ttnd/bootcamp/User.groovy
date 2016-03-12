@@ -65,7 +65,7 @@ class User {
     }
 
     List<Topic> getSubscribedTopic() {
-        List<Topic> subscribedTopics = Subscription.createCriteria().list(max: 5) {
+        List<Topic> subscribedTopics = Subscription.createCriteria().list() {
             projections {
                 property('topic')
             }
@@ -179,7 +179,10 @@ class User {
         }
 
         topicList.each {
-            topic -> subscribedTopicsList.add(new TopicVO(id: topic.id, name: topic.name, visibility: topic.visibility, createdBy: topic.createdBy))
+            topic -> subscribedTopicsList.add(new TopicVO(id: topic.id,
+                    name: topic.name,
+                    visibility: topic.visibility,
+                    createdBy: topic.createdBy))
         }
 
         return subscribedTopicsList
