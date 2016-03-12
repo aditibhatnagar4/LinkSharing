@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="col-xs-4">
-                    <g:link controller="topic" action="showTopic">${it.topic}</g:link>
+                    <g:link controller="topic" action="showTopic" params="[topicId: it.topic.id]">${it.topic}</g:link>
                 </div>
             </div>${it.description}
             <br>
@@ -27,7 +27,8 @@
                 <i class="fa fa-google-plus red"></i>
             </div>
 
-                <div class="col-xs-4"><a href="#">View Post</a></div></div>
+                <div class="col-xs-4"><g:link controller="resource" action="showResource"
+                                              params="[id: it.id]">View Post</g:link></div></div>
         </td>
 
         </tr>

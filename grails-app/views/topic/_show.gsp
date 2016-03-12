@@ -3,8 +3,8 @@
 <table class="table">
     <tbody>
 
-    <g:each in="${trendingTopics}" var="topic">
-        <g:if test="${trendingTopics.indexOf(topic) == 0}">
+    <g:each in="${topics}" var="topic">
+        <g:if test="${topics.indexOf(topic) == 0}">
             <tr class="spec_table">
         </g:if>
         <g:else>
@@ -18,19 +18,17 @@
 
                 <div class="form-group col-xs-4">
 
-                    <g:textField class="form-control" placeholder="${topic.name}"
-                                 name="text"/>
+                    <g:link controller="topic" action="showTopic" params="[topicId: topic.id]">${topic.name}</g:link>
                 </div>
 
-                <div class="">
-                    <ls:showSave topicId="${topic.id}"/>
-                </div>
             </div>
 
 
             <div class="row">
-                <div class="col-xs-5 text-muted">${topic.createdBy.userName}<div><ls:showSubscribe
-                        topicId="${topic.id}"/></div>
+                <div class="col-xs-5 text-muted">${topic.createdBy.userName}
+                    <div>
+                        <ls:showSubscribe topicId="${topic.id}"/>
+                    </div>
                 </div>
 
                 <div class="col-xs-5 text-muted">Subscriptions<div
@@ -52,11 +50,11 @@
             <div class="row">
 
                 <div class="dropdown col-xs-5">
-                    <ls:seriousnessDropdown/>
+                    <ls:seriousnessDropdown topicId="${topic.id}"/>
                 </div>
                 <g:if test="${session.user.id == topic.createdBy.id || session.user.admin == true}">
                     <div class="dropdown col-xs-4">
-                        <ls:visibilityDropdown/>
+                        <ls:visibilityDropdown topicId="${topic.id}"/>
                     </div>
                 </g:if>
 
@@ -64,7 +62,7 @@
                       data-toggle="modal"
                       data-target="#sendInvitation"></span>
                 <g:if test="${session.user.id == topic.createdBy.id || session.user.admin == true}">
-                    <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md"></span>
+                    <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md "></span>
                     <ls:showDelete topicId="${topic.id}"/>
                 </g:if>
             </div>

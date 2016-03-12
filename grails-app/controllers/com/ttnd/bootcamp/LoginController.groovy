@@ -34,4 +34,23 @@ class LoginController {
         session.invalidate()
         forward(controller: "login", action: "index")
     }
+
+    def validateEmail(){
+
+        Integer numUser = User.countByemail(params.emailId)
+        log.info params.emailId
+
+        Boolean result = numUser ? false : true
+
+        render result
+    }
+
+    def validateUserName(){
+        Integer numUser = User.countByUserName(params.userName)
+        log.info params.userName
+        Boolean result = numUser ? false : true
+
+        render result
+
+    }
 }

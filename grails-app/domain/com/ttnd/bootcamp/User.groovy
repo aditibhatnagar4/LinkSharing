@@ -2,6 +2,7 @@ package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.SearchCO
 import com.ttnd.bootcamp.VO.PostVO
+import com.ttnd.bootcamp.VO.TopicVO
 
 class User {
 
@@ -64,7 +65,7 @@ class User {
     }
 
     List<Topic> getSubscribedTopic() {
-        List<Topic> subscribedTopics = Subscription.createCriteria().list() {
+        List<Topic> subscribedTopics = Subscription.createCriteria().list(max: 5) {
             projections {
                 property('topic')
             }
@@ -82,9 +83,7 @@ class User {
     }
 
     public Integer getScore(Resource resource) {
-        println "Inside getScore $resource $this"
         ResourceRating resourceRating = ResourceRating.findByUserAndResource(this, resource)
-        println "$resourceRating"
         return resourceRating.score
     }
 
@@ -129,11 +128,61 @@ class User {
             unreadItems = ReadingItem.createCriteria().list(max: co.max, offset: co.offset) {
                 eq('isRead', false)
                 'resource' {
-                    ilike("description", "%q%")
+                    ilike("description", "%$co.q%")
                 }
             }
         }
         return unreadItems
+    }
+
+
+    public List<TopicVO> getCreatedTopics() {
+        List<TopicVO> createdTopicsList = []
+
+        List<Topic> topicList = Topic.createCriteria().list(max: 5) {
+            eq('createdBy.id', id)
+        }
+
+        topicList.each {
+            topic -> createdTopicsList.add(new TopicVO(id: topic.id, name: topic.name, visibility: topic.visibility, createdBy: topic.createdBy))
+        }
+
+        return createdTopicsList
+    }
+
+    public List<PostVO> getCreatedPosts(){
+        List<PostVO> createdPostVOs = []
+
+        def createdPosts = Resource.createCriteria().list {
+            eq('createdBy.id', id)
+        }
+
+        createdPosts.each {
+            post ->
+                createdPostVOs.add(new PostVO(userId: post.createdBy.id, topicId: post.topic.id, resourceId: post.id,
+                        user: post.createdBy.name, userName: post.createdBy.userName,topicName: post.topic.name,
+                        description: post.description, url: post.class.equals(LinkResource) ? post.url : null,
+                        filePath: post.class.equals(DocumentResource) ? post.filePath : null, createdDate: post.dateCreated))
+        }
+
+        return createdPostVOs
+    }
+
+    public List<TopicVO> getSubscribedTopicsList() {
+        List<TopicVO> subscribedTopicsList = []
+
+        List<Topic> topicList = Subscription.createCriteria().list {
+            projections {
+                property('topic')
+            }
+            eq('user.id', id)
+        }
+
+        topicList.each {
+            topic -> subscribedTopicsList.add(new TopicVO(id: topic.id, name: topic.name, visibility: topic.visibility, createdBy: topic.createdBy))
+        }
+
+        return subscribedTopicsList
     }
 
 }
