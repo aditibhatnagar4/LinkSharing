@@ -16,9 +16,6 @@ abstract class Resource {
         description(type: 'text')
     }
 
-    static constraints = {
-    }
-
     static belongsTo = [
             createdBy: User,
             topic    : Topic
@@ -28,17 +25,40 @@ abstract class Resource {
             readingItems: ReadingItem
     ]
 
-    static namedQueries = {
-        search { ResourceSearchCO co ->
-            if (co.topicId) {
-                'topic' {
-                    eq('id', co.topicId)
-                    eq('visibility', co.visibility)
-                }
-            }
-        }
+//    static namedQueries = {
+//        search { ResourceSearchCO co ->
+//            if (co.topicId) {
+//                'topic' {
+//                    eq('id', co.topicId)
+//                    eq('visibility', co.visibility)
+//                }
+//            }
+//        }
+//
+//    }
 
+
+    static namedQueries = {
+        search {
+            ResourceSearchCO resourceSearchCO ->
+                if (resourceSearchCO.topicId)
+                    eq('topic.id', resourceSearchCO.topicId)
+
+                if (resourceSearchCO.q)
+                    ilike('description', "%${resourceSearchCO.q}%")
+
+                if (resourceSearchCO.id)
+                    eq('createdBy.id', resourceSearchCO.id)
+
+                if (resourceSearchCO.visibility) {
+                    createAlias('topic', 't')
+                    eq('t.visibility', resourceSearchCO.visibility)
+                }
+
+
+        }
     }
+
 
     RatingInfoVO getResourceInfo() {
         List result = ResourceRating.createCriteria().get {
@@ -110,35 +130,24 @@ abstract class Resource {
             }
             eq('id', resourceId)
         }
-        return new PostVO(resourceId: obj[0], description: obj[1], url: obj[2], filePath: obj[3], topicId:
-                obj[4], topicName: obj[5], userId: obj[6], userName: obj[7], userFirstName: obj[8], userLastName: obj[9], userPhoto: obj[10], isRead: "", postDate: obj[11], resourceRating: 0)
+        return new PostVO(resourceId: obj[0],
+                description: obj[1],
+                url: obj[2],
+                filePath: obj[3],
+                topicId: obj[4],
+                topicName: obj[5],
+                userId: obj[6],
+                userName: obj[7],
+                userFirstName: obj[8],
+                userLastName: obj[9],
+                userPhoto: obj[10],
+                isRead: "",
+                postDate: obj[11],
+                resourceRating: 1)
     }
 
     void deleteFile() {
         log.info "Delete file will be implemented in Link Resource"
-    }
-
-    public static PostVO getPostInfo(Long id) {
-
-        PostVO postVO = null
-
-        createCriteria().get {
-            eq('id', id)
-        }.each
-                {
-                    resourceInfo ->
-                        postVO = new PostVO(userId: resourceInfo.createdBy.id,
-                                topicId: resourceInfo.topic.id,
-                                resourceId: resourceInfo.id,
-                                user: resourceInfo.createdBy.name,
-                                userName: resourceInfo.createdBy.userName,
-                                topicName: resourceInfo.topic.name,
-                                description: resourceInfo.description,
-                                url: resourceInfo.class.equals(LinkResource) ? resourceInfo.url : null, filePath: resourceInfo.class.equals(DocumentResource) ? resourceInfo.filePath : null,
-                                createdDate: resourceInfo.dateCreated)
-                }
-
-        return postVO
     }
 
 

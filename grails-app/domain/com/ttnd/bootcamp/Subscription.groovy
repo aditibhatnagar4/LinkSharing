@@ -10,9 +10,6 @@ class Subscription {
         user(unique: 'topic')
     }
 
-    static mapping = {
-    }
-
     static belongsTo = [
             user : User,
             topic: Topic

@@ -39,11 +39,37 @@ class ResourceController {
     def searchResource(ResourceSearchCO co) {
         if (co.q) {
             co.visibility = Visibility.PUBLIC
-            render view: "/resource/searchPage"
         } else {
             flash.error = "Search criteria not given"
             render flash.error
         }
+
+    }
+
+    def list(ResourceSearchCO co) {
+
+        if (session.user) {
+            if (session.user.admin) {
+
+                List<User> users = User.search(co).list(max: co.max,
+                        sort: co.sort,
+                        order: co.order)
+
+                List<PostVO> usersList = users?.collect {
+                    user ->
+                        new PostVO(userId: user.id,
+                                userName: user.userName,
+                                emailId: user.email,
+                                firstName: user.firstName,
+                                lastName: user.lastName,
+                                active: user.active)
+                }
+
+                render(view: "/user/list", model: [usersList: usersList])
+            } else
+                redirect(controller: "login", action: "index")
+        } else
+            redirect(controller: "login", action: "index")
 
     }
 
@@ -76,7 +102,7 @@ class ResourceController {
         render "$result"
     }
 
-    private def addToReadingItems(Resource resource) {
+    private addToReadingItems(Resource resource) {
         List<User> subscribedUsers = resource.topic.subscriptions.user
         def ctx = startAsync()
         ctx.start {
@@ -97,30 +123,23 @@ class ResourceController {
         }
     }
 
+    def search(ResourceSearchCO resourceSearchCO) {
+        List<PostVO> posts
+        if (resourceSearchCO.q) {
 
-    public static PostVO getPostInfo(Long id) {
+            String html = ""
 
-        PostVO postVO = null
+            List<Resource> resources = Resource.search(resourceSearchCO).list()
 
-        createCriteria().get {
-            eq('id', id)
-        }.each
-                {
-                    resourceInfo ->
-                        postVO = new PostVO(userId: resourceInfo.createdBy.id,
-                                topicId: resourceInfo.topic.id,
-                                resourceId: resourceInfo.id,
-                                user: resourceInfo.createdBy.name,
-                                userName: resourceInfo.createdBy.userName,
-                                topicName: resourceInfo.topic.name,
-                                description: resourceInfo.description,
-                                url: resourceInfo.class.equals(LinkResource) ? resourceInfo.url : null,
-                                filePath: resourceInfo.class.equals(DocumentResource) ? resourceInfo.filePath : null,
-                                createdDate: resourceInfo.dateCreated)
-                }
+            posts = resources?.collect{ Resource.getPost(it.id) }
 
-        return postVO
+            render(view:'/resource/searchPage', model: [topicPosts: posts, q: resourceSearchCO.q])
+        } else
+            render "Enter text to be searched"
+
     }
+
+
 
 
 }

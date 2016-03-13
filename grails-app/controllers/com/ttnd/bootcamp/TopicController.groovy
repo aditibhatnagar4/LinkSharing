@@ -9,10 +9,6 @@ class TopicController {
 
     def emailService
 
-    def index() {
-
-    }
-
     def showTopic(ResourceSearchCO co) {
         Topic topic = Topic.read(co.topicId)
         if (topic == null) {
@@ -28,10 +24,10 @@ class TopicController {
 
                 }
             }
-           // List<Resource> readingItems = Resource.search(co).list(max: 10)
-           // List<PostVO> readingItems = User.getReadingItems(session.user)
+
             if (topic.visibility == Visibility.PUBLIC) {
-                render(view: '/topic/topicShowPage', model: [subscribedUsers: subscribedUsers,
+                
+                    render(view: '/topic/topicShowPage', model: [subscribedUsers: subscribedUsers,
                                                              readingItems   : readingItems,
                                                              topic          : topic])
             } else if (topic.visibility == Visibility.PRIVATE) {
@@ -50,7 +46,6 @@ class TopicController {
     }
 
     def saveTopic(String topicName, String visibility) {
-        User user = session.user
         Topic topic = Topic.findOrCreateByNameAndCreatedBy(topicName, session.user)
         topic.visibility = Visibility.convertVisibility(visibility)
         Map jsonResponse = [:]

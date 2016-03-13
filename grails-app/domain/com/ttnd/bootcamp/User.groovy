@@ -1,6 +1,7 @@
 package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.SearchCO
+import com.ttnd.bootcamp.CO.UserSearchCO
 import com.ttnd.bootcamp.VO.PostVO
 import com.ttnd.bootcamp.VO.TopicVO
 
@@ -45,7 +46,6 @@ class User {
             resourceRatings: ResourceRating
     ]
 
-
     String getName() {
 
         if (firstName && lastName) {
@@ -53,6 +53,7 @@ class User {
         } else return ""
 
     }
+
     static transients = ['name', 'confirmPassword', 'subscribedTopic']
 
     static mapping = {
@@ -61,7 +62,7 @@ class User {
     }
 
     String toString() {
-        return userName
+        return userName ?: ""
     }
 
     List<Topic> getSubscribedTopic() {
@@ -84,8 +85,8 @@ class User {
 
     public Integer getScore(Resource resource) {
         ResourceRating resourceRating = ResourceRating.findByUserAndResource(this, resource)
-        if(resourceRating)
-        return resourceRating.score
+        if (resourceRating)
+            return resourceRating.score
         else return 1
     }
 
@@ -137,7 +138,6 @@ class User {
         return unreadItems
     }
 
-
     public List<TopicVO> getCreatedTopics() {
         List<TopicVO> createdTopicsList = []
 
@@ -152,24 +152,6 @@ class User {
         return createdTopicsList
     }
 
-    public List<PostVO> getCreatedPosts(){
-        List<PostVO> createdPostVOs = []
-
-        def createdPosts = Resource.createCriteria().list {
-            eq('createdBy.id', id)
-        }
-
-        createdPosts.each {
-            post ->
-                createdPostVOs.add(new PostVO(userId: post.createdBy.id, topicId: post.topic.id, resourceId: post.id,
-                        user: post.createdBy.name, userName: post.createdBy.userName,topicName: post.topic.name,
-                        description: post.description, url: post.class.equals(LinkResource) ? post.url : null,
-                        filePath: post.class.equals(DocumentResource) ? post.filePath : null, createdDate: post.dateCreated))
-        }
-
-        return createdPostVOs
-    }
-
     public List<TopicVO> getSubscribedTopicsList() {
         List<TopicVO> subscribedTopicsList = []
 
@@ -181,13 +163,35 @@ class User {
         }
 
         topicList.each {
-            topic -> subscribedTopicsList.add(new TopicVO(id: topic.id,
-                    name: topic.name,
-                    visibility: topic.visibility,
-                    createdBy: topic.createdBy))
+            topic ->
+                subscribedTopicsList.add(new TopicVO(id: topic.id,
+                        name: topic.name,
+                        visibility: topic.visibility,
+                        createdBy: topic.createdBy))
         }
 
         return subscribedTopicsList
     }
+
+    static namedQueries = {
+        search { UserSearchCO userSearchCO ->
+            if (userSearchCO.q) {
+                or {
+                    ilike('firstName', "%${userSearchCO.q}%")
+                    ilike('lastName', "%${userSearchCO.q}%")
+                    ilike('email', "%${userSearchCO.q}%")
+                    ilike('userName', "%${userSearchCO.q}%")
+                }
+            }
+
+            if (userSearchCO.active != null) {
+                eq('active', userSearchCO.active)
+            }
+
+            eq('admin', false)
+        }
+
+    }
+
 
 }

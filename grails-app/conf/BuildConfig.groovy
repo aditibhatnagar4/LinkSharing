@@ -48,6 +48,18 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://repository.jboss.com/maven2/"
     }
 
+
+    codenarc {
+        ruleSetFiles = "file:grails-app/conf/CodeNarcRules.groovy"
+        reports = {
+            HtmlReport('html') {                  // Report type is 'html'
+                outputFile = 'target/CodeNarcReport.html'
+                title = 'My Test Code Narc Report'
+            }
+        }
+    }
+
+
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
         runtime 'mysql:mysql-connector-java:5.1.29'

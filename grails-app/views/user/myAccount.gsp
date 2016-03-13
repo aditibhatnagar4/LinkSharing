@@ -54,7 +54,8 @@
 
                             <td><ls:userImage id="${it.createdBy.id}"/></td>
                             <td>
-                                <g:link controller="topic" action="showTopic" params="[topicId: it.id]">${it.name}</g:link>
+                                <g:link controller="topic" action="showTopic"
+                                        params="[topicId: it.id]">${it.name}</g:link>
 
                                 <div class="row">
                                     <div class="col-xs-5 text-muted">${it.createdBy.userName}<div>
@@ -81,7 +82,7 @@
                                 <div class="row">
 
                                     <div class="dropdown col-xs-5">
-                                       <ls:seriousnessDropdown topicId="${it.id}"/>
+                                        <ls:seriousnessDropdown topicId="${it.id}"/>
                                     </div>
 
                                     <g:if test="${session.user.id == it.createdBy.id || session.user.admin == true}">

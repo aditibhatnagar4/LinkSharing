@@ -23,9 +23,11 @@ function ajaxSuccess(result) {
             jsonResponseDiv.text(result.error);
             jsonResponseDiv.addClass("alert alert-danger");
         }
+        //document.location.reload();
         jsonResponseDiv.css({'display': 'block'})
+
     }
-    //  document.location.reload();
+
 }
 
 
@@ -57,15 +59,14 @@ function subscribe(id) {
 $(document).ready(function () {
 
     $(".unsubscribe").on('click', function () {
-        var topicId = $(this).data('topicid')
-        unsubscribe(topicId)
+        var topicId = $(this).data('topicid');
+        unsubscribe(topicId);
 
     });
 
     $(".subscribe").on('click', function () {
-        var topicId = $(this).data('topicid')
-        subscribe(topicId)
-
+        var topicId = $(this).data('topicid');
+        subscribe(topicId);
     });
 
 

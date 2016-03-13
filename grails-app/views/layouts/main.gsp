@@ -28,14 +28,18 @@
                     <a href="#" class="navbar-brand text-color"><ins>LinkSharing</ins></a>
                 </div>
 
-                <div class="col-xs-4">
+                <div class="col-xs-4"><g:form controller="resource" action="search">
                     <div class="input-group navbar-search">
-                        <span class="input-group-addon"><a href="/resource/searchResource"><div class="glyphicon glyphicon-search font-size-sm"></div></a>
+
+                        <span class="input-group-btn">
+                            <input type="text" id="q" name="q" class="form-control input-group"
+                                   placeholder="Search">
                         </span>
-                        <input type="text" class="form-control" id="SearchBox" placeholder="Search">
-                        <span class="input-group-addon"><div
-                                class="glyphicon glyphicon-remove-sign font-size-sm"></div>
-                        </span>
+
+                        <span class="input-group-btn">
+                            <button class="btn btn-default glyphicon glyphicon-search searchButtons"
+                                    type="submit"></button>
+                        </span></g:form>
                     </div>
                 </div>
 
@@ -58,7 +62,9 @@
                     <ul class="dropdown-menu">
                         <li><a href="#">Profile</a></li>
                     <g:if test="${session.user.admin == true}">
-                        <li><a href="#">Users</a></li>
+                        <li><g:link controller = "user" action = "list">
+                            Users
+                        </g:link></li>
                     </g:if>
                     <li><a href="/login/logout">Logout</a></li>
                     </ul>

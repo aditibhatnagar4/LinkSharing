@@ -7,10 +7,6 @@ import grails.transaction.Transactional
 @Transactional
 class TopicService {
 
-    def serviceMethod() {
-
-    }
-
     List<Topic> search(TopicSearchCO topicSearchCO) {
         List<TopicVO> createdTopicsList = []
 

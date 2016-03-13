@@ -1,28 +1,24 @@
 package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
-import com.ttnd.bootcamp.CO.SearchCO
 import com.ttnd.bootcamp.CO.TopicSearchCO
 import com.ttnd.bootcamp.CO.UserCO
+import com.ttnd.bootcamp.CO.UserSearchCO
 import com.ttnd.bootcamp.DTO.EmailDTO
 import com.ttnd.bootcamp.VO.PostVO
 import com.ttnd.bootcamp.VO.TopicVO
+import com.ttnd.bootcamp.VO.UserVO
 import groovy.util.logging.Slf4j
 import com.ttnd.bootcamp.Utility.Util
 
 @Slf4j
 class UserController {
 
-//    def userService
-//    def myBean
-//    def customBeanUsingConstructor
-//    @Autowired
-//    customBean customBean1
-
     def topicService
     def subscriptionService
     def emailService
     def messageSource
+    def assetResourceLocator
 
     def index() {
         User user = session.user
@@ -38,57 +34,53 @@ class UserController {
     }
 
 
-    def profile(ResourceSearchCO resourceSearchCO){
+    def profile(ResourceSearchCO resourceSearchCO) {
 
         User user = User.get(resourceSearchCO.id)
 
-        if(session.user){
-            if(!(session.user.admin || session.user.equals(user))){
+        if (session.user) {
+            if (!(session.user.admin || session.user.equals(user))) {
                 resourceSearchCO.visibility = Visibility.PUBLIC
             }
-        }else
+        } else
             resourceSearchCO.visibility = Visibility.PUBLIC
 
         List<Resource> resources = Resource.search(resourceSearchCO).list()
-        List<PostVO> createdPosts = resources?.collect{ Resource.getPostInfo(it.id) }
+        List<PostVO> createdPosts = resources?.collect { Resource.getPost(it.id) }
 
-        render (view: 'profile', model: [createdPosts: createdPosts, user: user.getInfo()])
+        render(view: 'profile', model: [createdPosts: createdPosts, user: user.getInfo()])
     }
 
-    def topics(Long id){
-log.info "/user/topics called"
+    def topics(Long id) {
+        log.info "/user/topics called"
         TopicSearchCO topicSearchCO = new TopicSearchCO(id: id)
 
-        if(session.user)
-        {
-            if(!(session.user.admin || session.user.equals(User.load(id)))){
+        if (session.user) {
+            if (!(session.user.admin || session.user.equals(User.load(id)))) {
                 topicSearchCO.visibility = Visibility.PUBLIC
             }
-        }
-        else
+        } else
             topicSearchCO.visibility = Visibility.PUBLIC
-log.ifo "${topicSearchCO.visibility}"
+        log.ifo "${topicSearchCO.visibility}"
         List<TopicVO> createdTopics = topicService.search(topicSearchCO)
 
-        render(template:'/topic/list', model: [topics: createdTopics])
+        render(template: '/topic/list', model: [topics: createdTopics])
     }
 
-    def subscriptions(Long id){
+    def subscriptions(Long id) {
 
         TopicSearchCO topicSearchCO = new TopicSearchCO(id: id)
 
-        if(session.user)
-        {
-            if(!(session.user.admin || session.user.equals(User.load(id)))){
+        if (session.user) {
+            if (!(session.user.admin || session.user.equals(User.load(id)))) {
                 topicSearchCO.visibility = Visibility.PUBLIC
             }
-        }
-        else
+        } else
             topicSearchCO.visibility = Visibility.PUBLIC
 
         List<TopicVO> subscribedTopics = subscriptionService.search(topicSearchCO)
 
-        render(template:'/topic/list', model: [topics: subscribedTopics])
+        render(template: '/topic/list', model: [topics: subscribedTopics])
 
     }
 
@@ -96,6 +88,7 @@ log.ifo "${topicSearchCO.visibility}"
     def registerUser(UserCO co) {
         User user = co.properties
         user.active = true
+        user.admin = false
         if (!params.file.empty) {
             user.photo = params.file.bytes
         }
@@ -109,10 +102,6 @@ log.ifo "${topicSearchCO.visibility}"
     }
 
     def save(User user) {
-//        println myBean.name
-//        println myBean.age
-//        println customBeanUsingConstructor.name
-//        println customBeanUsingConstructor.age
         if (user?.hasErrors()) {
             render view: 'login', model: [user       : user,
                                           currentTime: new Date()]
@@ -121,7 +110,6 @@ log.ifo "${topicSearchCO.visibility}"
             render "form saved"
         }
     }
-    def assetResourceLocator
 
     def image(Long id) {
         User user = User.findById(id)
@@ -168,7 +156,63 @@ log.ifo "${topicSearchCO.visibility}"
             render flash.error
         }
 
-       // redirect(controller: "login", action: "index")
+        // redirect(controller: "login", action: "index")
     }
+
+    def list(UserSearchCO userSearchCO) {
+
+        if (session.user) {
+            if (session.user.admin) {
+
+                List<User> users = User.search(userSearchCO).list(max: userSearchCO.max,
+                        sort: userSearchCO.sort,
+                        order: userSearchCO.order)
+
+                List<UserVO> usersList = users?.collect {
+                    user ->
+                        new UserVO(userId: user.id,
+                                userName: user.userName,
+                                emailId: user.email,
+                                firstName: user.firstName,
+                                lastName: user.lastName,
+                                active: user.active)
+                }
+
+                render(view: "/user/list", model: [usersList: usersList])
+            } else
+                redirect(controller: "login", action: "index")
+        } else
+            redirect(controller: "login", action: "index")
+
+    }
+
+    def toggleActive(Long id) {
+        if (session.user) {
+
+            if (session.user.admin) {
+
+                User user = User.get(id)
+
+                if (user) {
+                    if (user.admin) {
+                        flash.error = "Admin active status cannot be changed."
+                    } else
+                        user.active = !(user.active)
+
+                    if (user.save(flush: true)) {
+                        flash.message = "User active status changed"
+                    } else
+                        flash.error = "User active status could not be changed"
+                } else
+                    flash.error = "User not found."
+
+                redirect(controller: "user", action: "list")
+            } else
+                redirect(controller: "login", action: "index")
+        } else {
+            redirect(controller: "login", action: "index")
+        }
+    }
+
 
 }

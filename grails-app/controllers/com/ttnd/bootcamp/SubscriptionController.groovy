@@ -15,7 +15,10 @@ class SubscriptionController {
     }
 
     def deleteSubscription(Long id) {
-        Subscription subscription = Subscription.load(id)
+        Topic topic = Topic.get(id)
+        User user = session.user
+
+        Subscription subscription = Subscription.findByUserAndTopic(user,topic)
         if (subscription != null && subscription.topic.createdBy.id != session.user.id) {
             subscription.delete(flush: true)
             flash.message = "Subscription deleted successfully."
@@ -25,7 +28,7 @@ class SubscriptionController {
             render([error: flash.error] as JSON)
         }
 
-        //redirect(uri: '/')
+        redirect(uri: '/')
     }
 
     def saveSubscription(Long id) {
@@ -45,7 +48,7 @@ class SubscriptionController {
             flash.error = "Could not save subscription"
             render([error: flash.error] as JSON)
         }
-        // redirect(uri: '/')
+         redirect(uri: '/')
     }
 
     def updateSubscription(Long topicId, String seriousness) {
@@ -57,10 +60,11 @@ class SubscriptionController {
             flash.message = "Subscription updated successfully"
             jsonResponse.message = flash.message
         } else {
-            flash.error = "Could not update subscription $subscription.errors.allErrors"
+            flash.error = "Could not update subscription"
             jsonResponse.error = flash.error
         }
         render jsonResponse as JSON
+        redirect(uri: '/')
     }
 
 

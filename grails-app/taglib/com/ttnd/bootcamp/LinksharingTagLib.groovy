@@ -69,7 +69,7 @@ class LinksharingTagLib {
         if (user.id != topic.createdBy.id) {
             if (attrs.topicId != null && user != null) {
                 if (user.isSubscribed(attrs.topicId)) {
-                    out << "<div class='unsubscribe' data-topicId='${attrs.topicId}'><a href='#'>Unsubscribe</a></div>"
+                    out << "<div class='unsubscribe' data-topicId='${attrs.topicId}'><a href='${createLink(controller: 'subscription', action: 'deleteSubscription', params: [id: attrs.topicId])}'>Unsubscribe</a></div>"
                 } else {
                     out << "<div class='subscribe' data-topicId='${attrs.topicId}'><a href='${createLink(controller: 'subscription', action: 'saveSubscription', params: [id: attrs.topicId])}'>Subscribe</a></div>"
                 }
