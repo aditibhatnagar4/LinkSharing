@@ -4,6 +4,7 @@ import com.ttnd.bootcamp.CO.SearchCO
 import com.ttnd.bootcamp.CO.UserSearchCO
 import com.ttnd.bootcamp.VO.PostVO
 import com.ttnd.bootcamp.VO.TopicVO
+import com.ttnd.bootcamp.VO.UserVO
 
 class User {
 
@@ -193,5 +194,15 @@ class User {
 
     }
 
+    UserVO getUserDetails() {
+        return new UserVO(userId: id,
+                name: userName,
+                firstName: firstName,
+                lastName: lastName,
+                emailId: email,
+                photo: photo,
+                active: active,
+                admin: admin)
+    }
 
 }

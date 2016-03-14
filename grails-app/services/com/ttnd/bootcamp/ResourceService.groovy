@@ -18,4 +18,13 @@ class ResourceService {
 
         return posts
     }
+
+    def editResourceDescription(Resource resource, String description) {
+        if (resource && description) {
+            resource.description = description
+            return resource.save(flush: true)
+        } else {
+            return null
+        }
+    }
 }

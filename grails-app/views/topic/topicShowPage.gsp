@@ -84,6 +84,7 @@
                             <span class="input-group-btn">
                                 <input type="text" id="q" name="q" class="form-control input-group"
                                        placeholder="Search">
+                        <g:hiddenField name="global" value="false" />
                             </span>
 
                             <span class="input-group-btn">

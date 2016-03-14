@@ -7,13 +7,6 @@ import groovy.util.logging.Slf4j
 @Slf4j
 class SubscriptionController {
 
-    def index() {
-        User user = User.get(params.id)
-        List<PostVO> readingItems = User.getReadingItems(user)
-        // List<ReadingItem> readingItems=User.getUnReadResources(q: 'aditi.bhatnagar',max: 10, offset: 0)
-        render view: "/user/profile", model: [readingItems: readingItems, id: params.id]
-    }
-
     def deleteSubscription(Long id) {
         Topic topic = Topic.get(id)
         User user = session.user

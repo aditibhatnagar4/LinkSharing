@@ -17,7 +17,7 @@
 <g:render template="/linkResource/create" model="[topics: session.user.getSubscribedTopic().toList()]"/>
 <g:render template="/topic/create"/>
 <g:render template="/topic/email" model="[topics: session.user.getSubscribedTopic().toList()]"/>
-<g:render template="/user/forgotPassword"/>
+
 </g:if>
 %{--<div class="container">--}%
 
@@ -25,7 +25,7 @@
         <div class="navbar-header navbar-inline">
             <div class="row">
                 <div class="col-xs-4">
-                    <a href="#" class="navbar-brand text-color"><ins>LinkSharing</ins></a>
+                    <a href="/login/index" class="navbar-brand text-color"><ins>LinkSharing</ins></a>
                 </div>
 
                 <div class="col-xs-4"><g:form controller="resource" action="search">
@@ -34,6 +34,7 @@
                         <span class="input-group-btn">
                             <input type="text" id="q" name="q" class="form-control input-group"
                                    placeholder="Search">
+                    <g:hiddenField name="global" value="true" />
                         </span>
 
                         <span class="input-group-btn">
@@ -60,7 +61,7 @@
                             <span class="caret"></span>
                         </button>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Profile</a></li>
+                        <li><a href="/user/edit">Profile</a></li>
                     <g:if test="${session.user.admin == true}">
                         <li><g:link controller = "user" action = "list">
                             Users

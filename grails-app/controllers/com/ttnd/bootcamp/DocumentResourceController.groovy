@@ -1,7 +1,6 @@
 package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.DocumentResourceCO
-import grails.transaction.Transactional
 import groovy.util.logging.Slf4j
 
 @Slf4j

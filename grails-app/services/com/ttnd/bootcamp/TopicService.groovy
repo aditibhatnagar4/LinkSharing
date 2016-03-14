@@ -11,7 +11,6 @@ class TopicService {
         List<TopicVO> createdTopicsList = []
 
         if (topicSearchCO.id) {
-            User user = topicSearchCO.getUser()
 
             List<Topic> topicList = Topic.createCriteria().list(max: topicSearchCO.max) {
                 eq('createdBy.id', topicSearchCO.id)

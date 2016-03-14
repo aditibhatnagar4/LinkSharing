@@ -1,5 +1,6 @@
 <g:applyLayout name="main"/>
 <div class="container">
+    <g:render template="edit" model="[post: post]"/>
     <div class="row">
         <div class="col-md-7">
             <div class="panel panel-default">

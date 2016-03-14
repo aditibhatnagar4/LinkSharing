@@ -139,7 +139,7 @@ class LinksharingTagLib {
 
     def canEdit = { attrs, body ->
         if (canUpdateTopic(attrs.topicId)) {
-            out << "<a href='#'>Edit&nbsp;</a>"
+           out << render (template: "/resource/editLink", model: [topicId: attrs.topicId])
         }
     }
 
@@ -148,7 +148,7 @@ class LinksharingTagLib {
         User user = User.findById(attrs.id)
         if (user) {
             String src = "${createLink(controller: 'user', action: 'image', params: [id: attrs.id])}"
-            out << "<a href='${createLink(controller: 'subscription', action: 'index', params: [id: attrs.id])}'><img src=${src} width='64px' height='64px' class='img img-responsive img-thumbnail'></a>"
+            out << "<a href='${createLink(controller: 'user', action: 'display', params: [id: attrs.id])}'><img src=${src} width='64px' height='64px' class='img img-responsive img-thumbnail'></a>"
         }
     }
 
@@ -158,12 +158,7 @@ class LinksharingTagLib {
         }
     }
 
-//make it into template
     def seriousnessDropdown = { attrs, body ->
-//        Long id = attrs.topicId
-//        if (session.user) {
-//            out << render(template: "/user/seriousnessDropdown")
-//        }
 
         Long topicId = attrs.topicId
         User user = session.user

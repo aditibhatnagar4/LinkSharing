@@ -87,40 +87,7 @@ $(document).ready(function () {
         });
     });
 
-    $(".markReadStatus").click(function () {
-        $.ajax({
-            url: "/readingItem/changeIsRead",
-            data: {resourceId: $(this).attr('resourceId'), isRead: $(this).attr('isRead')},
-            success: location.reload()
-        });
-    });
 
-    $("#saveTopicButton").click(function () {
-        $.ajax({
-            url: "/topic/saveTopic",
-            data: {topicName: $('#topicName').val(), visibility: $('#visibility').val()},
-            success: location.reload()
-        });
-    });
-
-
-    $("#clearSearchPostBox").click(function () {
-        $("#searchPostBox").val("")
-    })
-
-    $("#findSearchPostBox").click(function () {
-        topicId = $(this).attr('topicId')
-
-        $.ajax({
-            url: "/resource/searchResource",
-            data: {q: $('#searchPostBox').val(), topicId: topicId},
-            success: function (result) {
-                alert(result)
-                $("#topicPosts").html(result)
-            }
-        });
-
-    })
 
     $(function () {
         $('#registrationForm').validate({

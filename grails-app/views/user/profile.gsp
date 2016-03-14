@@ -10,12 +10,13 @@
 
                     <div class="row">
                         <div class="col-xs-3 image">
-                            <ls:userImage id="${session.user.id}"/>
+                            <ls:userImage id="${id}"/>
                         </div>
 
                         <div class="col-xs-4">
-                            ${session.user.name}
-                            <p class="text-muted">@${session.user.userName}</p>
+                            <% User user = User.get(id) %>
+                            ${user.name}
+                            <p class="text-muted">@${user.userName}</p>
 
                             <div class="row">
                                 <div class="text-muted col-xs-8">Subscription
@@ -28,7 +29,7 @@
                                 <div class="col-xs-8 text-color">50
                                 </div>
 
-                                <div class="col-xs-4 text-color"><ls:topicCount userId="${session.user.id}"/>
+                                <div class="col-xs-4 text-color"><ls:topicCount userId="${user.id}"/>
                                 </div></div>
                         </div>
                     </div>
@@ -40,10 +41,7 @@
 
                 <div class="panel-body">
 
-                    %{--id="createdTopics" name="createdTopics"--}%
-                  in profile.gsp
                     <div id="createdTopics"></div>
- after ajax call
                 </div>
             </div>
 
@@ -62,7 +60,7 @@
                 <div class="panel-heading">Posts</div>
 
                 <div class="panel-body">
-                    <g:render template="/resource/show" model="[readingItems: readingItems]"/>
+                    <g:render template="/resource/show" model="[readingItems: readingItems, id: id]"/>
 
                 </div>
             </div>

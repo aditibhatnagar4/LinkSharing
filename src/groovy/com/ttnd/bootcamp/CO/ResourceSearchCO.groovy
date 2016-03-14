@@ -7,6 +7,8 @@ class ResourceSearchCO extends SearchCO {
     Long id
     Long topicId
     Visibility visibility
+    Boolean global
+    String topicName
 
     public User getUser(){
         User user = User.get(id)

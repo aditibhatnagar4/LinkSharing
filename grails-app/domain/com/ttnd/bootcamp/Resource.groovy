@@ -41,8 +41,8 @@ abstract class Resource {
     static namedQueries = {
         search {
             ResourceSearchCO resourceSearchCO ->
-                if (resourceSearchCO.topicId)
-                    eq('topic.id', resourceSearchCO.topicId)
+                if (resourceSearchCO.topicName)
+                    eq('topic.name', resourceSearchCO.topicName)
 
                 if (resourceSearchCO.q)
                     ilike('description', "%${resourceSearchCO.q}%")
@@ -54,6 +54,7 @@ abstract class Resource {
                     createAlias('topic', 't')
                     eq('t.visibility', resourceSearchCO.visibility)
                 }
+
 
 
         }

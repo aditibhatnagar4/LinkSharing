@@ -2,7 +2,6 @@ package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
 import com.ttnd.bootcamp.DTO.EmailDTO
-import com.ttnd.bootcamp.VO.PostVO
 import grails.converters.JSON
 
 class TopicController {
@@ -20,13 +19,12 @@ class TopicController {
                 'resource'{
 
                         eq('topic.id', co.topicId)
-                      //  eq('topic.visibility',co.visibility)
 
                 }
             }
 
             if (topic.visibility == Visibility.PUBLIC) {
-                
+
                     render(view: '/topic/topicShowPage', model: [subscribedUsers: subscribedUsers,
                                                              readingItems   : readingItems,
                                                              topic          : topic])

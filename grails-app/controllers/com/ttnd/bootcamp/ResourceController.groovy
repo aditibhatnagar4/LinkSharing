@@ -5,6 +5,8 @@ import com.ttnd.bootcamp.VO.PostVO
 
 class ResourceController {
 
+    def resourceService
+
     def changeRating(Long id, Integer score) {
         Resource resource = Resource.get(id)
         ResourceRating resourceRating = ResourceRating.findOrCreateByUserAndResource(session.user, resource)
@@ -127,8 +129,6 @@ class ResourceController {
         List<PostVO> posts
         if (resourceSearchCO.q) {
 
-            String html = ""
-
             List<Resource> resources = Resource.search(resourceSearchCO).list()
 
             posts = resources?.collect{ Resource.getPost(it.id) }
@@ -136,6 +136,30 @@ class ResourceController {
             render(view:'/resource/searchPage', model: [topicPosts: posts, q: resourceSearchCO.q])
         } else
             render "Enter text to be searched"
+
+    }
+
+
+    def save(Long id, String description) {
+        if (session.user) {
+            Resource resource = Resource.get(id)
+            if (resource) {
+                Resource tempResource = resourceService.editResourceDescription(resource, description)
+                if (tempResource) {
+                    flash.message = "Resource Description Updated"
+                    render flash.message
+                } else {
+                    flash.error = "Resource Description is not Updated"
+                    render flash.error
+                }
+            } else {
+                flash.error = "Resource not Found"
+                render flash.error
+            }
+        } else {
+            flash.error = "Session User not Set"
+            render flash.error
+        }
 
     }
 

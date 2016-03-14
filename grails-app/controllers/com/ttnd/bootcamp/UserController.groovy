@@ -2,6 +2,8 @@ package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
 import com.ttnd.bootcamp.CO.TopicSearchCO
+import com.ttnd.bootcamp.CO.UpdatePasswordCO
+import com.ttnd.bootcamp.CO.UpdateProfileCO
 import com.ttnd.bootcamp.CO.UserCO
 import com.ttnd.bootcamp.CO.UserSearchCO
 import com.ttnd.bootcamp.DTO.EmailDTO
@@ -19,12 +21,12 @@ class UserController {
     def emailService
     def messageSource
     def assetResourceLocator
+    def userService
 
     def index() {
         User user = session.user
         List<Topic> subscribedTopics = user.getSubscribedTopic()
         List<PostVO> readingItems = User.getReadingItems(session.user)
-//        SearchCO co=new SearchCO(q: 'aditi.bhatnagar',max: 10, offset: 0)
 //         List<ReadingItem> readingItems=User.getUnReadResources(co)
         render view: 'myAccount', model: [
                 topics          : subscribedTopics.toList(),
@@ -61,7 +63,7 @@ class UserController {
             }
         } else
             topicSearchCO.visibility = Visibility.PUBLIC
-        log.ifo "${topicSearchCO.visibility}"
+        log.info "${topicSearchCO.visibility}"
         List<TopicVO> createdTopics = topicService.search(topicSearchCO)
 
         render(template: '/topic/list', model: [topics: createdTopics])
@@ -101,15 +103,15 @@ class UserController {
         }
     }
 
-    def save(User user) {
-        if (user?.hasErrors()) {
-            render view: 'login', model: [user       : user,
-                                          currentTime: new Date()]
-        } else {
-            user.save()
-            render "form saved"
-        }
-    }
+//    def save(User user) {
+//        if (user?.hasErrors()) {
+//            render view: 'login', model: [user       : user,
+//                                          currentTime: new Date()]
+//        } else {
+//            user.save()
+//            render "form saved"
+//        }
+//    }
 
     def image(Long id) {
         User user = User.findById(id)
@@ -213,6 +215,70 @@ class UserController {
             redirect(controller: "login", action: "index")
         }
     }
+
+    def display() {
+        User user = User.get(params.id)
+        List<PostVO> readingItems = User.getReadingItems(user)
+        render view: "/user/profile", model: [readingItems: readingItems, id: params.id]
+    }
+
+    def save(UpdateProfileCO updateProfileCO) {
+        if (session.user) {
+            updateProfileCO.file = params.file
+          //  log.info params.file
+            if (updateProfileCO.hasErrors()) {
+                flash.error="Co has errors"
+                render "${updateProfileCO.errors.allErrors}"
+                //render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
+            } else {
+                User user = userService.updateProfile(updateProfileCO)
+                if (user) {
+                    session.user = user
+                    flash.message = "Profile Updated"
+                    render flash.message
+                   // render(view: 'edit', model: [userDetails: user.getUserDetails(), userCo: user])
+                } else {
+                    flash.error = "Profile not Updated"
+                    render flash.error
+                   // render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
+                }
+            }
+        }
+    }
+
+    def updatePassword(UpdatePasswordCO updatePasswordCO) {
+        if (session.user) {
+            if (updatePasswordCO.hasErrors()) {
+                flash.error = "Password not Updated 1"
+                render "${updatePasswordCO.errors.allErrors}"
+
+               // render(view: 'edit', model: [userDetails: session.user.getUserDetails(),
+                  //                           userCo: session.user])
+            } else {
+                User user = userService.updatePassword(updatePasswordCO)
+                if (user) {
+                    session.user = user
+                    flash.message = "Password Updated"
+                    render flash.message
+                   // render(view: 'edit', model: [userDetails: user.getUserDetails(),
+                     //                            userCo: user])
+                } else {
+                    flash.error = "Password not Updated"
+                    render flash.error
+                    //render(view: 'edit', model: [userDetails: session.user.getUserDetails(),
+                          //                       userCo: session.user])
+                }
+            }
+        }
+    }
+
+    def edit() {
+        User user = session.user
+        if (user) {
+            render(view: 'edit', model: [userDetails: user.getUserDetails(), userCo: user])
+        }
+    }
+
 
 
 }

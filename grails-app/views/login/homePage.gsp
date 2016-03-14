@@ -1,6 +1,6 @@
 <%@ page import="com.ttnd.bootcamp.Visibility" %>
 <g:applyLayout name="main"/>
-
+<g:render template="/user/forgotPassword"/>
 
 <div class="container">
     <div class="row">
@@ -95,10 +95,4 @@
         </div>
     </div>
 </div>
-
-%{--Class Work--}%
-
-%{--<ls:showAdmin admin="true">This is only visible to admin</ls:showAdmin>--}%
-%{--<ls:showAdmin admin="false">This will not be visible</ls:showAdmin>--}%
-%{--<ls:showUserList/>--}%
 
