@@ -34,7 +34,7 @@
                         <span class="input-group-btn">
                             <input type="text" id="q" name="q" class="form-control input-group"
                                    placeholder="Search">
-                    <g:hiddenField name="global" value="true" />
+                    <g:hiddenField name="topicId" value="0" />
                         </span>
 
                         <span class="input-group-btn">
