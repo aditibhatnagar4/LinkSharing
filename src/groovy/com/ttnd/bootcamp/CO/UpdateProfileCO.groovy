@@ -2,9 +2,11 @@ package com.ttnd.bootcamp.CO
 
 import com.ttnd.bootcamp.User
 import grails.validation.Validateable
+import groovy.transform.ToString
 import org.springframework.web.multipart.MultipartFile
 
 
+@ToString
 @Validateable
 class UpdateProfileCO {
     Long id

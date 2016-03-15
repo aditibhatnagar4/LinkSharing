@@ -23,8 +23,7 @@ function ajaxSuccess(result) {
             jsonResponseDiv.text(result.error);
             jsonResponseDiv.addClass("alert alert-danger");
         }
-        //document.location.reload();
-        jsonResponseDiv.css({'display': 'block'})
+        jsonResponseDiv.css({'display': 'block'});
 
     }
 
@@ -38,8 +37,11 @@ function unsubscribe(id) {
             data: {id: id},
             method: 'post',
             success: ajaxSuccess
+
         }
     );
+    $("tr[data-topic-id='" + id + "']").remove();
+
 }
 
 
@@ -52,8 +54,9 @@ function subscribe(id) {
             success: ajaxSuccess
         }
     );
-}
 
+    $("tr[data-topic-id='" + id + "']").add();
+}
 
 
 $(document).ready(function () {
@@ -86,7 +89,6 @@ $(document).ready(function () {
             success: ajaxSuccess
         });
     });
-
 
 
     $(function () {
@@ -156,6 +158,33 @@ $(document).ready(function () {
             }
             return result;
         }, "Confirm password not matched with password");
+    });
+
+
+    $(".edit-topic").on('click',function(){
+        var topicId=$(this).attr('data-topic-id');
+        alert(topicId);
+        $("#editForm"+topicId).css({'display': 'block'});
+
+    });
+
+
+    $(".cancelTopicNameButton").on('click',function(){
+        var topicId=$(".edit-topic").attr('data-topic-id');
+        alert(topicId);
+        $("#editForm"+topicId).css({'display': 'none'});
+
+    });
+
+
+
+    $(".saveTopicNameButton").click(function () {
+        var topicId = $(this).attr('topicId')
+        $.ajax({
+            url: "/topic/titleUpdate",
+            data: {topicId: topicId, name: $("#name" + topicId).val()},
+            success:ajaxSuccess
+        })
     });
 
 

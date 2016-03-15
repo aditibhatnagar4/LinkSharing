@@ -1,6 +1,5 @@
 package com.ttnd.bootcamp
 
-import com.ttnd.bootcamp.VO.PostVO
 import grails.converters.JSON
 import groovy.util.logging.Slf4j
 
@@ -21,7 +20,6 @@ class SubscriptionController {
             render([error: flash.error] as JSON)
         }
 
-        redirect(uri: '/')
     }
 
     def saveSubscription(Long id) {
@@ -41,7 +39,6 @@ class SubscriptionController {
             flash.error = "Could not save subscription"
             render([error: flash.error] as JSON)
         }
-         redirect(uri: '/')
     }
 
     def updateSubscription(Long topicId, String seriousness) {
@@ -57,7 +54,6 @@ class SubscriptionController {
             jsonResponse.error = flash.error
         }
         render jsonResponse as JSON
-        redirect(uri: '/')
     }
 
 

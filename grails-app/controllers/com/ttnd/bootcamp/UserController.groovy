@@ -114,7 +114,7 @@ class UserController {
 //    }
 
     def image(Long id) {
-        User user = User.findById(id)
+        User user = User.get(id)
         if (user?.photo) {
             byte[] img = user.photo
             response.outputStream.write(img)

@@ -106,7 +106,7 @@ log4j.main = {
     }
 
     appenders {
-        console name: 'stdout', layout: pattern(conversionPattern: '%c{2} %m%n')
+        console name: 'stdout', layout: pattern(conversionPattern: '%d %-5p [ui] [%c{2}](%x) %m%n')
     }
 
     error 'org.codehaus.groovy.grails.web.servlet',        // controllers

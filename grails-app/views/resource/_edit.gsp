@@ -11,30 +11,25 @@
         <div class="modal-body">
             <g:form name="resourceDescriptionEditForm" class="form-horizontal" controller="resource"
                     action="save" params="[id: post.resourceId]">
-                <div class="form-group row">
-                    <label for="description" class="col-sm-12 form-control-label">Description</label>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-12">
-                        <g:textArea name="description" class="col-sm-12" id="description"
-                                    value="${post.description}"/>
+<div class="row">
+                <div class="col-xs-4">
+                    <label for="description" class="form-control-label">Description</label>
                     </div>
-                </div>
-
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                        <button type="button" class="btn btn-default btn-block" data-dismiss="modal">Close</button>
+                <div class="col-xs-8">
+                <g:textArea name="description" id="description"
+                                    value="${post.description}" cols="30"/>
                     </div>
+    </div>
 
-                    <div class="col-sm-8">
-                        <g:submitButton type="submit" name="submit" class="btn btn-primary btn-block"
-                                        value="Save"/>
-                    </div>
                 </div>
-            </g:form>
-        </div>
+                <div class="modal-footer">
+            <g:submitButton class="btn btn-primary" name="submit" value="Save"/>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button></g:form>
+            </div>
+
+
         </div>
 
     </div>
 </div>
+

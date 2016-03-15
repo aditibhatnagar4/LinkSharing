@@ -46,10 +46,10 @@
 
                         <g:each in="${subscribedTopics}">
                             <g:if test="${subscribedTopics.indexOf(it) == 0}">
-                                <tr class="spec_table">
+                                <tr class="spec_table" data-topic-id="${it.id}">
                             </g:if>
                             <g:else>
-                                <tr>
+                                <tr data-topic-id="${it.id}">
                             </g:else>
 
                             <td><ls:userImage id="${it.createdBy.id}"/></td>
@@ -78,7 +78,7 @@
 
 
 
-                            <tr class="spec_table"><td colspan="2">
+                            <tr class="spec_table" data-topic-id="${it.id}"><td colspan="2">
                                 <div class="row">
 
                                     <div class="dropdown col-xs-5">

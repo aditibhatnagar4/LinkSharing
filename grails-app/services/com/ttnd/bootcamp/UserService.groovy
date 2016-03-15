@@ -26,6 +26,7 @@ class UserService {
             }
             user.firstName = updateProfileCO.firstName
             user.lastName = updateProfileCO.lastName
+            user.userName = updateProfileCO.userName
             return user.save()
         } else {
             return null

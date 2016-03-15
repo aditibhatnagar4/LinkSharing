@@ -2,6 +2,7 @@ package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
 import com.ttnd.bootcamp.DTO.EmailDTO
+import com.ttnd.bootcamp.VO.TopicVO
 import grails.converters.JSON
 
 class TopicController {
@@ -15,17 +16,17 @@ class TopicController {
             redirect(controller: 'login', action: 'index')
         } else {
             List<User> subscribedUsers = Topic.getSubscribedUser(co.topicId)
-            List<ReadingItem> readingItems=ReadingItem.createCriteria().list(max: 10){
-                'resource'{
+            List<ReadingItem> readingItems = ReadingItem.createCriteria().list(max: 10) {
+                'resource' {
 
-                        eq('topic.id', co.topicId)
+                    eq('topic.id', co.topicId)
 
                 }
             }
 
             if (topic.visibility == Visibility.PUBLIC) {
 
-                    render(view: '/topic/topicShowPage', model: [subscribedUsers: subscribedUsers,
+                render(view: '/topic/topicShowPage', model: [subscribedUsers: subscribedUsers,
                                                              readingItems   : readingItems,
                                                              topic          : topic])
             } else if (topic.visibility == Visibility.PRIVATE) {
@@ -74,8 +75,8 @@ class TopicController {
 
     }
 
-    def invite(Long topic, String emailID){
-log.info "=============topic id :${topic}"
+    def invite(Long topic, String emailID) {
+        log.info "=============topic id :${topic}"
         Topic topicInstance = Topic.get(topic)
 
         String to = emailID
@@ -84,35 +85,48 @@ log.info "=============topic id :${topic}"
 
         EmailDTO emailDTO = new EmailDTO(to: to, subject: subject, model: [id: topic, hostURL: hostURL])
 
-        if(topicInstance == null) {
+        if (topicInstance == null) {
             flash.error = "Topic could not be found."
             render flash.error
-        }
-        else
-        {
+        } else {
             emailService.sendMail(emailDTO)
             flash.message = "Email sent"
             render flash.message
         }
 
-      //  redirect(controller: "login", action: "index")
+        //  redirect(controller: "login", action: "index")
     }
 
-    def join(Long id){
+    def join(Long id) {
 
-        if(session.user){
+        if (session.user) {
 
             User user = session.user
             Topic topic = Topic.get(id)
             Subscription subscription = new Subscription(user: user, topic: topic)
 
-            if(subscription.save(flush: true))
+            if (subscription.save(flush: true))
                 flash.message = "You have subscribed to this topic successfully."
             else
                 flash.error = "Failure. Could not subscribe to the topic."
 
             redirect(controller: "login", action: "index")
         }
+    }
+
+    def titleUpdate(Long topicId, String name) {
+       // render "${topic} ${name}"
+        Topic topic = Topic.get(topicId)
+        Map json = [:]
+        if (name) {
+            topic.name = name
+        }
+        if (topic.save(flush: true)) {
+            json.message = "Topic Name Updated"
+        } else {
+            json.error = "Unable to update topic name"
+        }
+        render json as JSON
     }
 
 }

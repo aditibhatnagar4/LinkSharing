@@ -13,6 +13,7 @@ class LinksharingTagLib {
 
     static namespace = 'ls'
 
+    //TODO is it in reading item
     def markAsRead = { attrs, body ->
         User user = session.user
         Long resourceId = attrs.id
@@ -145,7 +146,7 @@ class LinksharingTagLib {
 
 
     def userImage = { attrs, body ->
-        User user = User.findById(attrs.id)
+        User user = User.get(attrs.id)
         if (user) {
             String src = "${createLink(controller: 'user', action: 'image', params: [id: attrs.id])}"
             out << "<a href='${createLink(controller: 'user', action: 'display', params: [id: attrs.id])}'><img src=${src} width='64px' height='64px' class='img img-responsive img-thumbnail'></a>"
