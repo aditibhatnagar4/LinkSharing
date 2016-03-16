@@ -19,7 +19,7 @@
         <a href="" class="col-xs-4" data-toggle="modal" data-target="#forgotPassword">Forgot Password</a>
 
         <div class="col-xs-5">
-            <g:submitButton name="loginButton" class="form-control btn btn-primary"
+            <g:submitButton name="loginButton" class="form-control btn btn-primary loginButton"
                             id="loginButton" value="Login"/>
         </div>
     </div>

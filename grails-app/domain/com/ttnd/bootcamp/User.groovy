@@ -205,4 +205,19 @@ class User {
                 admin: admin)
     }
 
+    public List<Resource> unreadResources(){
+
+        List<Resource> resourceList = ReadingItem.createCriteria().list(){
+
+            projections {
+                property('resource')
+            }
+
+            eq('isRead', false)
+        }
+
+        return resourceList
+
+    }
+
 }

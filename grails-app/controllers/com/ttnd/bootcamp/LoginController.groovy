@@ -1,5 +1,7 @@
 package com.ttnd.bootcamp
 
+import grails.converters.JSON
+
 class LoginController {
 
 
@@ -19,15 +21,22 @@ class LoginController {
         if (user) {
             if (user.active) {
                 session.user = user
-                redirect(controller: "login", action: "index")
-                return
+                flash.message="Login success."
+
+
+                //return
             } else {
                 flash.error = 'Your account is not active'
+
             }
         } else {
-            flash.error = "User not found"
+            flash.error = "Could not find user with the specified username and password."
+
+
+           // render ([flash.error] as JSON)
         }
-        render flash.error
+
+        redirect(controller: "login", action: "index")
     }
 
     def logout() {
@@ -37,8 +46,7 @@ class LoginController {
 
     def validateEmail(){
 
-        Integer numUser = User.countByemail(params.emailId)
-        log.info params.emailId
+        Integer numUser = User.countByemail(params.email)
 
         Boolean result = numUser ? false : true
 
@@ -47,7 +55,6 @@ class LoginController {
 
     def validateUserName(){
         Integer numUser = User.countByUserName(params.userName)
-        log.info params.userName
         Boolean result = numUser ? false : true
 
         render result

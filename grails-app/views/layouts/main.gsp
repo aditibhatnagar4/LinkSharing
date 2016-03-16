@@ -12,6 +12,8 @@
 </head>
 
 <body>
+
+
 <g:if test="${session.user}">
 <g:render template="/documentResource/create" model="[topics: session.user.getSubscribedTopic().toList()]"/>
 <g:render template="/linkResource/create" model="[topics: session.user.getSubscribedTopic().toList()]"/>
@@ -77,7 +79,23 @@
 
     </nav>
 <div class="container">
-<div class = "jsonResponse" style = "display:none"></div>
+    <g:if test="${flash.message}">
+        <div class="alert alert-success">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            ${flash.message}
+        </div>
+    </g:if>
+    <g:elseif test="${flash.error}">
+        <div class="alert alert-warning">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            ${flash.error}
+        </div>
+    </g:elseif>
+
+
+    <div class = "jsonResponse" style="display: none">
+
+    </div>
 </div>
     <g:layoutBody/>
 

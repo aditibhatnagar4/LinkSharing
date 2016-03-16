@@ -15,7 +15,7 @@ function ajaxSuccess(result) {
     if (result) {
         var jsonResponseDiv = $(".jsonResponse");
 
-        if (!result.success) {
+        if (result.message) {
             jsonResponseDiv.text(result.message);
             jsonResponseDiv.addClass("alert alert-success");
         }
@@ -55,7 +55,7 @@ function subscribe(id) {
         }
     );
 
-    $("tr[data-topic-id='" + id + "']").add();
+   // $("tr[data-topic-id='" + id + "']").after($(".sub-add"));
 }
 
 
@@ -84,10 +84,21 @@ $(document).ready(function () {
 
     $(".visibility").change(function () {
         $.ajax({
-            url: "/topic/saveTopic",
+            url: "/topic/saveTopicVisibility",
             data: {topicName: $(this).attr('topicName'), visibility: $(this).val()},
             success: ajaxSuccess
         });
+    });
+
+    $(".deleteTopic").click(function () {
+        $.ajax({
+            url: "/topic/delete",
+            data: {topicId: $(this).attr('topicId')},
+            success: ajaxSuccess
+        });
+        var id = $(this).attr('topicId')
+        $("tr[data-topic-id='" + id + "']").remove();
+        $("tr[tt-topic-id='" + id + "']").remove();
     });
 
 
@@ -138,7 +149,7 @@ $(document).ready(function () {
                 'confirmPassword': {
                     required: "Confirm password can't be blank"
                 },
-                'emailID': {
+                'email': {
                     required: "Email address can't be blank",
                     remote: "Email address entered is already used"
                 },
@@ -161,21 +172,18 @@ $(document).ready(function () {
     });
 
 
-    $(".edit-topic").on('click',function(){
-        var topicId=$(this).attr('data-topic-id');
-        alert(topicId);
-        $("#editForm"+topicId).css({'display': 'block'});
+    $(".edit-topic").on('click', function () {
+        var topicId = $(this).attr('data-topic-id');
+        $("#editForm" + topicId).css({'display': 'block'});
 
     });
 
 
-    $(".cancelTopicNameButton").on('click',function(){
-        var topicId=$(".edit-topic").attr('data-topic-id');
-        alert(topicId);
-        $("#editForm"+topicId).css({'display': 'none'});
+    $(".cancelTopicNameButton").on('click', function () {
+        var topicId = $(".edit-topic").data('topic-id');
+        $("#editForm" + topicId).css({'display': 'none'});
 
     });
-
 
 
     $(".saveTopicNameButton").click(function () {
@@ -183,7 +191,7 @@ $(document).ready(function () {
         $.ajax({
             url: "/topic/titleUpdate",
             data: {topicId: topicId, name: $("#name" + topicId).val()},
-            success:ajaxSuccess
+            success: ajaxSuccess
         })
     });
 

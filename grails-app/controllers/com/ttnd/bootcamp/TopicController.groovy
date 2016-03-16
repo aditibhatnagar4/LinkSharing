@@ -47,31 +47,53 @@ class TopicController {
     def saveTopic(String topicName, String visibility) {
         Topic topic = Topic.findOrCreateByNameAndCreatedBy(topicName, session.user)
         topic.visibility = Visibility.convertVisibility(visibility)
+        if (topic.save(flush: true)) {
+            flash.message = "Topic created successfully !"
+        } else {
+            flash.error = "Failed to create topic."
+            //  redirect controller: 'user', action: 'index'
+        }
+        redirect(uri: "/")
+    }
+
+    def saveTopicVisibility(String topicName, String visibility) {
+        Topic topic = Topic.findOrCreateByNameAndCreatedBy(topicName, session.user)
+        topic.visibility = Visibility.convertVisibility(visibility)
         Map jsonResponse = [:]
         if (topic.save(flush: true)) {
-            flash.message = "Success!"
+            flash.message = "Visibility of topic has been updated successfully."
             jsonResponse.message = flash.message
         } else {
-            flash.error = "Topic not saved"
+            flash.error = "Failed to update visibility of the topic."
             jsonResponse.error = flash.error
             //  redirect controller: 'user', action: 'index'
         }
         render jsonResponse as JSON
+
     }
+
 
     def delete(Long topicId) {
 
         Topic topic = Topic.get(topicId)
         User user = session.user
-
+        Map jsonResponse = [:]
         if (topic) {
-            if (user.admin || (topic.createdBy.id == user.id))
+            if (user.admin || (topic.createdBy.id == user.id)) {
                 topic.delete(flush: true)
+                flash.message="Topic deleted successfully."
+                jsonResponse.message = flash.message
+            }else {
+                flash.error="You don't have the permission to delete this topic"
+                jsonResponse.error = flash.error
+            }
 
-        } else
-            flash.error = "Topic unavailable."
-
-        redirect(controller: 'login', action: 'index')
+        } else {
+            flash.error = "Topic not found"
+            jsonResponse.error = flash.error
+        }
+        render jsonResponse as JSON
+    //    redirect(controller: 'login', action: 'index')
 
     }
 
@@ -87,14 +109,14 @@ class TopicController {
 
         if (topicInstance == null) {
             flash.error = "Topic could not be found."
-            render flash.error
         } else {
             emailService.sendMail(emailDTO)
             flash.message = "Email sent"
-            render flash.message
         }
 
-        //  redirect(controller: "login", action: "index")
+         // redirect(controller: "login", action: "index")
+
+        redirect(uri: '/')
     }
 
     def join(Long id) {

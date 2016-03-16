@@ -15,12 +15,11 @@ class LinkResourceController extends ResourceController {
         )
         if (resource.save(flush: true)) {
             flash.message = "Resource saved successfully."
-            render flash.message
             addToReadingItems(resource)
         } else {
             flash.error = "Resource not saved"
-            render flash.error
             // redirect controller: 'user', action: 'index'
         }
+        redirect(uri: '/')
     }
 }

@@ -7,7 +7,7 @@ import grails.transaction.Transactional
 @Transactional
 class TopicService {
 
-    List<Topic> search(TopicSearchCO topicSearchCO) {
+    List<TopicVO> search(TopicSearchCO topicSearchCO) {
         List<TopicVO> createdTopicsList = []
 
         if (topicSearchCO.id) {

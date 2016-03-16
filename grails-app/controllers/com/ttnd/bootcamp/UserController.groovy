@@ -10,6 +10,7 @@ import com.ttnd.bootcamp.DTO.EmailDTO
 import com.ttnd.bootcamp.VO.PostVO
 import com.ttnd.bootcamp.VO.TopicVO
 import com.ttnd.bootcamp.VO.UserVO
+import grails.converters.JSON
 import groovy.util.logging.Slf4j
 import com.ttnd.bootcamp.Utility.Util
 
@@ -50,7 +51,7 @@ class UserController {
         List<Resource> resources = Resource.search(resourceSearchCO).list()
         List<PostVO> createdPosts = resources?.collect { Resource.getPost(it.id) }
 
-        render(view: 'profile', model: [createdPosts: createdPosts, user: user.getInfo()])
+        render(view: 'profile', model: [createdPosts: createdPosts, user: user])
     }
 
     def topics(Long id) {
@@ -144,21 +145,16 @@ class UserController {
 
                     emailService.sendMail(emailDTO)
                     flash.message = "Mail sent with new password."
-                    render flash.message
                 } else {
                     flash.error = "Mail could not be sent."
-                    render flash.error
                 }
             } else {
                 flash.error = "The user account corresponding to the entered email address is inactive."
-                render flash.error
             }
         } else {
             flash.error = "The email id doesn't belong to a registered user."
-            render flash.error
         }
-
-        // redirect(controller: "login", action: "index")
+        redirect(uri: "/")
     }
 
     def list(UserSearchCO userSearchCO) {
@@ -203,10 +199,11 @@ class UserController {
 
                     if (user.save(flush: true)) {
                         flash.message = "User active status changed"
-                    } else
+                    } else {
                         flash.error = "User active status could not be changed"
+                    }
                 } else
-                    flash.error = "User not found."
+                    flash.error = "User could not be found."
 
                 redirect(controller: "user", action: "list")
             } else
@@ -214,6 +211,7 @@ class UserController {
         } else {
             redirect(controller: "login", action: "index")
         }
+       // redirect(uri: '/')
     }
 
     def display() {
@@ -223,53 +221,53 @@ class UserController {
     }
 
     def save(UpdateProfileCO updateProfileCO) {
+
         if (session.user) {
             updateProfileCO.file = params.file
           //  log.info params.file
             if (updateProfileCO.hasErrors()) {
-                flash.error="Co has errors"
-                render "${updateProfileCO.errors.allErrors}"
-                //render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
+                flash.error="CO has errors ${updateProfileCO.errors.allErrors}"
+
+                render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
             } else {
                 User user = userService.updateProfile(updateProfileCO)
                 if (user) {
                     session.user = user
                     flash.message = "Profile Updated"
-                    render flash.message
-                   // render(view: 'edit', model: [userDetails: user.getUserDetails(), userCo: user])
+
+                    render(view: 'edit', model: [userDetails: user.getUserDetails(), userCo: user])
                 } else {
                     flash.error = "Profile not Updated"
-                    render flash.error
-                   // render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
+
+                    render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
                 }
             }
         }
+
     }
 
     def updatePassword(UpdatePasswordCO updatePasswordCO) {
+
         if (session.user) {
             if (updatePasswordCO.hasErrors()) {
                 flash.error = "Password not Updated 1"
-                render "${updatePasswordCO.errors.allErrors}"
 
-               // render(view: 'edit', model: [userDetails: session.user.getUserDetails(),
-                  //                           userCo: session.user])
+                render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
             } else {
                 User user = userService.updatePassword(updatePasswordCO)
                 if (user) {
                     session.user = user
                     flash.message = "Password Updated"
-                    render flash.message
-                   // render(view: 'edit', model: [userDetails: user.getUserDetails(),
-                     //                            userCo: user])
+                   render(view: 'edit', model: [userDetails: user.getUserDetails(),
+                                                 userCo: user])
                 } else {
                     flash.error = "Password not Updated"
-                    render flash.error
-                    //render(view: 'edit', model: [userDetails: session.user.getUserDetails(),
-                          //                       userCo: session.user])
+                    render(view: 'edit', model: [userDetails: session.user.getUserDetails(),
+                                                userCo: session.user])
                 }
             }
         }
+
     }
 
     def edit() {

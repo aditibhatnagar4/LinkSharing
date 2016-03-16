@@ -16,6 +16,7 @@
                         <div class="col-xs-4">
                             <% User user = User.get(id) %>
                             ${user.name}
+                            <g:hiddenField name="userId" value="${params.id}"/>
                             <p class="text-muted">@${user.userName}</p>
 
                             <div class="row">
@@ -41,7 +42,9 @@
 
                 <div class="panel-body">
 
-                    <div id="createdTopics"></div>
+                    <div id="createdTopics">
+                        <g:render template="/topic/list"/>
+                    </div>
                 </div>
             </div>
 
@@ -49,7 +52,7 @@
                 <div class="panel-heading">Subscriptions</div>
 
                 <div class="panel-body" id="subscribedTopics" name="subscribedTopics">
-
+                    <g:render template="/topic/list"/>
                 </div>
             </div>
 
@@ -60,7 +63,7 @@
                 <div class="panel-heading">Posts</div>
 
                 <div class="panel-body">
-                    <g:render template="/resource/show" model="[readingItems: readingItems, id: id]"/>
+                    <g:render template="/resource/show" model="[readingItems: readingItems, id: params.id]"/>
 
                 </div>
             </div>
@@ -73,7 +76,7 @@
 
         $.ajax({
             url: "/user/topics",
-            data: {id: $("#id").val()},
+            data: {id: $("#userId").val()},
             success: function (result) {
                 $("#createdTopics").html(result)
             }
@@ -82,7 +85,7 @@
 
         $.ajax({
             url: "/user/subscriptions",
-            data: {id: $("#id").val()},
+            data: {id: $("#userId").val()},
             success: function (result) {
                 $("#subscribedTopics").html(result)
             }

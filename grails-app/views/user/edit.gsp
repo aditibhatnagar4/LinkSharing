@@ -125,7 +125,7 @@
                             <label class=" col-xs-5"></label>
 
                             <div class="col-xs-7">
-                                <g:submitButton class="form-control btn btn-primary" name="updateButton"
+                                <g:submitButton class="form-control btn btn-primary updateProfile" name="updateButton"
                                                 value="Update"/>
                             </div>
                         </div>

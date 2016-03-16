@@ -2,6 +2,7 @@
 
 <g:applyLayout name="main"/>
 
+<body>
 <div class="container">
 
     <div class="row">
@@ -57,6 +58,22 @@
                                 <g:link controller="topic" action="showTopic"
                                         params="[topicId: it.id]">${it.name}</g:link>
 
+                                <div style="display: none" id="editForm${it.id}" >
+                                    <span class="row">
+                                        <g:textField name="topicName" id="name${it.id}" value="${it.name}"/>
+
+
+                                        <g:hiddenField name="topicId" id="topicId${it.id}" value="${it.id}"/>
+
+                                        <span class="row">
+                                            <button class="saveTopicNameButton btn-primary" topicId="${it.id}">Save</button>
+
+
+                                            <button class="cancelTopicNameButton btn-primary" topicId="${it.id}">Cancel</button>
+                                        </span>
+                                    </span>
+                                </div>
+
                                 <div class="row">
                                     <div class="col-xs-5 text-muted">${it.createdBy.userName}<div>
                                         <ls:showSubscribe topicId="${it.id}"/>
@@ -78,7 +95,7 @@
 
 
 
-                            <tr class="spec_table" data-topic-id="${it.id}"><td colspan="2">
+                            <tr class="spec_table " data-topic-id="${it.id}"><td colspan="2">
                                 <div class="row">
 
                                     <div class="dropdown col-xs-5">
@@ -95,7 +112,11 @@
                                           data-toggle="modal"
                                           data-target="#sendInvitation"></span>
                                     <g:if test="${session.user.id == it.createdBy.id || session.user.admin == true}">
-                                        <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md"></span>
+                                        <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md edit-topic"
+                                              data-topic-id="${it.id}">
+
+                                        </span>
+
                                         <ls:showDelete topicId="${it.id}"/>
                                     </g:if>
                                 </div>
@@ -138,3 +159,4 @@
 </div>
 
 
+</body>

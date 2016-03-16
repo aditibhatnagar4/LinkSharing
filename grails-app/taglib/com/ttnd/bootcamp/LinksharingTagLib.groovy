@@ -17,12 +17,17 @@ class LinksharingTagLib {
     def markAsRead = { attrs, body ->
         User user = session.user
         Long resourceId = attrs.id
+
         if (user) {
-            if (attrs.isRead == true) {
-                out << "<a href='${createLink(controller: 'readingItem', action: 'changeIsRead', params: [id: resourceId, isRead: false])}' " + ">Mark  as unread</a>"
-            } else {
-                out << "<a href='${createLink(controller: 'readingItem', action: 'changeIsRead', params: [id: resourceId, isRead: true])}' " + ">Mark  as read</a>"
-            }
+
+
+                if (attrs.isRead == true) {
+                    out << "<a href='${createLink(controller: 'readingItem', action: 'changeIsRead', params: [id: resourceId, isRead: false])}' " + ">Mark  as unread</a>"
+                } else {
+                    out << "<a href='${createLink(controller: 'readingItem', action: 'changeIsRead', params: [id: resourceId, isRead: true])}' " + ">Mark  as read</a>"
+                }
+
+
         }
     }
 
@@ -67,14 +72,16 @@ class LinksharingTagLib {
     def showSubscribe = { attrs, body ->
         User user = session.user
         Topic topic = Topic.get(attrs.topicId)
-        if (user.id != topic.createdBy.id) {
-            if (attrs.topicId != null && user != null) {
-                if (user.isSubscribed(attrs.topicId)) {
-                    out << "<div class='unsubscribe' data-topicId='${attrs.topicId}'><a href='${createLink(controller: 'subscription', action: 'deleteSubscription', params: [id: attrs.topicId])}'>Unsubscribe</a></div>"
-                } else {
-                    out << "<div class='subscribe' data-topicId='${attrs.topicId}'><a href='${createLink(controller: 'subscription', action: 'saveSubscription', params: [id: attrs.topicId])}'>Subscribe</a></div>"
-                }
+        if (session.user && topic) {
+            if (user.id != topic.createdBy.id) {
+                if (attrs.topicId != null && user != null) {
+                    if (user.isSubscribed(attrs.topicId)) {
+                        out << "<div class='unsubscribe' data-topicId='${attrs.topicId}'><a href='${createLink(controller: 'subscription', action: 'deleteSubscription', params: [id: attrs.topicId])}'>Unsubscribe</a></div>"
+                    } else {
+                        out << "<div class='subscribe' data-topicId='${attrs.topicId}'><a href='${createLink(controller: 'subscription', action: 'saveSubscription', params: [id: attrs.topicId])}'>Subscribe</a></div>"
+                    }
 
+                }
             }
         }
     }
@@ -91,7 +98,9 @@ class LinksharingTagLib {
 
     def showDelete = { attrs, body ->
         if (canUpdateTopic(attrs.topicId)) {
-            out << "<a href=\"${createLink(controller: 'topic', action: 'delete', params: [topicId: attrs.topicId])}\"><span class=\"glyphicon glyphicon-trash col-xs-1 font-size-md \"></span></a>"
+//            out << "<a href=\"${createLink(controller: '', action: '', params: [topicId: attrs.topicId])}\"><span class=\"glyphicon glyphicon-trash col-xs-1 font-size-md deleteTopic\" ></span></a>"
+            Long topicId = attrs.topicId
+            out << g.render(template: "/topic/deleteTopicLink", model: [topicId: topicId])
         }
     }
 
@@ -140,7 +149,7 @@ class LinksharingTagLib {
 
     def canEdit = { attrs, body ->
         if (canUpdateTopic(attrs.topicId)) {
-           out << render (template: "/resource/editLink", model: [topicId: attrs.topicId])
+            out << render(template: "/resource/editLink", model: [topicId: attrs.topicId])
         }
     }
 

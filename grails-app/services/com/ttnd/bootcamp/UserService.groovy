@@ -6,6 +6,7 @@ import grails.transaction.Transactional
 
 @Transactional
 class UserService {
+    def emailService
 
     def updatePassword(UpdatePasswordCO updatePasswordCO) {
         User user = updatePasswordCO.getUser()
@@ -31,5 +32,24 @@ class UserService {
         } else {
             return null
         }
+    }
+
+
+    def sendUnreadItemsEmail() {
+        List<User> userList = getUsersWithUnreadItems()
+
+        userList.each {
+            user -> emailService.sendUnreadResourcesEmail(user, getUnreadResourcesForUser(user))
+        }
+    }
+
+    List<User> getUsersWithUnreadItems() {
+
+        return Resource.usersWithUnreadResources()
+    }
+
+    List<Resource> getUnreadResourcesForUser(User user) {
+
+        return user.unreadResources()
     }
 }

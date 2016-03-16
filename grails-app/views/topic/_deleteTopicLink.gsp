@@ -1,0 +1,1 @@
+<span class="glyphicon glyphicon-trash col-xs-1 font-size-md deleteTopic" topicId="${topicId}"></span>

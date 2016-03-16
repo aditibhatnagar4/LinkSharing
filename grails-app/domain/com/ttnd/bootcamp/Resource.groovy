@@ -151,5 +151,18 @@ abstract class Resource {
         log.info "Delete file will be implemented in Link Resource"
     }
 
+    public static List<User> usersWithUnreadResources(){
+
+        List<User> userList = ReadingItem.createCriteria().listDistinct{
+            projections {
+                property('user')
+            }
+
+            eq('isRead', false)
+        }
+
+        return userList
+    }
+
 
 }

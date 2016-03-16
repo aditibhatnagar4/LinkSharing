@@ -12,10 +12,11 @@ class ResourceController {
         ResourceRating resourceRating = ResourceRating.findOrCreateByUserAndResource(session.user, resource)
         resourceRating.score = score
         if (resourceRating.save(flush: true)) {
-            render "Success"
+            flash.message="Rating for the resource has been saved."
         } else {
-            render "Failure"
+            flash.error="Rating for the resource could not be saved"
         }
+        redirect(uri: '/resource/showResource', params: [id: id])
 
     }
 

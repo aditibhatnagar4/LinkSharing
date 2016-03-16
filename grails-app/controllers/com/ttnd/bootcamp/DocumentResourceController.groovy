@@ -21,20 +21,19 @@ class DocumentResourceController extends ResourceController {
         if (doc.validate()) {
             File file = new File(filepath) << documentResourceCo.myFile.bytes
             if (doc.save(flush: true)) {
-                flash.message = " document saved ------Success "
-                render flash.message
+                flash.message = " Document saved successfully. "
                 addToReadingItems(doc)
             } else {
                 log.error(" Could not save document ${doc}")
-                flash.message = "Document ${doc.properties} dosent satisfied constraints"
-                render flash.message
+                flash.error = "Document could not be saved."
             }
         } else {
             doc.errors.allErrors.each {
                 log.error "$it"
             }
-            render " error creating doc"
+            flash.error = "Document does not satisfy constraints"
         }
+        redirect(uri: '/')
     }
 
     def download(Long id) {

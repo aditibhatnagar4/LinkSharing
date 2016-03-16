@@ -1,14 +1,16 @@
 <%@ page import="com.ttnd.bootcamp.User; com.ttnd.bootcamp.Topic; com.ttnd.bootcamp.VO.TopicVO; com.ttnd.bootcamp.Subscription; com.ttnd.bootcamp.Visibility; com.ttnd.bootcamp.Seriousness" %>
 
+
+
 <table class="table">
     <tbody>
 
     <g:each in="${topics}" var="topic">
         <g:if test="${topics.indexOf(topic) == 0}">
-            <tr class="spec_table">
+            <tr class="spec_table" tt-topic-id="${topic.id}">
         </g:if>
         <g:else>
-            <tr>
+            <tr tt-topic-id="${topic.id}">
         </g:else>
 
         <td><ls:userImage id="${topic.createdBy.id}"/></td>
@@ -66,7 +68,7 @@
 
 
 
-        <tr class="spec_table"><td colspan="2">
+        <tr class="spec_table" tt-topic-id="${topic.id}"><td colspan="2">
             <div class="row">
 
                 <div class="dropdown col-xs-5">
