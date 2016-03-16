@@ -102,6 +102,19 @@ $(document).ready(function () {
     });
 
 
+    //$(".markAsRead").click(function () {
+    //    $.ajax({
+    //        url: "/readingItem/changeIsRead",
+    //        data: {topicId: $(this).attr('topicId')},
+    //        success: ajaxSuccess
+    //    });
+    //    var id = $(this).attr('topicId')
+    //    $("tr[data-topic-id='" + id + "']").remove();
+    //    $("tr[tt-topic-id='" + id + "']").remove();
+    //});
+
+
+
     $(function () {
         $('#registrationForm').validate({
             rules: {

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="com.ttnd.bootcamp.User" contentType="text/html;charset=UTF-8" %>
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="layout" content="main">
@@ -96,7 +96,13 @@
 
                         </td>
                     </tr>
+
+
                 </g:each>
+
+                %{--<util:remotePaginate controller="user" action="list" total="${com.ttnd.bootcamp.User.count()}"--}%
+                                     %{--max="5" pageSizes="[10, 20, 50,100]"/>--}%
+
                 </tbody>
 
             </table>

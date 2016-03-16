@@ -17,10 +17,7 @@ class LinksharingTagLib {
     def markAsRead = { attrs, body ->
         User user = session.user
         Long resourceId = attrs.id
-
         if (user) {
-
-
                 if (attrs.isRead == true) {
                     out << "<a href='${createLink(controller: 'readingItem', action: 'changeIsRead', params: [id: resourceId, isRead: false])}' " + ">Mark  as unread</a>"
                 } else {

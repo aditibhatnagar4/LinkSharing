@@ -22,7 +22,7 @@
 
             <div class="pull-right">
                 <ls:resourceType resourceId="${it.resourceId}" url="${it.url}"/>
-                <ls:markAsRead isRead="${it.isRead}" id="${it.resourceId}" userId="${it.userId}"/>
+                <ls:markAsRead isRead="${it.isRead}" id="${it.resourceId}"/>
                 <g:link controller="resource" action="showResource"
                         params="[id: it.resourceId]">View Post</g:link></div>
         </td>
