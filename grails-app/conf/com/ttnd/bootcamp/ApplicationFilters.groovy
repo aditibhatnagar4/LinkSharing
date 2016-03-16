@@ -20,26 +20,45 @@ class ApplicationFilters {
 
         }
 
-        logincheck(controller: 'login', invert: true) {
+
+        userIndex(controller: 'user', action: 'index', controllerExclude: 'console') {
             before = {
+                if (!session.user) {
+                    redirect(controller: 'login', action: 'index')
+                    false
+                }
+            }
+        }
+        consoleCheck(controller: 'console', action: '*') {
+            before = {
+                if (session.user) {
+                    redirect(controller: 'login', action: 'index')
+                }
+            }
+        }
+//
+//        logincheck(controller: 'login', invert: true) {
+//            before = {
 //                if (!session.user) {
 //                    redirect(controller: 'login', action: 'index')
+//
+//                }
+//
+//
+//            }
+//            after = { Map model ->
+//
+//
+//            }
+//            afterView = { Exception e ->
+//
+//            }
+//
+//
+//        }
+//
+   }
 
-  //              }
 
-
-            }
-            after = { Map model ->
-
-
-            }
-            afterView = { Exception e ->
-
-            }
-
-
-        }
-
-    }
 
 }

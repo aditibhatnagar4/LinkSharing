@@ -28,15 +28,14 @@ class ResourceController {
                 resource.delete(flush: true)
                 resource.deleteFile()
                 flash.message = "Resource Deleted"
-                render flash.message
                 //  redirect(uri: '/login/loginHandler')
             } else {
-                flash.error = "Resource not deleted--- ${resource.errors.allErrors.collect { message(error: it) }.join(',')}"
+                flash.error = "Resource not found.Unable to delete resource."
             }
         } else {
             flash.error = "Deletion Not Permissible"
         }
-        //  redirect(uri: '/')
+          redirect(uri: '/')
     }
 
     def searchResource(ResourceSearchCO co) {
@@ -86,12 +85,13 @@ class ResourceController {
                     log.info "before calling getScore()"
                     post.resourceRating = user.getScore(resource)
                 }
-                flash.message = "User Can Access the Resource"
+               // flash.message = "User Can Access the Resource"
 //                RatingInfoVO ratingInfoVO = resource.getResourceInfo()
 //                render "$ratingInfoVO"
                 render(view: '/resource/post', model: [post: post])
             } else {
-                render "Resource could not be found "
+                flash.error= "You do not have the permission to view this resource "
+                redirect(uri: '/')
             }
         } else {
             flash.error = "Resource does not Exists"
@@ -148,19 +148,16 @@ class ResourceController {
                 Resource tempResource = resourceService.editResourceDescription(resource, description)
                 if (tempResource) {
                     flash.message = "Resource Description Updated"
-                    render flash.message
                 } else {
                     flash.error = "Resource Description is not Updated"
-                    render flash.error
                 }
             } else {
                 flash.error = "Resource not Found"
-                render flash.error
             }
         } else {
             flash.error = "Session User not Set"
-            render flash.error
         }
+        redirect(uri: '/resource/showResource', params: [id: id])
 
     }
 

@@ -51,7 +51,7 @@ class LinksharingTagLib {
         if (user) {
             Boolean canDelete = User.canDeleteResource(user, resourceId)
             if (canDelete) {
-                out << "<a href='${createLink(controller: 'Resource', action: 'deleteResource', params: [id: resourceId])}' " + ">Delete</a>"
+                out << "<a href='${createLink(controller: 'resource', action: 'deleteResource', params: [id: resourceId])}' " + ">Delete</a>"
             }
         }
     }

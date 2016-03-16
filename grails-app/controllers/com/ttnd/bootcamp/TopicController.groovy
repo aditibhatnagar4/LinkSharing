@@ -100,8 +100,16 @@ class TopicController {
     def invite(Long topic, String emailID) {
         log.info "=============topic id :${topic}"
         Topic topicInstance = Topic.get(topic)
-
-        String to = emailID
+        String to
+        if(User.findByEmail(emailID)) {
+            to = emailID
+        }
+        else{
+            to=null
+            flash.error="Email Id is not registered."
+            redirect(uri: '/')
+            return
+        }
         String subject = "Invitation for a new topic."
         String hostURL = grailsApplication.config.grails.serverURL
 
