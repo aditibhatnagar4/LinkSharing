@@ -164,7 +164,8 @@ class UserController {
 
                 List<User> users = User.search(userSearchCO).list(max: userSearchCO.max,
                         sort: userSearchCO.sort,
-                        order: userSearchCO.order)
+                        order: userSearchCO.order,
+                offset: userSearchCO.offset)
 
                 List<UserVO> usersList = users?.collect {
                     user ->
@@ -175,12 +176,16 @@ class UserController {
                                 lastName: user.lastName,
                                 active: user.active)
                 }
+                if(!request.xhr) {
 
-                render(view: "/user/list", model: [usersList: usersList])
-            } else
-                redirect(controller: "login", action: "index")
-        } else
-            redirect(controller: "login", action: "index")
+                    render(view: "/user/list", model: [usersList: usersList])
+                }else {
+                    render(template: "/user/list", model: [usersList: usersList])
+                }
+            } //else
+                //redirect(controller: "login", action: "index")
+        } //else
+           // redirect(controller: "login", action: "index")
 
     }
 
