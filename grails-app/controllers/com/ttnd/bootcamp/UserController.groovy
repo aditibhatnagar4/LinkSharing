@@ -178,9 +178,9 @@ class UserController {
                 }
                 if(!request.xhr) {
 
-                    render(view: "/user/list", model: [usersList: usersList])
+                    render(view: "/user/list", model: [usersList: usersList,userCount: User.search(userSearchCO).count()])
                 }else {
-                    render(template: "/user/list", model: [usersList: usersList])
+                    render(template: "/user/list", model: [usersList: usersList,userCount: User.search(userSearchCO).count()])
                 }
             } //else
                 //redirect(controller: "login", action: "index")
@@ -204,6 +204,7 @@ class UserController {
 
                     if (user.save(flush: true)) {
                         flash.message = "User active status changed"
+
                     } else {
                         flash.error = "User active status could not be changed"
                     }

@@ -56,7 +56,7 @@
         </tbody>
 
     </table>
-    <util:remotePaginate controller="user" action="list" total="${com.ttnd.bootcamp.User.count()}"
+    <util:remotePaginate controller="user" action="list" total="${userCount}"
     max="5" update="userList"/>
 
 
