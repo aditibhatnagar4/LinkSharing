@@ -12,13 +12,14 @@ class UserService {
         User user = updatePasswordCO.getUser()
         if (user) {
             user.password = updatePasswordCO.password
-            user.confirmPassword = updatePasswordCO.password
+            user.confirmPassword = updatePasswordCO.confirmPassword
             return user.save()
         } else {
             return null
         }
     }
 
+    @Transactional
     def updateProfile(UpdateProfileCO updateProfileCO) {
         User user = updateProfileCO.getUser()
         if (user) {
@@ -27,6 +28,7 @@ class UserService {
             }
             user.firstName = updateProfileCO.firstName
             user.lastName = updateProfileCO.lastName
+            if(updateProfileCO.userName)
             user.userName = updateProfileCO.userName
             return user.save()
         } else {

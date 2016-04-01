@@ -60,7 +60,7 @@
                 <div class="panel-heading">Profile</div>
 
                 <div class="panel-body">
-                    <g:uploadForm class="form-horizontal" name="registrationForm" controller="user" action="save">
+                    <g:uploadForm class="form-horizontal" name="Form" controller="user" action="save">
 
                         <g:hasErrors bean="${userCo}">
                             <div class="alert alert-danger">

@@ -27,6 +27,7 @@ environments {
             password = "root"
             dbCreate = "create"
             url = "jdbc:mysql://localhost:3306/Linksharing"
+            logSql = true
         }
     }
     test {

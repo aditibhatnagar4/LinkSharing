@@ -60,6 +60,9 @@ class User {
     static mapping = {
         photo(sqlType: 'longblob')
         sort id: "desc"
+        //topics lazy: false
+        //resources lazy: true
+        subscriptions lazy: true
     }
 
     String toString() {

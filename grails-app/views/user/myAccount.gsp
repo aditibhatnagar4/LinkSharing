@@ -112,7 +112,7 @@
                                           data-toggle="modal"
                                           data-target="#sendInvitation"></span>
                                     <g:if test="${session.user.id == it.createdBy.id || session.user.admin == true}">
-                                        <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md edit-topic"
+                                        <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md sub-edit-topic"
                                               data-topic-id="${it.id}">
 
                                         </span>
@@ -157,6 +157,5 @@
     </div>
 
 </div>
-
 
 </body>

@@ -4,9 +4,9 @@ import com.ttnd.bootcamp.CO.TopicSearchCO
 import com.ttnd.bootcamp.VO.TopicVO
 import grails.transaction.Transactional
 
-@Transactional
 class TopicService {
 
+    @Transactional
     List<TopicVO> search(TopicSearchCO topicSearchCO) {
         List<TopicVO> createdTopicsList = []
 
@@ -29,6 +29,20 @@ class TopicService {
             return createdTopicsList
 
         }
+    }
+
+    @Transactional
+    def method() {
+        log.info("in method()")
+        User user=new User(firstName: "a", lastName: "b", userName: "a",password: "abcde",email: "a@b")
+        user.save()
+        a()
+    }
+
+
+    def a() {
+      log.info("in a()")
+
     }
 
 }

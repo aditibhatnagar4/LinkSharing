@@ -24,18 +24,18 @@
                     ${topic.name}
                     </g:link>
 
-                    <div style="display: none" id="editForm${topic.id}" >
+                    <div style="display: none" id="editForm1${topic.id}" >
                     <span class="row">
-                        <g:textField name="topicName" id="name${topic.id}" value="${topic.name}"/>
+                        <g:textField name="topicName" id="name1${topic.id}" value="${topic.name}"/>
 
 
                     <g:hiddenField name="topicId" id="topicId${topic.id}" value="${topic.id}"/>
 
                        <span class="row">
-                        <button class="saveTopicNameButton btn-primary" topicId="${topic.id}">Save</button>
+                        <button class="saveTopicNameButton1 btn-primary" topicId="${topic.id}">Save</button>
 
 
-                        <button class="cancelTopicNameButton btn-primary" topicId="${topic.id}">Cancel</button>
+                        <button class="cancelTopicNameButton1 btn-primary" topicId="${topic.id}">Cancel</button>
                            </span>
 </span>
                     </div>
@@ -85,7 +85,7 @@
                       data-target="#sendInvitation"></span>
                 <g:if test="${session.user.id == topic.createdBy.id || session.user.admin == true}">
 
-                    <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md edit-topic"
+                    <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md tt-edit-topic"
                           data-topic-id="${topic.id}">
 
                     </span>

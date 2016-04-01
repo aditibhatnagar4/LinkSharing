@@ -5,7 +5,6 @@ import grails.validation.Validateable
 import groovy.transform.ToString
 import org.springframework.web.multipart.MultipartFile
 
-
 @ToString
 @Validateable
 class UpdateProfileCO {

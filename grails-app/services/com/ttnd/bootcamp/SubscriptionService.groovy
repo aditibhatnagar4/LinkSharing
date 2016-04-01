@@ -7,12 +7,10 @@ import grails.transaction.Transactional
 @Transactional
 class SubscriptionService {
 
-    List<TopicVO> search(TopicSearchCO topicSearchCO){
+    List<TopicVO> search(TopicSearchCO topicSearchCO) {
 
-        if(topicSearchCO.id)
-        {
+        if (topicSearchCO.id) {
             User user = topicSearchCO.getUser()
-
             return user.getSubscribedTopicsList()
         }
     }

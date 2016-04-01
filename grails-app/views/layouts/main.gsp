@@ -13,6 +13,33 @@
 
 <body>
 
+%{--<div id="fb-root"></div>--}%
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.5&appId=1582026362087346";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#share_button').click(function (e) {
+            e.preventDefault();
+            FB.ui(
+                    {
+                        method: 'feed',
+                        name: 'This is the content of the "name" field.',
+                        link: 'http://localhost:8080/',
+                        picture: 'http://localhost:8080/img.png',
+                        caption: 'This is the content of the "caption" field.',
+                        description: 'This is the content of the "description" field, below the caption.',
+                        message: ''
+                    });
+        });
+    });
+</script>
 
 <g:if test="${session.user}">
 <g:render template="/documentResource/create" model="[topics: session.user.getSubscribedTopic().toList()]"/>
@@ -24,7 +51,7 @@
 %{--<div class="container">--}%
 
     <nav class="navbar navbar-default">
-        <div class="navbar-header navbar-inline">
+        <div class="navbar-header navbar-inline bgColor">
             <div class="row">
                 <div class="col-xs-4">
                     <a href="/login/index" class="navbar-brand text-color"><ins>LinkSharing</ins></a>
@@ -103,5 +130,7 @@
 <asset:javascript src="bootstrap-3.3.6-dist/js/bootstrap.min.js"/>
 <asset:javascript src="additional-methods.min.js"/>
     <asset:javascript src="jquery.validate.min.js"/>
+%{--<asset:javascript src="https://apis.google.com/js/platform.js" async defer/>--}%
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 </body>
 </html>

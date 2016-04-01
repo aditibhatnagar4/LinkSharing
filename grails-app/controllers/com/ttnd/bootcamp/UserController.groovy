@@ -39,7 +39,7 @@ class UserController {
 
     def profile(ResourceSearchCO resourceSearchCO) {
 
-        User user = User.get(resourceSearchCO.id)
+        User user = resourceSearchCO.getUser()
 
         if (session.user) {
             if (!(session.user.admin || session.user.equals(user))) {
@@ -55,6 +55,9 @@ class UserController {
     }
 
     def topics(Long id) {
+
+        topicService.method()
+
         log.info "/user/topics called"
         TopicSearchCO topicSearchCO = new TopicSearchCO(id: id)
 
@@ -92,8 +95,10 @@ class UserController {
         User user = co.properties
         user.active = true
         user.admin = false
-        if (!params.file.empty) {
-            user.photo = params.file.bytes
+        if (params.file) {
+            if (!params.file.empty) {
+                user.photo = params.file.bytes
+            }
         }
         if (user.validate()) {
             user.save(flush: true)
@@ -165,7 +170,7 @@ class UserController {
                 List<User> users = User.search(userSearchCO).list(max: userSearchCO.max,
                         sort: userSearchCO.sort,
                         order: userSearchCO.order,
-                offset: userSearchCO.offset)
+                        offset: userSearchCO.offset)
 
                 List<UserVO> usersList = users?.collect {
                     user ->
@@ -176,16 +181,16 @@ class UserController {
                                 lastName: user.lastName,
                                 active: user.active)
                 }
-                if(!request.xhr) {
+                if (!request.xhr) {
 
-                    render(view: "/user/list", model: [usersList: usersList,userCount: User.search(userSearchCO).count()])
-                }else {
-                    render(template: "/user/list", model: [usersList: usersList,userCount: User.search(userSearchCO).count()])
+                    render(view: "/user/list", model: [usersList: usersList, userCount: User.search(userSearchCO).count()])
+                } else {
+                    render(template: "/user/list", model: [usersList: usersList, userCount: User.search(userSearchCO).count()])
                 }
             } //else
-                //redirect(controller: "login", action: "index")
+            //redirect(controller: "login", action: "index")
         } //else
-           // redirect(controller: "login", action: "index")
+        // redirect(controller: "login", action: "index")
 
     }
 
@@ -217,7 +222,7 @@ class UserController {
         } else {
             redirect(controller: "login", action: "index")
         }
-       // redirect(uri: '/')
+        // redirect(uri: '/')
     }
 
     def display() {
@@ -230,9 +235,9 @@ class UserController {
 
         if (session.user) {
             updateProfileCO.file = params.file
-          //  log.info params.file
+            //  log.info params.file
             if (updateProfileCO.hasErrors()) {
-                flash.error="CO has errors ${updateProfileCO.errors.allErrors}"
+                flash.error = "CO has errors ${updateProfileCO.errors.allErrors}"
 
                 render(view: 'edit', model: [userDetails: session.user.getUserDetails(), userCo: session.user])
             } else {
@@ -264,12 +269,12 @@ class UserController {
                 if (user) {
                     session.user = user
                     flash.message = "Password Updated"
-                   render(view: 'edit', model: [userDetails: user.getUserDetails(),
-                                                 userCo: user])
+                    render(view: 'edit', model: [userDetails: user.getUserDetails(),
+                                                 userCo     : user])
                 } else {
                     flash.error = "Password not Updated"
                     render(view: 'edit', model: [userDetails: session.user.getUserDetails(),
-                                                userCo: session.user])
+                                                 userCo     : session.user])
                 }
             }
         }
@@ -282,7 +287,6 @@ class UserController {
             render(view: 'edit', model: [userDetails: user.getUserDetails(), userCo: user])
         }
     }
-
 
 
 }

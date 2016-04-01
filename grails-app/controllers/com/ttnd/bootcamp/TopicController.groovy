@@ -81,10 +81,10 @@ class TopicController {
         if (topic) {
             if (user.admin || (topic.createdBy.id == user.id)) {
                 topic.delete(flush: true)
-                flash.message="Topic deleted successfully."
+                flash.message = "Topic deleted successfully."
                 jsonResponse.message = flash.message
-            }else {
-                flash.error="You don't have the permission to delete this topic"
+            } else {
+                flash.error = "You don't have the permission to delete this topic"
                 jsonResponse.error = flash.error
             }
 
@@ -93,27 +93,27 @@ class TopicController {
             jsonResponse.error = flash.error
         }
         render jsonResponse as JSON
-    //    redirect(controller: 'login', action: 'index')
+        //    redirect(controller: 'login', action: 'index')
 
     }
 
     def invite(Long topic, String emailID) {
-        log.info "=============topic id :${topic}"
         Topic topicInstance = Topic.get(topic)
         String to
-        if(User.findByEmail(emailID)) {
+        if (User.findByEmail(emailID)) {
             to = emailID
-        }
-        else{
-            to=null
-            flash.error="Email Id is not registered."
+        } else {
+            to = null
+            flash.error = "Email Id is not registered."
             redirect(uri: '/')
             return
         }
         String subject = "Invitation for a new topic."
         String hostURL = grailsApplication.config.grails.serverURL
 
-        EmailDTO emailDTO = new EmailDTO(to: to, subject: subject, model: [id: topic, hostURL: hostURL])
+        EmailDTO emailDTO = new EmailDTO(to: to,
+                subject: subject,
+                model: [id: topic, hostURL: hostURL])
 
         if (topicInstance == null) {
             flash.error = "Topic could not be found."
@@ -122,7 +122,7 @@ class TopicController {
             flash.message = "Email sent"
         }
 
-         // redirect(controller: "login", action: "index")
+        // redirect(controller: "login", action: "index")
 
         redirect(uri: '/')
     }
@@ -142,15 +142,21 @@ class TopicController {
 
             redirect(controller: "login", action: "index")
         }
+        else{
+            flash.error="You must log in first."
+            redirect(controller: "login", action: "index")
+
+        }
     }
 
     def titleUpdate(Long topicId, String name) {
-       // render "${topic} ${name}"
+        log.info "${topicId} ${name}"
         Topic topic = Topic.get(topicId)
         Map json = [:]
         if (name) {
             topic.name = name
         }
+        log.info "${topic.properties}"
         if (topic.save(flush: true)) {
             json.message = "Topic Name Updated"
         } else {

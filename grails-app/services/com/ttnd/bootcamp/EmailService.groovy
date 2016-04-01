@@ -23,6 +23,7 @@ class EmailService {
         }
 
         mailService.sendMail {
+            async true
             to emailDTO.to
             subject emailDTO.subject
            // html content

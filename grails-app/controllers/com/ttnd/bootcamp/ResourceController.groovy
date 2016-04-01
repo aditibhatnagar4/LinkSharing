@@ -135,8 +135,10 @@ class ResourceController {
             posts = resources?.collect{ Resource.getPost(it.id) }
 
             render(view:'/resource/searchPage', model: [topicPosts: posts, q: resourceSearchCO.q])
-        } else
-            render "Enter text to be searched"
+        } else {
+            flash.error = "Enter text to be searched"
+            redirect uri: '/'
+        }
 
     }
 

@@ -8,9 +8,11 @@ class UpdatePasswordCO {
     Long id
     String oldPassword
     String password
+    String confirmPassword
 
     static constraints = {
-        importFrom(User, include: ['password'])
+       // importFrom(User, include: ['password','confirmPassword'])
+        importFrom(User)
         oldPassword(validator: { val, obj ->
             if (!obj.id && (val == (obj.getUser()?.password))) {
                 return false

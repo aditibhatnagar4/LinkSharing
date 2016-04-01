@@ -1,48 +1,98 @@
 package com.ttnd.bootcamp
 
+import com.ttnd.bootcamp.CO.UserCO
+import com.ttnd.bootcamp.VO.PostVO
+import grails.test.mixin.Mock
 import grails.test.mixin.TestFor
 import spock.lang.Specification
 
 @TestFor(UserController)
+@Mock([User, Subscription, Topic, Resource, ReadingItem])
 class UserControllerSpec extends Specification {
 
     def "CheckRegistration- New user registers for the application"() {
         setup:
-        User user = new User(userName: userName,
+        UserCO user = new UserCO(userName: userName,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 password: password,
-                confirmPassword: confirmPassword)
+                confirmPassword: confirmPassword
+        )
+        String url = "/login/loginHandler?userName=${userName}&password=${password}"
         when:
-        controller.registerUser(user.userName,
-                user.firstName,
-                user.lastName,
-                user.email,
-                user.password,
-                user.confirmPassword)
-        user.save(flush: true)
+        controller.registerUser(user)
 
         then:
         User.count()
-        response.text == result
+        response.redirectedUrl == url
+
+
 
         where:
-        userName | firstName | lastName    | email                       | password | confirmPassword | result
-        "aditi"  | "aditi"   | "bhatnagar" | "aditi.bhatnagar@tothe.com" | "123abc" | "123abc"        | "aditi saved"
+        userName | firstName | lastName    | email                       | password | confirmPassword
+        "aditi"  | "aditi"   | "bhatnagar" | "aditi.bhatnagar@tothe.com" | "123abc" | "123abc"
     }
 
-    def "CheckUserIndex"() {
+
+    def "CheckRegistration- New user registers for the application with photo"() {
+        setup:
+        UserCO user = new UserCO(userName: userName,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                confirmPassword: confirmPassword,
+                photo: photo)
+        String url = "/login/loginHandler?userName=${userName}&password=${password}"
         when:
-        session.user = user
+        controller.registerUser(user)
+
+        then:
+        User.count()
+        response.redirectedUrl == url
+
+
+
+        where:
+        userName | firstName | lastName    | email                       | password | confirmPassword | photo
+        "aditi"  | "aditi"   | "bhatnagar" | "aditi.bhatnagar@tothe.com" | "123abc" | "123abc"        | "123".getBytes()
+    }
+
+
+    def "CheckUserIndex"() {
+        given:
+        //controller.session.user = new User()
+        User user = new User(userName: "aditi",
+                firstName: "aditi",
+                lastName: "bhatnagar",
+                email: "aditi@gmail.com",
+                password: "password",
+                confirmPassword: "password",
+                active: true,
+                admin: false)
+
+        user.metaClass.getSubscribedTopic = {
+            [new Topic()]
+        }
+        controller.session.user = user
+        User.metaClass.static.getReadingItems = { User user1 ->
+            [new PostVO()]
+        }
+
+        when:
         controller.index()
 
         then:
-        response.text == result
+        view == "/user/myAccount"
+        // model.topics == subscribedTopics.toList()
+        model.subscribedTopics.size() == 1
+        // model.readingItems == readingItems
+        // model.userObj == user
+        model.readingItems.size() == 1
+        model.subscribedTopics.size() == 1
 
-        where:
-        user                        | result
-        new User(userName: "aditi") | "User aditi Dashboard"
+
     }
 
 }

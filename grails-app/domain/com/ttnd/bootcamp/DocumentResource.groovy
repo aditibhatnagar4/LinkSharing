@@ -10,7 +10,7 @@ class DocumentResource extends Resource {
 
         filePath blank: false
 
-        contentType(bindable: true, validator: { val, obj ->
+        contentType(bindable: true,nullable: true, validator: { val, obj ->
             if ((val == null) || (val != Constants.DOCUMENT_CONTENT_TYPE)) {
                 return false
             }

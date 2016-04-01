@@ -92,5 +92,6 @@ grails.project.dependency.resolution = {
         runtime ':twitter-bootstrap:3.3.1'
         compile "org.grails.plugins:quartz:1.0.2"
         compile "org.grails.plugins:remote-pagination:0.4.8"
+     //   compile "org.grails.plugins:spring-security-core:2.0.0"
     }
 }
