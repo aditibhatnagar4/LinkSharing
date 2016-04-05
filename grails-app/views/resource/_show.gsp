@@ -12,7 +12,7 @@
 
         <td><ls:userImage id="${it.userId}"/></td>
         <td><div class="row"><div class="col-xs-8"><strong>${it.firstName}</strong><span
-                class="text-muted">@${it.userName} 5min</span></div>
+                class="text-muted"><br>@${it.userName} <br>5min</span></div>
 
             <div class="col-xs-4"><g:link controller="topic" action="showTopic"
                                           params="[topicId: it.topicId]">${it.topicName}</g:link></div></div>

@@ -52,12 +52,11 @@
                         <ls:showSubscribe topicId="${topic.id}"/>
                     </div>
                 </div>
-
-                <div class="col-xs-5 text-muted">Subscriptions<div
+                <div class="col-xs-5 text-muted"><br>Subscriptions<div
                         class="text-color"><ls:subscriptionCount topicId="${topic.id}"/></div>
                 </div>
 
-                <div class="col-xs-2 text-muted">Post<div class="text-color"><ls:resourceCount
+                <div class="col-xs-2 text-muted"><br>Post<div class="text-color"><ls:resourceCount
                         topicId="${topic.id}"/></div></div>
 
             </div>

@@ -202,9 +202,10 @@ class UserController {
         } else {
             flash.error = "The email id doesn't belong to a registered user."
         }
-        redirect(uri: "/")
+        redirect(uri: "/login/auth")
     }
 
+    @Secured(['ROLE_ADMIN'])
     def list(UserSearchCO userSearchCO) {
 
         if (session.user) {
@@ -237,6 +238,7 @@ class UserController {
 
     }
 
+    @Secured(['ROLE_ADMIN'])
     def toggleActive(Long id) {
         if (session.user) {
 
