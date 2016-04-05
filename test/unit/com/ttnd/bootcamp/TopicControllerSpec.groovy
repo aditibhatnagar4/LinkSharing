@@ -11,8 +11,8 @@ class TopicControllerSpec extends Specification {
     def "CheckTopicShow"() {
         setup:
 
-        User user = new User(userName: "user5",
-                active: true,
+        User user = new User(username: "user5",
+                enabled: true,
                 password: Constants.DEFAULT_PASSWORD,
                 confirmPassword: Constants.DEFAULT_PASSWORD,
                 firstName: "FName",
@@ -42,16 +42,16 @@ class TopicControllerSpec extends Specification {
 
     def "CheckTopicShow- User not subscribed to private topic"() {
         setup:
-        User user = new User(userName: "user5",
-                active: true,
+        User user = new User(username: "user5",
+                enabled: true,
                 password: Constants.DEFAULT_PASSWORD,
                 confirmPassword: Constants.DEFAULT_PASSWORD,
                 firstName: "Name",
                 lastName: "Lname",
                 email: "user5@ttnd.com")
 
-        User user1 = new User(userName: "user6",
-                active: true,
+        User user1 = new User(username: "user6",
+                enabled: true,
                 password: Constants.DEFAULT_PASSWORD,
                 confirmPassword: Constants.DEFAULT_PASSWORD,
                 firstName: "Name",

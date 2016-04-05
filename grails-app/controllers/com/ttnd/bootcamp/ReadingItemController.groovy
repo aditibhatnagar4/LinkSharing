@@ -1,5 +1,8 @@
 package com.ttnd.bootcamp
 
+import grails.plugin.springsecurity.annotation.Secured
+
+@Secured(['permitAll'])
 class ReadingItemController {
 
     def changeIsRead(Long id, Boolean isRead) {

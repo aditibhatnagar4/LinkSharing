@@ -11,12 +11,12 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-xs-3 image">
-                            <ls:userImage id="${session.user.id}"/>
+                            <ls:userImage id="${user.id}"/>
                         </div>
 
                         <div class="col-xs-4">
-                            ${session.user.name}
-                            <p class="text-muted">@${session.user.userName}</p>
+                            ${user.name}
+                            <p class="text-muted">@${user.username}</p>
 
                             <div class="row">
                                 <div class="text-muted col-xs-8">Subscription
@@ -29,7 +29,7 @@
                                 <div class="col-xs-8 text-color">50
                                 </div>
 
-                                <div class="col-xs-4 text-color"><ls:topicCount userId="${session.user.id}"/>
+                                <div class="col-xs-4 text-color"><ls:topicCount userId="${user.id}"/>
                                 </div></div>
                         </div>
                     </div>
@@ -66,16 +66,16 @@
                                         <g:hiddenField name="topicId" id="topicId${it.id}" value="${it.id}"/>
 
                                         <span class="row">
-                                            <button class="saveTopicNameButton btn-primary" topicId="${it.id}">Save</button>
+                                            <button class="saveTopicNameButton btn-success" topicId="${it.id}">Save</button>
 
 
-                                            <button class="cancelTopicNameButton btn-primary" topicId="${it.id}">Cancel</button>
+                                            <button class="cancelTopicNameButton btn-danger" topicId="${it.id}">Cancel</button>
                                         </span>
                                     </span>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-xs-5 text-muted">${it.createdBy.userName}<div>
+                                    <div class="col-xs-5 text-muted">${it.createdBy.username}<div>
                                         <ls:showSubscribe topicId="${it.id}"/>
                                     </div>
                                     </div>
@@ -102,16 +102,21 @@
                                         <ls:seriousnessDropdown topicId="${it.id}"/>
                                     </div>
 
-                                    <g:if test="${session.user.id == it.createdBy.id || session.user.admin == true}">
+                                    <g:if test="${session.user.id == it.createdBy.id || session.user.authorities.any { it.authority == "ROLE_ADMIN" }}">
+                                        %{--<sec:ifAnyGranted roles="ROLE_USER">--}%
+                                            %{--<g:if test="${session.user.id == it.createdBy.id}">--}%
                                         <div class="dropdown col-xs-4">
                                             <ls:visibilityDropdown topicId="${it.id}"/>
                                         </div>
+                                                %{--</g:if>--}%
+                                            %{--</sec:ifAnyGranted>--}%
                                     </g:if>
 
                                     <span class="glyphicon glyphicon-envelope col-xs-1 font-size-md"
                                           data-toggle="modal"
                                           data-target="#sendInvitation"></span>
-                                    <g:if test="${session.user.id == it.createdBy.id || session.user.admin == true}">
+                                    <g:if test="${user.id == it.createdBy.id}">
+                                        %{--or the logged in user is admin--}%
                                         <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md sub-edit-topic"
                                               data-topic-id="${it.id}">
 

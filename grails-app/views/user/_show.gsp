@@ -16,7 +16,7 @@
 
             <div class="col-xs-4">
                 ${it.firstName}
-                <p class="text-muted">@${it.userName}</p>
+                <p class="text-muted">@${it.username}</p>
 
                 <div class="row">
                     <div class="text-muted col-xs-8">Subscription

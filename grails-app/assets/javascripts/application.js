@@ -132,7 +132,7 @@ $(document).ready(function () {
                     required: true,
                     confirm: true
                 },
-                'userName': {
+                'username': {
                     required: true,
                     remote: {
                         url: "/login/validateUserName",
@@ -166,7 +166,7 @@ $(document).ready(function () {
                     required: "Email address can't be blank",
                     remote: "Email address entered is already used"
                 },
-                'userName': {
+                'username': {
                     required: "User name can't be blank",
                     remote: "User name entered already exist"
                 }

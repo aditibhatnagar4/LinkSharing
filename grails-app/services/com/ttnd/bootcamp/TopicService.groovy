@@ -34,7 +34,7 @@ class TopicService {
     @Transactional
     def method() {
         log.info("in method()")
-        User user=new User(firstName: "a", lastName: "b", userName: "a",password: "abcde",email: "a@b")
+        User user=new User(firstName: "a", lastName: "b", username: "a",password: "abcde",email: "a@b")
         user.save()
         a()
     }

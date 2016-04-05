@@ -122,7 +122,7 @@ abstract class Resource {
                 }
                 'createdBy' {
                     property('id')
-                    property('userName')
+                    property('username')
                     property('firstName')
                     property('lastName')
                     property('photo')
@@ -139,8 +139,8 @@ abstract class Resource {
                 topicName: obj[5],
                 userId: obj[6],
                 userName: obj[7],
-                userFirstName: obj[8],
-                userLastName: obj[9],
+                firstName: obj[8],
+                lastName: obj[9],
                 userPhoto: obj[10],
                 isRead: "",
                 postDate: obj[11],

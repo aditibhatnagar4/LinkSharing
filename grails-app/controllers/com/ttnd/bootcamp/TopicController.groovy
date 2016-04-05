@@ -4,7 +4,9 @@ import com.ttnd.bootcamp.CO.ResourceSearchCO
 import com.ttnd.bootcamp.DTO.EmailDTO
 import com.ttnd.bootcamp.VO.TopicVO
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['permitAll'])
 class TopicController {
 
     def emailService
@@ -79,7 +81,7 @@ class TopicController {
         User user = session.user
         Map jsonResponse = [:]
         if (topic) {
-            if (user.admin || (topic.createdBy.id == user.id)) {
+            if (user.findAll{it.isAdmin()} || (topic.createdBy.id == user.id)) {
                 topic.delete(flush: true)
                 flash.message = "Topic deleted successfully."
                 jsonResponse.message = flash.message

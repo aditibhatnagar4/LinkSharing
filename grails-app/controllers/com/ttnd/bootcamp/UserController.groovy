@@ -10,11 +10,12 @@ import com.ttnd.bootcamp.DTO.EmailDTO
 import com.ttnd.bootcamp.VO.PostVO
 import com.ttnd.bootcamp.VO.TopicVO
 import com.ttnd.bootcamp.VO.UserVO
-import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import groovy.util.logging.Slf4j
 import com.ttnd.bootcamp.Utility.Util
 
 @Slf4j
+@Secured(['permitAll'])
 class UserController {
 
     def topicService
@@ -23,17 +24,41 @@ class UserController {
     def messageSource
     def assetResourceLocator
     def userService
+    def springSecurityService
 
     def index() {
-        User user = session.user
-        List<Topic> subscribedTopics = user.getSubscribedTopic()
-        List<PostVO> readingItems = User.getReadingItems(session.user)
-//         List<ReadingItem> readingItems=User.getUnReadResources(co)
-        render view: 'myAccount', model: [
-                topics          : subscribedTopics.toList(),
-                subscribedTopics: subscribedTopics,
-                readingItems    : readingItems
-        ]
+        log.info "in /user/index"
+
+        if (springSecurityService.isLoggedIn()) {
+            log.info "user logged in "
+//            log.info "${session.user.id}"
+            User user = session.user = User.read(springSecurityService.currentUserId as Long)
+            springSecurityService.reauthenticate(user.email)
+            List<Topic> subscribedTopics = user.getSubscribedTopic()
+            List<PostVO> readingItems = User.getReadingItems(session.user)
+
+//            log.info "${session.user.findAll{it.isAdmin()}}"
+
+            render(view: '/user/myAccount', model: [
+                    topics: subscribedTopics.toList(),
+                    subscribedTopics: subscribedTopics,
+                    readingItems: readingItems,
+                    user: user
+            ])
+        } else {
+            log.info "user not logged in"
+            redirect(controller: 'login', action: 'index')
+        }
+
+        //  User user = session.user
+//        List<Topic> subscribedTopics = user.getSubscribedTopic()
+//        List<PostVO> readingItems = User.getReadingItems(session.user)
+////         List<ReadingItem> readingItems=User.getUnReadResources(co)
+//        render view: 'myAccount', model: [
+//                topics          : subscribedTopics.toList(),
+//                subscribedTopics: subscribedTopics,
+//                readingItems    : readingItems
+//        ]
     }
 
 
@@ -42,7 +67,8 @@ class UserController {
         User user = resourceSearchCO.getUser()
 
         if (session.user) {
-            if (!(session.user.admin || session.user.equals(user))) {
+
+            if (!(session.user.findAll { it.isAdmin() } || session.user.equals(user))) {
                 resourceSearchCO.visibility = Visibility.PUBLIC
             }
         } else
@@ -62,7 +88,9 @@ class UserController {
         TopicSearchCO topicSearchCO = new TopicSearchCO(id: id)
 
         if (session.user) {
-            if (!(session.user.admin || session.user.equals(User.load(id)))) {
+            if (!(session.user.authorities.any {
+                it.authority == 'ROLE_ADMIN'
+            } || session.user.equals(User.load(id)))) {
                 topicSearchCO.visibility = Visibility.PUBLIC
             }
         } else
@@ -78,7 +106,9 @@ class UserController {
         TopicSearchCO topicSearchCO = new TopicSearchCO(id: id)
 
         if (session.user) {
-            if (!(session.user.admin || session.user.equals(User.load(id)))) {
+            if (!(session.user.authorities.any {
+                it.authority == 'ROLE_ADMIN'
+            } || session.user.equals(User.load(id)))) {
                 topicSearchCO.visibility = Visibility.PUBLIC
             }
         } else
@@ -92,21 +122,34 @@ class UserController {
 
 
     def registerUser(UserCO co) {
+        String password = co.password
+        co.password = springSecurityService.encodePassword(co.password)
         User user = co.properties
-        user.active = true
-        user.admin = false
+        user.enabled = true
+        Role role = Role.findByAuthority("ROLE_USER")
+        UserRole normalUserRole = new UserRole(user: user, role: role)
         if (params.file) {
             if (!params.file.empty) {
                 user.photo = params.file.bytes
             }
         }
-        if (user.validate()) {
+        co.password = password
+        if (!co.validate()) {
+            flash.error = "Registration unsuccessful."
+            redirect uri: '/login/auth'
+            return
+
+        }
+
+        if (user.validate() && normalUserRole.validate()) {
             user.save(flush: true)
-            redirect(uri: '/login/loginHandler', params: [userName: co.userName, password: co.password])
+            normalUserRole.save(flush: true)
+            flash.message = "You have registered successfully.You can proceed to login."
 
         } else {
-            render view: '/login/homePage', model: [user: user]
+            flash.error = "Registration unsuccessful."
         }
+        redirect uri: '/login/auth'
     }
 
 //    def save(User user) {
@@ -135,7 +178,7 @@ class UserController {
         User user = User.findByEmail(emailID)
 
         if (user) {
-            if (user.active) {
+            if (user.enabled) {
                 String to = emailID
                 String subject = "Forgot password request"
                 String newPassword = Util.randomPassword
@@ -165,21 +208,21 @@ class UserController {
     def list(UserSearchCO userSearchCO) {
 
         if (session.user) {
-            if (session.user.admin) {
+            if (session.user.authorities.any { it.authority == "ROLE_ADMIN" }) {
 
                 List<User> users = User.search(userSearchCO).list(max: userSearchCO.max,
                         sort: userSearchCO.sort,
                         order: userSearchCO.order,
-                        offset: userSearchCO.offset)
+                        offset: userSearchCO.offset).findAll { it.isAdmin() }
 
                 List<UserVO> usersList = users?.collect {
                     user ->
                         new UserVO(userId: user.id,
-                                userName: user.userName,
+                                userName: user.username,
                                 emailId: user.email,
                                 firstName: user.firstName,
                                 lastName: user.lastName,
-                                active: user.active)
+                                active: user.enabled)
                 }
                 if (!request.xhr) {
 
@@ -197,21 +240,21 @@ class UserController {
     def toggleActive(Long id) {
         if (session.user) {
 
-            if (session.user.admin) {
+            if (session.user.findAll { it.isAdmin() }) {
 
                 User user = User.get(id)
 
                 if (user) {
-                    if (user.admin) {
-                        flash.error = "Admin active status cannot be changed."
+                    if (user.findAll { it.isAdmin() }) {
+                        flash.error = "Admin enabled status cannot be changed."
                     } else
-                        user.active = !(user.active)
+                        user.enabled = !(user.enabled)
 
                     if (user.save(flush: true)) {
-                        flash.message = "User active status changed"
+                        flash.message = "User enabled status changed"
 
                     } else {
-                        flash.error = "User active status could not be changed"
+                        flash.error = "User enabled status could not be changed"
                     }
                 } else
                     flash.error = "User could not be found."

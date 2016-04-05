@@ -10,7 +10,8 @@ class UrlMappings {
         "500"(view: '/my500')
         "404"(view:'/my404' )
 
-        "/"(controller: 'login', action: 'index')
+      //  "/"(controller: 'login', action: 'index')
+        "/"(controller: "user", action: "index")
 
     }
 }

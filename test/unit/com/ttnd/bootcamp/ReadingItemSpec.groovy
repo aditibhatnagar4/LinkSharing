@@ -13,9 +13,9 @@ class ReadingItemSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: "a@b.com",
                 password: "password",
-                userName: "aditi",
+                username: "aditi",
                 admin: false,
-                active: true)
+                enabled: true)
         Topic topic = new Topic(name: "topic1",
                 visibility: Visibility.PUBLIC,
                 createdBy: user)

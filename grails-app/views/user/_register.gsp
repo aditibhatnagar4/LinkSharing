@@ -49,7 +49,7 @@
         <label class=" col-xs-5">Username *</label>
 
         <div class="col-xs-7">
-            <g:textField class="form-control" name="userName" value="${user?.userName}"/>
+            <g:textField class="form-control" name="username" value="${user?.username}"/>
         </div>
         <g:hasErrors bean="${user}">
             <div class="alert-danger" role="alert">

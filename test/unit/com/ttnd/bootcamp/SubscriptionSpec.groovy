@@ -13,9 +13,9 @@ class SubscriptionSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: "a@b.com",
                 password: "password",
-                userName: "aditi",
+                username: "aditi",
                 admin: false,
-                active: true)
+                enabled: true)
         Topic topic = new Topic(name: "topic1", visibility: Visibility.PUBLIC, createdBy: user)
         Subscription subscription = new Subscription(seriousness: Seriousness.CASUAL, user: user, topic: topic)
 

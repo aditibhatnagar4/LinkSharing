@@ -1,7 +1,9 @@
 package com.ttnd.bootcamp
 
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
+@Secured(['permitAll'])
 class LinkResourceController extends ResourceController {
 
     @Transactional

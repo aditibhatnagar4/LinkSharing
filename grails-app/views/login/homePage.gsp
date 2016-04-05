@@ -20,8 +20,8 @@
                             </g:else>
 
                             <td><ls:userImage id="${it.createdBy.id}"/></td>
-                            <td><div class="row"><div class="col-xs-8"><strong>${it.createdBy}</strong><span
-                                    class="text-muted">${it.createdBy}</span></div>
+                            <td><div class="row"><div class="col-xs-8"><strong>${it.createdBy.firstName}</strong><span
+                                    class="text-muted"><br>${it.createdBy}</span></div>
 
                                 <div class="col-xs-4"><g:link controller="topic"
                                                               action="showTopic" params="[topicId: it.topic.id]">${it.topic}</g:link></div></div>

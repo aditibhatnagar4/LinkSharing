@@ -18,9 +18,9 @@ class UserSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: email,
                 password: "password",
-                userName: "aditi",
+                username: "aditi",
                 admin: false,
-                active: true)
+                enabled: true)
 
         when:
         user.save(flush: true)
@@ -33,9 +33,9 @@ class UserSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: email,
                 password: "password",
-                userName: "aditi2",
+                username: "aditi2",
                 admin: false,
-                active: true)
+                enabled: true)
         newUser.save(flush: true)
 
         then:
@@ -51,9 +51,9 @@ class UserSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: "a2@b.com",
                 password: "password",
-                userName: userName,
+                username: userName,
                 admin: false,
-                active: true)
+                enabled: true)
         when:
         user.save(flush: true)
 
@@ -65,15 +65,15 @@ class UserSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: "a@b.com",
                 password: "password",
-                userName: userName,
+                username: userName,
                 admin: false,
-                active: true)
+                enabled: true)
         newUser.save(flush: true)
 
         then:
         User.count() == 1
         newUser.errors.allErrors.size() == 1
-        newUser.errors.getFieldErrorCount('userName') == 1
+        newUser.errors.getFieldErrorCount('username') == 1
     }
 
     @Unroll("User Validation:Executing #sno")
@@ -83,18 +83,18 @@ class UserSpec extends Specification {
                 lastName: lastName,
                 email: email,
                 password: password,
-                userName: userName,
+                username: userName,
                 admin: admin,
-                active: active)
+                enabled: active)
         when:
         Boolean result = user.validate()
 
         then:
         result == valid
         where:
-        sno | firstName | lastName    | email     | password  | userName | admin | active | valid
-        1   | ""        | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | true   | false
-        2   | "Aditi"   | "Bhatnagar" | "aditi"   | "test123" | "aditi"  | false | true   | false
+        sno | firstName | lastName    | email     | password  | userName | admin | active | photo        | valid
+        1   | ""        | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | true   | "test.bytes" | false
+        2   | "Aditi"   | "Bhatnagar" | "aditi"   | "test123" | "aditi"  | false | true   | "test.bytes" | false
         3   | "Aditi"   | "Bhatnagar" | null      | "test123" | "aditi"  | false | true   | false
         4   | "Aditi"   | "Bhatnagar" | ""        | "test123" | "aditi"  | false | true   | false
         5   | "Aditi"   | "Bhatnagar" | "a@b.com" | null      | "aditi"  | false | true   | false
@@ -134,7 +134,7 @@ class UserSpec extends Specification {
     @Unroll("Checking ToString :Executing #sno")
     def "CheckToString"() {
         setup:
-        User user = new User(userName: userName)
+        User user = new User(username: userName)
 
         when:
         result == user.toString()

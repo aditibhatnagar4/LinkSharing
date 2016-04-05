@@ -203,7 +203,7 @@ class LinksharingTagLib {
 
     Boolean canUpdateTopic(topicId) {
         Topic topic = Topic.get(topicId)
-        return (session.user != null && (session.user.admin == true || topic.createdBy.id == session.user.id))
+        return (session.user != null && (session.user.authorities.any { it.authority == "ROLE_ADMIN" } || topic.createdBy.id == session.user.id))
     }
 }
 

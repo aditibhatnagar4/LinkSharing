@@ -42,7 +42,7 @@
 
 
                         <td><ls:userImage id="${it.userId}"/></td>
-                        <td><div class="row"><div class="col-xs-8"><strong>${it.userFirstName}</strong><span
+                        <td><div class="row"><div class="col-xs-8"><strong>${it.firstName}</strong><span
                                 class="text-muted">@${it.userName} 5min</span></div>
 
                             <div class="col-xs-4"><g:link controller="topic" action="showTopic"

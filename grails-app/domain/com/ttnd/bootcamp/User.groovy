@@ -9,17 +9,37 @@ import com.ttnd.bootcamp.VO.UserVO
 class User {
 
     Date dateCreated
+    transient springSecurityService
     Date lastUpdated
     String email
-    String userName
+    String username
     String password
     String firstName
     String lastName
     Byte[] photo
-    Boolean admin
-    Boolean active
+    // Boolean admin
+    boolean enabled = true
     String confirmPassword
     String name
+
+    boolean accountExpired
+    boolean accountLocked
+    boolean passwordExpired
+
+    //TODO Refactor properly
+    Set<Role> getAuthorities() {
+        UserRole.findAllByUser(this)*.role
+    }
+
+    boolean isAdmin() {
+        //TODO Change String constant to Enum
+        authorities.any { it.authority == 'ROLE_ADMIN' }
+    }
+
+//    String getPassword() {
+//        return decodedPassword
+//    }
+
 
     static constraints = {
         email email: true, unique: true, blank: false
@@ -27,17 +47,16 @@ class User {
         firstName blank: false
         lastName blank: false
         photo nullable: true
-        admin nullable: true
-        active nullable: true
-        userName unique: true
-        confirmPassword(bindable: true, nullable: true, blank: true, validator: { val, obj ->
-            if (!obj.id && (obj.password != val || !val)) {
-                return false
-            }
-        })
+//        admin nullable: true
+        enabled nullable: true
+        username unique: true
+//        confirmPassword(bindable: true, nullable: true, blank: true, validator: { val, obj ->
+//            if (!obj.id && (obj.password != val || !val)) {
+//                return false
+//            }
+//        })
 
     }
-
 
     static hasMany = [
             topics         : Topic,
@@ -55,7 +74,7 @@ class User {
 
     }
 
-    static transients = ['name', 'confirmPassword', 'subscribedTopic']
+    static transients = ['name', 'confirmPassword', 'subscribedTopic','springSecurityService']
 
     static mapping = {
         photo(sqlType: 'longblob')
@@ -66,7 +85,7 @@ class User {
     }
 
     String toString() {
-        return userName ?: ""
+        return username ?: ""
     }
 
     List<Topic> getSubscribedTopic() {
@@ -81,7 +100,7 @@ class User {
 
     public static Boolean canDeleteResource(User user, Long resourceId) {
         Resource resource = Resource.read(resourceId)
-        if (user.admin || resource.createdBy.id == user.id) {
+        if (user.authorities.any { it.authority == 'ROLE_ADMIN' } || resource.createdBy.id == user.id) {
             return true
         }
         return false
@@ -103,9 +122,9 @@ class User {
                     topicId: it.resource.topic.id,
                     topicName: it.resource.topic.name,
                     userId: it.resource.createdBy.id,
-                    userName: it.resource.createdBy.userName,
-                    userFirstName: it.resource.createdBy.firstName,
-                    userLastName: it.resource.createdBy.lastName,
+                    userName: it.resource.createdBy.username,
+                    firstName: it.resource.createdBy.firstName,
+                    lastName: it.resource.createdBy.lastName,
                     userPhoto: it.resource.createdBy.photo,
                     isRead: it.isRead,
                     url: it.resource,
@@ -184,33 +203,33 @@ class User {
                     ilike('firstName', "%${userSearchCO.q}%")
                     ilike('lastName', "%${userSearchCO.q}%")
                     ilike('email', "%${userSearchCO.q}%")
-                    ilike('userName', "%${userSearchCO.q}%")
+                    ilike('username', "%${userSearchCO.q}%")
                 }
             }
 
             if (userSearchCO.active != null) {
-                eq('active', userSearchCO.active)
+                eq('enabled', userSearchCO.active)
             }
 
-            eq('admin', false)
         }
 
     }
 
     UserVO getUserDetails() {
         return new UserVO(userId: id,
-                name: userName,
+                name: username,
                 firstName: firstName,
                 lastName: lastName,
                 emailId: email,
                 photo: photo,
-                active: active,
-                admin: admin)
+                active: enabled,
+                // admin: admin
+        )
     }
 
-    public List<Resource> unreadResources(){
+    public List<Resource> unreadResources() {
 
-        List<Resource> resourceList = ReadingItem.createCriteria().list(){
+        List<Resource> resourceList = ReadingItem.createCriteria().list() {
 
             projections {
                 property('resource')

@@ -21,14 +21,14 @@ class ApplicationFilters {
         }
 
 
-        userIndex(controller: 'user', action: 'index', controllerExclude: 'console') {
-            before = {
-                if (!session.user) {
-                    redirect(controller: 'login', action: 'index')
-                    false
-                }
-            }
-        }
+//        userIndex(controller: 'user', action: 'index', controllerExclude: 'console') {
+//            before = {
+//                if (!session.user) {
+//                    redirect(controller: 'login', action: 'index')
+//                    false
+//                }
+//            }
+//        }
 //        consoleCheck(controller: 'console', action: '*') {
 //            before = {
 //                if (session.user) {

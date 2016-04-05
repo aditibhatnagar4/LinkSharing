@@ -9,10 +9,12 @@ class PostVO {
     String filePath
     String topicName
     String userName
-    String userFirstName
-    String userLastName
+    String firstName
+    String lastName
     byte[] userPhoto
     boolean isRead
     Integer resourceRating
     Date postDate
+    String email
+    boolean active
 }

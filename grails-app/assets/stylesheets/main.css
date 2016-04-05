@@ -69,7 +69,7 @@ a:link, a:visited, a:hover {
 }
 
 a:hover, a:active {
-	outline: none; /* prevents outline in webkit on active links but retains it for tab focus */
+	outline: none; /* prevents outline in webkit on enabled links but retains it for tab focus */
 }
 
 h1 {

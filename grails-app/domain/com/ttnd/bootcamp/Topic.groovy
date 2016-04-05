@@ -99,7 +99,7 @@ class Topic {
     }
 
     public Boolean canViewedBy(User user) {
-        if (this.isTopicPublic() || user.admin || Subscription.findByUserAndTopic(user, this)) {
+        if (this.isTopicPublic() || user.findAll{it.isAdmin()} || Subscription.findByUserAndTopic(user, this)) {
             return true
         }
         return false

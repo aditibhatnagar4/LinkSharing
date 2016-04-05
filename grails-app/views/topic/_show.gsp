@@ -32,10 +32,10 @@
                     <g:hiddenField name="topicId" id="topicId${topic.id}" value="${topic.id}"/>
 
                        <span class="row">
-                        <button class="saveTopicNameButton1 btn-primary" topicId="${topic.id}">Save</button>
+                        <button class="saveTopicNameButton1 btn-success" topicId="${topic.id}">Save</button>
 
 
-                        <button class="cancelTopicNameButton1 btn-primary" topicId="${topic.id}">Cancel</button>
+                        <button class="cancelTopicNameButton1 btn-danger" topicId="${topic.id}">Cancel</button>
                            </span>
 </span>
                     </div>
@@ -47,7 +47,7 @@
 
 
             <div class="row">
-                <div class="col-xs-5 text-muted">${topic.createdBy.userName}
+                <div class="col-xs-5 text-muted">${topic.createdBy.username}
                     <div>
                         <ls:showSubscribe topicId="${topic.id}"/>
                     </div>
@@ -74,7 +74,7 @@
                 <div class="dropdown col-xs-5">
                     <ls:seriousnessDropdown topicId="${topic.id}"/>
                 </div>
-                <g:if test="${session.user.id == topic.createdBy.id || session.user.admin == true}">
+                <g:if test="${session.user.id == topic.createdBy.id || session.user.authorities.any { it.authority == "ROLE_ADMIN" }}">
                     <div class="dropdown col-xs-4">
                         <ls:visibilityDropdown topicId="${topic.id}"/>
                     </div>
@@ -83,7 +83,7 @@
                 <span class="glyphicon glyphicon-envelope col-xs-1 font-size-md"
                       data-toggle="modal"
                       data-target="#sendInvitation"></span>
-                <g:if test="${session.user.id == topic.createdBy.id || session.user.admin == true}">
+                <g:if test="${session.user.id == topic.createdBy.id || session.user.authorities.any { it.authority == "ROLE_ADMIN" }}">
 
                     <span class="glyphicon glyphicon-pencil col-xs-1 font-size-md tt-edit-topic"
                           data-topic-id="${topic.id}">

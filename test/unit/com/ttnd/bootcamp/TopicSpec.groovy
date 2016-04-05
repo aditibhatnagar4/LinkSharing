@@ -15,9 +15,9 @@ class TopicSpec extends Specification {
                 lastName: "Bhatnagar",
                 email: "a@b.com",
                 password: "password",
-                userName: "aditi",
+                username: "aditi",
                 admin: false,
-                active: true)
+                enabled: true)
         String name = "topic1"
         Topic topic = new Topic(name: name, visibility: Visibility.PUBLIC, createdBy: user)
 

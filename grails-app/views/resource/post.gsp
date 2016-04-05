@@ -13,7 +13,7 @@
                         <div class="col-xs-9">
                             <div class="row">
                                 <div class="col-xs-7">
-                                    <strong>${post.userFirstName} ${post.userLastName}</strong><br>
+                                    <strong>${post.firstName} ${post.lastName}</strong><br>
 
                                     <div class="text-muted">
                                         @${post.userName} 5min

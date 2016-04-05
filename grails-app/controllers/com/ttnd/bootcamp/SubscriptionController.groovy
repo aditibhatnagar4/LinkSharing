@@ -1,9 +1,11 @@
 package com.ttnd.bootcamp
 
 import grails.converters.JSON
+import grails.plugin.springsecurity.annotation.Secured
 import groovy.util.logging.Slf4j
 
 @Slf4j
+@Secured(['permitAll'])
 class SubscriptionController {
 
     def deleteSubscription(Long id) {

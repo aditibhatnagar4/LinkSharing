@@ -16,12 +16,16 @@ class BootStrap {
     List<User> users
     List<ReadingItem> readingItems
     List<ResourceRating> resourceRatings
+    def springSecurityService
+    Role userRole, adminRole
 
     def init = { servletContext ->
         log.info "init called"
+        createRole()
         adminUser = createUser(true)
         normalUser = createUser(false)
         users = [adminUser, normalUser]
+        createUserRole()
         topics = createTopic()
         resources = createResources()
         subscriptions = subscribeTopics(topics, users)
@@ -31,6 +35,42 @@ class BootStrap {
 
     }
 
+    Role createRole() {
+
+        //TODO Refactor
+        userRole = new Role(authority: "ROLE_USER")
+        adminRole = new Role(authority: "ROLE_ADMIN")
+        if (userRole.save()) {
+            log.info "Normal role ceated"
+        } else {
+            log.info("Could not create role")
+        }
+
+        if (adminRole.save()) {
+            log.info "Admin role ceated"
+        } else {
+            log.info("Could not create role")
+        }
+    }
+
+    UserRole createUserRole() {
+        UserRole normalUserRole = new UserRole(user: normalUser, role: userRole)
+        UserRole adminUserRole = new UserRole(user: adminUser, role: adminRole)
+        if (normalUserRole.save()) {
+            log.info "Normal user-role created"
+        } else {
+            log.info("Could not create role")
+        }
+
+        if (adminUserRole.save()) {
+            log.info "Admin user-role created"
+        } else {
+            log.info("Could not create role")
+        }
+
+    }
+
+
     User createUser(Boolean admin) {
 
         String prefix = admin ? "aditi.bhatnagar+admin" : "aditi.bhatnagar"
@@ -38,18 +78,19 @@ class BootStrap {
 
         User user = User.findByEmail(email)
 
+        String password = springSecurityService.encodePassword(Constants.DEFAULT_PASSWORD)
         if (!user) {
             user = new User(
                     firstName: prefix,
                     lastName: prefix,
                     email: email,
-                    password: Constants.DEFAULT_PASSWORD,
-                    userName: prefix,
-                    admin: admin,
-                    active: true,
-                    confirmPassword: Constants.DEFAULT_PASSWORD
+                    password: password,
+                    username: email,
+                    enabled: true,
+                    confirmPassword: password
             )
             if (user.validate()) {
+                log.info "${user}"
                 user.save(flush: true)
                 log.info "User ${user} saved successfully"
             } else {
@@ -58,7 +99,7 @@ class BootStrap {
         } else {
             log.info "User already exists"
         }
-
+        log.info "${user.password}"
         return user
     }
 

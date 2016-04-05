@@ -2,7 +2,9 @@ package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.ResourceSearchCO
 import com.ttnd.bootcamp.VO.PostVO
+import grails.plugin.springsecurity.annotation.Secured
 
+@Secured(['permitAll'])
 class ResourceController {
 
     def resourceService
@@ -12,9 +14,9 @@ class ResourceController {
         ResourceRating resourceRating = ResourceRating.findOrCreateByUserAndResource(session.user, resource)
         resourceRating.score = score
         if (resourceRating.save(flush: true)) {
-            flash.message="Rating for the resource has been saved."
+            flash.message = "Rating for the resource has been saved."
         } else {
-            flash.error="Rating for the resource could not be saved"
+            flash.error = "Rating for the resource could not be saved"
         }
         redirect(uri: '/resource/showResource', params: [id: id])
 
@@ -35,7 +37,7 @@ class ResourceController {
         } else {
             flash.error = "Deletion Not Permissible"
         }
-          redirect(uri: '/')
+        redirect(uri: '/')
     }
 
     def searchResource(ResourceSearchCO co) {
@@ -51,7 +53,7 @@ class ResourceController {
     def list(ResourceSearchCO co) {
 
         if (session.user) {
-            if (session.user.admin) {
+            if (session.user.findAll { it.isAdmin() }) {
 
                 List<User> users = User.search(co).list(max: co.max,
                         sort: co.sort,
@@ -60,11 +62,11 @@ class ResourceController {
                 List<PostVO> usersList = users?.collect {
                     user ->
                         new PostVO(userId: user.id,
-                                userName: user.userName,
-                                emailId: user.email,
+                                userName: user.username,
+                                email: user.email,
                                 firstName: user.firstName,
                                 lastName: user.lastName,
-                                active: user.active)
+                                active: user.enabled)
                 }
 
                 render(view: "/user/list", model: [usersList: usersList])
@@ -85,12 +87,12 @@ class ResourceController {
                     log.info "before calling getScore()"
                     post.resourceRating = user.getScore(resource)
                 }
-               // flash.message = "User Can Access the Resource"
+                // flash.message = "User Can Access the Resource"
 //                RatingInfoVO ratingInfoVO = resource.getResourceInfo()
 //                render "$ratingInfoVO"
                 render(view: '/resource/post', model: [post: post])
             } else {
-                flash.error= "You do not have the permission to view this resource "
+                flash.error = "You do not have the permission to view this resource "
                 redirect(uri: '/')
             }
         } else {
@@ -132,9 +134,9 @@ class ResourceController {
 
             List<Resource> resources = Resource.search(resourceSearchCO).list()
 
-            posts = resources?.collect{ Resource.getPost(it.id) }
+            posts = resources?.collect { Resource.getPost(it.id) }
 
-            render(view:'/resource/searchPage', model: [topicPosts: posts, q: resourceSearchCO.q])
+            render(view: '/resource/searchPage', model: [topicPosts: posts, q: resourceSearchCO.q])
         } else {
             flash.error = "Enter text to be searched"
             redirect uri: '/'
@@ -162,8 +164,6 @@ class ResourceController {
         redirect(uri: '/resource/showResource', params: [id: id])
 
     }
-
-
 
 
 }

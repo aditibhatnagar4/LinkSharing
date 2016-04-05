@@ -44,13 +44,13 @@ class LoginControllerSpec extends Specification {
                 lastName: "bhatnagar",
                 email: "aditi.bhatnagar@tothenew.com",
                 password: Constants.DEFAULT_PASSWORD,
-                userName: "aditi",
+                username: "aditi",
                 confirmPassword: Constants.DEFAULT_PASSWORD,
-                active: true)
+                enabled: true)
         user.save(flush: true)
 
         when:
-        controller.loginHandler(user.userName, user.password)
+        controller.loginHandler(user.username, user.password)
 
         then:
         response.redirectedUrl == '/login/index'
@@ -58,7 +58,7 @@ class LoginControllerSpec extends Specification {
 
     def "CheckLoginHandler- User is not Active"() {
         setup:
-        User user = new User(userName: "user",
+        User user = new User(username: "user",
                 password: Constants.DEFAULT_PASSWORD,
                 confirmPassword: Constants.DEFAULT_PASSWORD,
                 firstName: "FName",
@@ -67,15 +67,15 @@ class LoginControllerSpec extends Specification {
         user.save(flush: true)
 
         when:
-        controller.loginHandler(user.userName, user.password)
+        controller.loginHandler(user.username, user.password)
 
         then:
-        response.text == "Your account is not active"
+        response.text == "Your account is not enabled"
     }
 
     def "CheckLoginHandler- User is not Found"() {
         setup:
-        User user = new User(userName: "user",
+        User user = new User(username: "user",
                 password: Constants.DEFAULT_PASSWORD,
                 confirmPassword: Constants.DEFAULT_PASSWORD,
                 firstName: "FName",
@@ -83,7 +83,7 @@ class LoginControllerSpec extends Specification {
                 email: "user@gmail.com")
 
         when:
-        controller.loginHandler(user.userName, user.password)
+        controller.loginHandler(user.username, user.password)
 
         then:
         response.text == "User not found"

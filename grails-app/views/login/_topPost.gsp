@@ -12,7 +12,7 @@
             <div class="row">
                 <div class="col-xs-8">
                     <strong>${it.createdBy}</strong>
-                    <span class="text-muted">@${it.createdBy.userName} 21 jul 2014</span>
+                    <span class="text-muted">@${it.createdBy.username} 21 jul 2014</span>
                 </div>
 
                 <div class="col-xs-4">

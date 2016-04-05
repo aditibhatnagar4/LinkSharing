@@ -1,9 +1,11 @@
 package com.ttnd.bootcamp
 
 import com.ttnd.bootcamp.CO.DocumentResourceCO
+import grails.plugin.springsecurity.annotation.Secured
 import groovy.util.logging.Slf4j
 
 @Slf4j
+@Secured(['permitAll'])
 class DocumentResourceController extends ResourceController {
 
     def saveDoc(DocumentResourceCO documentResourceCo) {

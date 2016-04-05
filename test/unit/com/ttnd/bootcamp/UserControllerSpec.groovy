@@ -19,7 +19,7 @@ class UserControllerSpec extends Specification {
                 password: password,
                 confirmPassword: confirmPassword
         )
-        String url = "/login/loginHandler?userName=${userName}&password=${password}"
+        String url = "/login/loginHandler?username=${userName}&password=${password}"
         when:
         controller.registerUser(user)
 
@@ -44,7 +44,7 @@ class UserControllerSpec extends Specification {
                 password: password,
                 confirmPassword: confirmPassword,
                 photo: photo)
-        String url = "/login/loginHandler?userName=${userName}&password=${password}"
+        String url = "/login/loginHandler?username=${userName}&password=${password}"
         when:
         controller.registerUser(user)
 
@@ -62,14 +62,13 @@ class UserControllerSpec extends Specification {
 
     def "CheckUserIndex"() {
         given:
-        //controller.session.user = new User()
-        User user = new User(userName: "aditi",
+        User user = new User(username: "aditi",
                 firstName: "aditi",
                 lastName: "bhatnagar",
                 email: "aditi@gmail.com",
                 password: "password",
                 confirmPassword: "password",
-                active: true,
+                enabled: true,
                 admin: false)
 
         user.metaClass.getSubscribedTopic = {
@@ -85,14 +84,15 @@ class UserControllerSpec extends Specification {
 
         then:
         view == "/user/myAccount"
-        // model.topics == subscribedTopics.toList()
         model.subscribedTopics.size() == 1
-        // model.readingItems == readingItems
-        // model.userObj == user
         model.readingItems.size() == 1
         model.subscribedTopics.size() == 1
+    }
 
+    def "Test save action"() {
+        controller.session.user
 
     }
+
 
 }

@@ -13,6 +13,13 @@
 
 <body>
 
+<script type='text/javascript'>
+    (function() {
+        document.forms['loginForm'].elements['j_username'].focus();
+    })();
+</script>
+
+
 %{--<div id="fb-root"></div>--}%
 <script>(function(d, s, id) {
     var js, fjs = d.getElementsByTagName(s)[0];
@@ -91,11 +98,13 @@
                         </button>
                     <ul class="dropdown-menu">
                         <li><a href="/user/edit">Profile</a></li>
-                    <g:if test="${session.user.admin == true}">
+                    %{--<g:if test="${session.user.admin == true}">--}%
+                    <sec:ifAnyGranted roles="ROLE_ADMIN">
                         <li><g:link controller = "user" action = "list">
                             Users
                         </g:link></li>
-                    </g:if>
+                        </sec:ifAnyGranted>
+                    %{--</g:if>--}%
                     <li><a href="/login/logout">Logout</a></li>
                     </ul>
                 </span>

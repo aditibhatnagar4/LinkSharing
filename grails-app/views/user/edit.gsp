@@ -13,7 +13,7 @@
 
                         <div class="col-xs-4">
                             ${userCo.name}
-                            <p class="text-muted">@${userCo.userName}</p>
+                            <p class="text-muted">@${userCo.username}</p>
 
                             <div class="row">
                                 <div class="text-muted col-xs-8">Subscription
@@ -99,11 +99,11 @@
                             <label class=" col-xs-5">Username *</label>
 
                             <div class="col-xs-7">
-                                <g:textField class="form-control" name="userName" value="${userCo?.userName}"/>
+                                <g:textField class="form-control" name="userName" value="${userCo?.username}"/>
                             </div>
                             %{--<g:hasErrors bean="${userCo}">--}%
                                 %{--<div class="alert-danger" role="alert">--}%
-                                    %{--<g:renderErrors bean="${userCo}" field="userName"/>--}%
+                                    %{--<g:renderErrors bean="${userCo}" field="username"/>--}%
                                 %{--</div>--}%
                             %{--</g:hasErrors>--}%
                         </div>
@@ -146,7 +146,7 @@
                             <label class=" col-xs-5">Old Password *</label>
 
                             <div class="col-xs-7">
-                                <g:passwordField class="form-control" name="oldPassword" value="${userCo?.password}"/>
+                                <g:passwordField class="form-control" name="oldPassword"/>
                             </div>
 
                         </div>
@@ -169,8 +169,7 @@
                             <label class=" col-xs-5">Confirm Password *</label>
 
                             <div class="col-xs-7">
-                                <g:passwordField class="form-control" name="confirmPassword"
-                                                 value="${userCo?.confirmPassword}"/>
+                                <g:passwordField class="form-control" name="confirmPassword"/>
                             </div>
                             <g:hasErrors bean="${userCo}">
                                 <div class="alert-danger" role="alert">
