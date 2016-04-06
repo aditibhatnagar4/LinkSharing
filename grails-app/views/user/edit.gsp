@@ -13,7 +13,7 @@
 
                         <div class="col-xs-4">
                             ${userCo.name}
-                            <p class="text-muted">@${userCo.username}</p>
+                            <p class="text-muted">${userCo.username}</p>
 
                             <div class="row">
                                 <div class="text-muted col-xs-8">Subscription

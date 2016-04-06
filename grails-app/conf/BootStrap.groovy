@@ -22,8 +22,7 @@ class BootStrap {
     def init = { servletContext ->
         log.info "init called"
         createRole()
-        adminUser = createUser(true)
-        normalUser = createUser(false)
+        createUser()
         users = [adminUser, normalUser]
         createUserRole()
         topics = createTopic()
@@ -71,38 +70,68 @@ class BootStrap {
     }
 
 
-    User createUser(Boolean admin) {
+//    User createUser(Boolean admin) {
+//
+//        String prefix = admin ? "aditi.bhatnagar+admin" : "aditi.bhatnagar"
+//        String email = prefix + "@tothenew.com"
+//
+//        User user = User.findByEmail(email)
+//
+//        String password = springSecurityService.encodePassword(Constants.DEFAULT_PASSWORD)
+//        if (!user) {
+//            user = new User(
+//                    firstName: prefix,
+//                    lastName: prefix,
+//                    email: email,
+//                    password: password,
+//                    username: email,
+//                    enabled: true,
+//                    confirmPassword: password
+//            )
+//            if (user.validate()) {
+//                log.info "${user}"
+//                user.save(flush: true)
+//                log.info "User ${user} saved successfully"
+//            } else {
+//                log.error "Error! User not created ${user.errors.allErrors}"
+//            }
+//        } else {
+//            log.info "User already exists"
+//        }
+//        log.info "${user.password}"
+//        return user
+//    }
 
-        String prefix = admin ? "aditi.bhatnagar+admin" : "aditi.bhatnagar"
-        String email = prefix + "@tothenew.com"
 
-        User user = User.findByEmail(email)
-
-        String password = springSecurityService.encodePassword(Constants.DEFAULT_PASSWORD)
-        if (!user) {
-            user = new User(
-                    firstName: prefix,
-                    lastName: prefix,
-                    email: email,
-                    password: password,
-                    username: email,
-                    enabled: true,
-                    confirmPassword: password
-            )
-            if (user.validate()) {
-                log.info "${user}"
-                user.save(flush: true)
-                log.info "User ${user} saved successfully"
-            } else {
-                log.error "Error! User not created ${user.errors.allErrors}"
+    void createUser() {
+        if (!User.count()) {
+            log.info(">>>>>>>>>>Creating dummy user and admin<<<<<<<<<<<<<")
+            String password = springSecurityService.encodePassword(Constants.DEFAULT_PASSWORD)
+           normalUser = new User(firstName: "Normal",
+                    lastName: "User",
+                    username: "aditi.bhatnagar@tothenew.com",
+                    email: "aditi.bhatnagar@tothenew.com",
+                    password: password)
+            normalUser.confirmPassword = Constants.DEFAULT_PASSWORD
+            if (!normalUser.save(flush: true)) {
+                normalUser.errors.allErrors.each {
+                    log.error it
+                }
             }
-        } else {
-            log.info "User already exists"
-        }
-        log.info "${user.password}"
-        return user
-    }
 
+           adminUser = new User(firstName: "Admin",
+                    lastName: "User",
+                    username: "aditi.bhatnagar+admin@tothenew.com",
+                    email: "aditi.bhatnagar+admin@tothenew.com",
+                    password: password)
+            adminUser.confirmPassword = Constants.DEFAULT_PASSWORD
+            if (!adminUser.save(flush: true)) {
+                adminUser.errors.allErrors.each {
+                    log.error it
+                }
+            }
+        }
+    }
 
     List<Topic> createTopic() {
         List<Topic> topics = []
@@ -111,7 +140,7 @@ class BootStrap {
                 String prefix = user.firstName
                 (1..5).each {
                     Topic topic = new Topic(
-                            name: "topic $it ${prefix}",
+                            name: "Topic $it ${prefix}",
                             visibility: Visibility.PUBLIC,
                             createdBy: user
                     )
@@ -137,8 +166,8 @@ class BootStrap {
                     Resource resource = new LinkResource(
                             topic: topic,
                             createdBy: topic.createdBy,
-                            description: "desc $topic $it",
-                            url: "https://www.link${it}.com"
+                            description: "Description for $topic $it",
+                            url: "https://www.google.com"
                     )
                     if (resource.save(flush: true)) {
                         resources.add(resource)
@@ -153,7 +182,7 @@ class BootStrap {
                     Resource resource = new DocumentResource(
                             topic: topic,
                             createdBy: topic.createdBy,
-                            description: "desc ${topic} $it",
+                            description: "Description for ${topic} $it",
                             filePath: "doc/$it/file/path"
                     )
                     if (resource.save(flush: true)) {

@@ -11,12 +11,12 @@
 
 
         <td><ls:userImage id="${it.userId}"/></td>
-        <td><div class="row"><div class="col-xs-8"><strong>${it.firstName}</strong><span
-                class="text-muted"><br>@${it.userName} <br>5min</span></div>
+        <td><div class="row"><div class="col-xs-8"><strong>${it.firstName} ${it.lastName}</strong><span
+                class="text-muted"><br>${it.userName} <br>5 min</span></div>
 
             <div class="col-xs-4"><g:link controller="topic" action="showTopic"
                                           params="[topicId: it.topicId]">${it.topicName}</g:link></div></div>
-            ${it.description}<br>
+           <br> ${it.description}<br><br>
             %{--<i class="fa fa-facebook-official glyphicon blue" data-href="http://127.0.0.1/resource/showResource/${it.resourceId}"></i>--}%
 
             %{--<div class="fb-share-button" data-href="http://127.0.0.1/resource/showResource/${it.resourceId}" data-layout="button_count"></div>--}%

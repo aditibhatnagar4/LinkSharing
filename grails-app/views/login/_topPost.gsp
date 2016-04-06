@@ -11,14 +11,14 @@
         <td>
             <div class="row">
                 <div class="col-xs-8">
-                    <strong>${it.createdBy}</strong>
-                    <span class="text-muted">@${it.createdBy.username} 21 jul 2014</span>
+                    <strong>${it.createdBy.name}</strong>
+                    <span class="text-muted"><br>${it.createdBy.username} <br>21 jul 2014</span>
                 </div>
 
                 <div class="col-xs-4">
                     <g:link controller="topic" action="showTopic" params="[topicId: it.topic.id]">${it.topic}</g:link>
                 </div>
-            </div>${it.description}
+            </div><br>${it.description}<br>
             <br>
 
             <div class="row"><div class="col-xs-8">

@@ -161,11 +161,11 @@
 
                         <td><ls:userImage id="${it.userId}"/></td>
                         <td><div class="row"><div class="col-xs-8"><strong>${it.resource.createdBy.name}</strong><span
-                                class="text-muted">@${it.resource.createdBy.username} 5min</span></div>
+                                class="text-muted">${it.resource.createdBy.username} 5 min</span></div>
 
                             <div class="col-xs-4"><g:link controller="topic" action="showTopic"
                                                           params="[topicId: it.resource.topic.id]">${it.resource.topic.name}</g:link></div>
-                        </div>
+                        </div><br>
                             ${it.resource.description}<br>
                             <i class="fa fa-facebook-official glyphicon blue"></i>
                             <i class="fa fa-tumblr twitter"></i>

@@ -144,12 +144,14 @@ class UserController {
         if (user.validate() && normalUserRole.validate()) {
             user.save(flush: true)
             normalUserRole.save(flush: true)
-            flash.message = "You have registered successfully.You can proceed to login."
-
+            flash.message = "You have registered successfully."
+            springSecurityService.reauthenticate(user.email)
+            redirect uri: '/user/index'
         } else {
             flash.error = "Registration unsuccessful."
+            redirect uri: '/login/auth'
         }
-        redirect uri: '/login/auth'
+
     }
 
 //    def save(User user) {
@@ -214,7 +216,7 @@ class UserController {
                 List<User> users = User.search(userSearchCO).list(max: userSearchCO.max,
                         sort: userSearchCO.sort,
                         order: userSearchCO.order,
-                        offset: userSearchCO.offset).findAll { it.isAdmin() }
+                        offset: userSearchCO.offset).findAll { !(it.isAdmin()) }
 
                 List<UserVO> usersList = users?.collect {
                     user ->
@@ -242,12 +244,12 @@ class UserController {
     def toggleActive(Long id) {
         if (session.user) {
 
-            if (session.user.findAll { it.isAdmin() }) {
+            if (session.user.authorities.any { it.authority == 'ROLE_ADMIN' }) {
 
                 User user = User.get(id)
 
                 if (user) {
-                    if (user.findAll { it.isAdmin() }) {
+                    if (user.authorities.any { it.authority == 'ROLE_ADMIN' }) {
                         flash.error = "Admin enabled status cannot be changed."
                     } else
                         user.enabled = !(user.enabled)

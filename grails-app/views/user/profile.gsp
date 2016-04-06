@@ -17,7 +17,7 @@
                             <% User user = User.get(id) %>
                             ${user.name}
                             <g:hiddenField name="userId" value="${params.id}"/>
-                            <p class="text-muted">@${user.username}</p>
+                            <p class="text-muted">${user.username}</p>
 
                             <div class="row">
                                 <div class="text-muted col-xs-8">Subscription

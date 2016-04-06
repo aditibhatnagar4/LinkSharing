@@ -20,12 +20,12 @@
                             </g:else>
 
                             <td><ls:userImage id="${it.createdBy.id}"/></td>
-                            <td><div class="row"><div class="col-xs-8"><strong>${it.createdBy.firstName}</strong><span
+                            <td><div class="row"><div class="col-xs-8"><strong>${it.createdBy.name}</strong><span
                                     class="text-muted"><br>${it.createdBy}</span></div>
 
                                 <div class="col-xs-4"><g:link controller="topic"
-                                                              action="showTopic" params="[topicId: it.topic.id]">${it.topic}</g:link></div></div>
-                                ${it.description}<br>
+                                                              action="showTopic" params="[topicId: it.topic.id]">${it.topic}</g:link></div></div><br>
+                                ${it.description}<br><br>
 
                                 <div class="row"><div class="col-xs-8">
                                     <i class="fa fa-facebook-official blue"></i>

@@ -16,7 +16,7 @@
                                     <strong>${post.firstName} ${post.lastName}</strong><br>
 
                                     <div class="text-muted">
-                                        @${post.userName} 5min
+                                        ${post.userName} <br>5 min
                                     </div></div>
                                 <g:form controller="resource" action="changeRating" params="[id: post.resourceId]">
                                 <span class="col-xs-5">
