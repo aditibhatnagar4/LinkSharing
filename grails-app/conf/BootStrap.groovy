@@ -40,7 +40,7 @@ class BootStrap {
         userRole = new Role(authority: "ROLE_USER")
         adminRole = new Role(authority: "ROLE_ADMIN")
         if (userRole.save()) {
-            log.info "Normal role ceated"
+            log.info "Normal role created"
         } else {
             log.info("Could not create role")
         }

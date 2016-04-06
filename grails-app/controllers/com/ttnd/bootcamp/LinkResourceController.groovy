@@ -3,7 +3,8 @@ package com.ttnd.bootcamp
 import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 
-@Secured(['permitAll'])
+//@Secured(['permitAll'])
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class LinkResourceController extends ResourceController {
 
     @Transactional

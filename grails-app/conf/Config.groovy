@@ -108,7 +108,7 @@ log4j.main = {
     //
 
     root {
-        info()
+        debug()
     }
 
     appenders {
@@ -126,7 +126,6 @@ log4j.main = {
             'org.springframework',
             'org.hibernate',
             'net.sf.ehcache.hibernate'
-    'com.ttnd.bootcamp'
 }
 
 grails {
@@ -155,6 +154,7 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/**/js/**':        ['permitAll'],
 	'/**/css/**':       ['permitAll'],
 	'/**/images/**':    ['permitAll'],
-	'/**/favicon.ico':  ['permitAll']
+	'/**/favicon.ico':  ['permitAll'],
+	'/console/**':      ['permitAll']
 ]
 

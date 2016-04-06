@@ -23,7 +23,7 @@
             %{--<div class="fb-share-button" data-layout="button_count"></div>--}%
 
             %{--<i class="fa fa-tumblr twitter"></i>--}%
-            <div class="fb-share-button" data-href="https://facebook.com/share?url=http://127.0.0.1/resource/showResource/${it.resourceId}" data-layout="button_count"></div>
+            <div class="fb-share-button" data-href="${request.getRequestURL().toString()}" data-layout="button_count"></div>
             <a class="twitter-share-button"
                href="https://twitter.com/intent/tweet?text=${it.description}&url=http://localhost:8080/resource/showResource/${it.resourceId}&hashtags=${it.topicName}">
                 <i class="fa fa-twitter twitter"></i></a>

@@ -55,65 +55,80 @@
 <g:render template="/topic/email" model="[topics: session.user.getSubscribedTopic().toList()]"/>
 
 </g:if>
-%{--<div class="container">--}%
 
-    <nav class="navbar navbar-default">
-        <div class="navbar-header navbar-inline bgColor">
-            <div class="row">
-                <div class="col-xs-4">
-                    <a href="/login/index" class="navbar-brand text-color"><ins>LinkSharing</ins></a>
-                </div>
-
-                <div class="col-xs-4"><g:form controller="resource" action="search">
-                    <div class="input-group navbar-search">
-
-                        <span class="input-group-btn">
-                            <input type="text" id="q" name="q" class="form-control input-group"
-                                   placeholder="Search">
-                    <g:hiddenField name="topicId" value="0" />
-                        </span>
-
-                        <span class="input-group-btn">
-                            <button class="btn btn-default glyphicon glyphicon-search searchButtons"
-                                    type="submit"></button>
-                        </span></g:form>
-                    </div>
-                </div>
-
-                <g:if test="${session.user}">
-                    <div class="col-xs-2 navbar-option">
-                        <i class="fa fa-comment font-size-lg" data-toggle="modal" data-target="#createTopic"></i>
-                        <span class="glyphicon glyphicon-envelope font-size-md" data-toggle="modal"
-                              data-target="#sendInvitation"></span>
-                        <span class="glyphicon glyphicon-link font-size-md" data-toggle="modal"
-                              data-target="#shareLink"></span>
-                        <i class="fa fa-file-o font-size-md" data-toggle="modal" data-target="#shareDocument"></i></div>
-
-                    <div class="col-xs-2 navbar-glyphicon">
-                        <span class="glyphicon glyphicon-user font-size-md"></span>
-
-                    <span class="dropdown" id="navMenuDropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">My Account
-                            <span class="caret"></span>
-                        </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="/user/edit">Profile</a></li>
-                    %{--<g:if test="${session.user.admin == true}">--}%
-                    <sec:ifAnyGranted roles="ROLE_ADMIN">
-                        <li><g:link controller = "user" action = "list">
-                            Users
-                        </g:link></li>
-                        </sec:ifAnyGranted>
-                    %{--</g:if>--}%
-                    <li><a href="/login/logout">Logout</a></li>
-                    </ul>
-                </span>
-                </g:if>
-            </div>
-            </div>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Link Sharing</a>
         </div>
 
-    </nav>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav pull-right">
+                <li>
+                    <a href="javascript:void(0)" id="loader" style="display: none">
+                        Loading...
+                    </a>
+                </li>
+                <li>
+                    <g:form controller="resource" action="search" class="navbar-form navbar-right" method="get">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" name="q">
+                            <g:hiddenField name="topicId" value="0" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </g:form>
+                </li>
+                <g:if test="${session.user}">
+                    <li>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#createTopic">
+                            <i class="fa fa-comment"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#shareLink">
+                            <i class="fa fa-chain"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#shareDocument">
+                            <i class="fa fa-file"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:void(0)" data-toggle="modal" data-target="#sendInvitation">
+                            <i class="fa fa-envelope"></i>
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user">&nbsp;${session.user.name}</i>
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><g:link controller="user" action="edit">Profile</g:link> </li>
+                            <g:if test="${session.user.admin}">
+                                <li><g:link controller="user" action="list">User</g:link> </li>
+                            </g:if>
+                            <li><g:link controller="login" action="logout">Logout</g:link></li>
+                        </ul>
+                    </li>
+                </g:if>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+
+</nav>
+
+
+
 <div class="container">
     <g:if test="${flash.message}">
         <div class="alert alert-success">
@@ -132,8 +147,9 @@
     <div class = "jsonResponse" style="display: none">
 
     </div>
-</div>
+
     <g:layoutBody/>
+    </div>
 
 <asset:javascript src="application.js"/>
 <asset:javascript src="bootstrap-3.3.6-dist/js/bootstrap.min.js"/>

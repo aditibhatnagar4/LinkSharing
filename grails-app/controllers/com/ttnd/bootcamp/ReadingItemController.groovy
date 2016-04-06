@@ -2,7 +2,8 @@ package com.ttnd.bootcamp
 
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(['permitAll'])
+//@Secured(['permitAll'])
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class ReadingItemController {
 
     def changeIsRead(Long id, Boolean isRead) {

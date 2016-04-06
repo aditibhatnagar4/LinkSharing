@@ -47,8 +47,8 @@
 
                             <div class="col-xs-4"><g:link controller="topic" action="showTopic"
                                                           params="[topicId: it.topicId]">${it.topicName}</g:link></div>
-                        </div>
-                            $<br>{it.description}<br>
+                        </div><br>
+                            ${it.description}<br><br>
                             <i class="fa fa-facebook-official glyphicon blue"></i>
                             <i class="fa fa-tumblr twitter"></i>
                             <i class="fa fa-google-plus red"></i>

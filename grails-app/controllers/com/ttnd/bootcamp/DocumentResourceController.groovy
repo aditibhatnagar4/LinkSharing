@@ -5,7 +5,8 @@ import grails.plugin.springsecurity.annotation.Secured
 import groovy.util.logging.Slf4j
 
 @Slf4j
-@Secured(['permitAll'])
+//@Secured(['permitAll'])
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class DocumentResourceController extends ResourceController {
 
     def saveDoc(DocumentResourceCO documentResourceCo) {

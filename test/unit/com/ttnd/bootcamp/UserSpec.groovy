@@ -95,18 +95,18 @@ class UserSpec extends Specification {
         sno | firstName | lastName    | email     | password  | userName | admin | active | photo        | valid
         1   | ""        | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | true   | "test.bytes" | false
         2   | "Aditi"   | "Bhatnagar" | "aditi"   | "test123" | "aditi"  | false | true   | "test.bytes" | false
-        3   | "Aditi"   | "Bhatnagar" | null      | "test123" | "aditi"  | false | true   | false
-        4   | "Aditi"   | "Bhatnagar" | ""        | "test123" | "aditi"  | false | true   | false
-        5   | "Aditi"   | "Bhatnagar" | "a@b.com" | null      | "aditi"  | false | true   | false
-        6   | "Aditi"   | ""          | "a@b.com" | "test123" | "aditi"  | false | true   | false
-        7   | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | true   | true
-        8   | "Aditi"   | "Bhatnagar" | "a@b.com" | ""        | "aditi"  | false | true   | false
-        9   | "Aditi"   | "Bhatnagar" | "a@b.com" | "test"    | "aditi"  | false | true   | false
-        10  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test1"   | "aditi"  | false | true   | true
-        11  | null      | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | true   | false
-        12  | "Aditi"   | null        | "a@b.com" | "test123" | "aditi"  | false | true   | false
-        13  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | null  | true   | true
-        14  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | null   | true
+        3   | "Aditi"   | "Bhatnagar" | null      | "test123" | "aditi"  | false | true   | "test.bytes" | false
+        4   | "Aditi"   | "Bhatnagar" | ""        | "test123" | "aditi"  | false | true   | "test.bytes" | false
+        5   | "Aditi"   | "Bhatnagar" | "a@b.com" | null      | "aditi"  | false | true   | "test.bytes" | false
+        6   | "Aditi"   | ""          | "a@b.com" | "test123" | "aditi"  | false | true   | "test.bytes" | false
+        7   | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | true   | "test.bytes" | true
+        8   | "Aditi"   | "Bhatnagar" | "a@b.com" | ""        | "aditi"  | false | true   | "test.bytes" | false
+        9   | "Aditi"   | "Bhatnagar" | "a@b.com" | "test"    | "aditi"  | false | true   | "test.bytes" | false
+        10  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test1"   | "aditi"  | false | true   | "test.bytes" | true
+        11  | null      | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | true   | "test.bytes" | false
+        12  | "Aditi"   | null        | "a@b.com" | "test123" | "aditi"  | false | true   | "test.bytes" | false
+        13  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | null  | true   | "test.bytes" | true
+        14  | "Aditi"   | "Bhatnagar" | "a@b.com" | "test123" | "aditi"  | false | null   | "test.bytes" | true
 
     }
 

@@ -4,7 +4,8 @@ import com.ttnd.bootcamp.CO.ResourceSearchCO
 import com.ttnd.bootcamp.VO.PostVO
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(['permitAll'])
+//@Secured(['permitAll'])
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class ResourceController {
 
     def resourceService

@@ -15,7 +15,7 @@ import groovy.util.logging.Slf4j
 import com.ttnd.bootcamp.Utility.Util
 
 @Slf4j
-@Secured(['permitAll'])
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class UserController {
 
     def topicService
@@ -27,18 +27,11 @@ class UserController {
     def springSecurityService
 
     def index() {
-        log.info "in /user/index"
-
         if (springSecurityService.isLoggedIn()) {
-            log.info "user logged in "
-//            log.info "${session.user.id}"
             User user = session.user = User.read(springSecurityService.currentUserId as Long)
             springSecurityService.reauthenticate(user.email)
             List<Topic> subscribedTopics = user.getSubscribedTopic()
             List<PostVO> readingItems = User.getReadingItems(session.user)
-
-//            log.info "${session.user.findAll{it.isAdmin()}}"
-
             render(view: '/user/myAccount', model: [
                     topics: subscribedTopics.toList(),
                     subscribedTopics: subscribedTopics,
@@ -49,18 +42,7 @@ class UserController {
             log.info "user not logged in"
             redirect(controller: 'login', action: 'index')
         }
-
-        //  User user = session.user
-//        List<Topic> subscribedTopics = user.getSubscribedTopic()
-//        List<PostVO> readingItems = User.getReadingItems(session.user)
-////         List<ReadingItem> readingItems=User.getUnReadResources(co)
-//        render view: 'myAccount', model: [
-//                topics          : subscribedTopics.toList(),
-//                subscribedTopics: subscribedTopics,
-//                readingItems    : readingItems
-//        ]
     }
-
 
     def profile(ResourceSearchCO resourceSearchCO) {
 

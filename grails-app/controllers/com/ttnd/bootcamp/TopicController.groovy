@@ -6,7 +6,8 @@ import com.ttnd.bootcamp.VO.TopicVO
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(['permitAll'])
+//@Secured(['permitAll'])
+@Secured(['IS_AUTHENTICATED_ANONYMOUSLY'])
 class TopicController {
 
     def emailService
@@ -81,7 +82,7 @@ class TopicController {
         User user = session.user
         Map jsonResponse = [:]
         if (topic) {
-            if (user.findAll{it.isAdmin()} || (topic.createdBy.id == user.id)) {
+            if (user.findAll { it.isAdmin() } || (topic.createdBy.id == user.id)) {
                 topic.delete(flush: true)
                 flash.message = "Topic deleted successfully."
                 jsonResponse.message = flash.message
@@ -123,9 +124,6 @@ class TopicController {
             emailService.sendMail(emailDTO)
             flash.message = "Email sent"
         }
-
-        // redirect(controller: "login", action: "index")
-
         redirect(uri: '/')
     }
 
@@ -133,20 +131,19 @@ class TopicController {
 
         if (session.user) {
 
-            User user = session.user
+            User user = User.get(session.user.id)
             Topic topic = Topic.get(id)
             Subscription subscription = new Subscription(user: user, topic: topic)
-
+            log.info "subscription.errors=${subscription.errors.allErrors}"
             if (subscription.save(flush: true))
                 flash.message = "You have subscribed to this topic successfully."
             else
                 flash.error = "Failure. Could not subscribe to the topic."
 
-            redirect(controller: "login", action: "index")
-        }
-        else{
-            flash.error="You must log in first."
-            redirect(controller: "login", action: "index")
+            redirect(controller: "user", action: "index")
+        } else {
+            flash.error = "You must log in first."
+            redirect(controller: "login", action: "auth")
 
         }
     }

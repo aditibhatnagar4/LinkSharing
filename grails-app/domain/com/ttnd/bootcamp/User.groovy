@@ -17,7 +17,6 @@ class User {
     String firstName
     String lastName
     Byte[] photo
-    // Boolean admin
     boolean enabled = true
     String confirmPassword
     String name
@@ -47,15 +46,8 @@ class User {
         firstName blank: false
         lastName blank: false
         photo nullable: true
-//        admin nullable: true
         enabled nullable: true
         username unique: true
-//        confirmPassword(bindable: true, nullable: true, blank: true, validator: { val, obj ->
-//            if (!obj.id && (obj.password != val || !val)) {
-//                return false
-//            }
-//        })
-
     }
 
     static hasMany = [
@@ -79,9 +71,6 @@ class User {
     static mapping = {
         photo(sqlType: 'longblob')
         sort id: "desc"
-        //topics lazy: false
-        //resources lazy: true
-        subscriptions lazy: true
     }
 
     String toString() {

@@ -12,7 +12,7 @@ class UserControllerSpec extends Specification {
 
     def "CheckRegistration- New user registers for the application"() {
         setup:
-        UserCO user = new UserCO(userName: userName,
+        UserCO user = new UserCO(username: userName,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -37,7 +37,7 @@ class UserControllerSpec extends Specification {
 
     def "CheckRegistration- New user registers for the application with photo"() {
         setup:
-        UserCO user = new UserCO(userName: userName,
+        UserCO user = new UserCO(username: userName,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
@@ -89,10 +89,10 @@ class UserControllerSpec extends Specification {
         model.subscribedTopics.size() == 1
     }
 
-    def "Test save action"() {
-        controller.session.user
-
-    }
+//    def "Test save action"() {
+//        controller.session.user
+//
+//    }
 
 
 }
